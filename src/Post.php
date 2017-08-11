@@ -413,13 +413,6 @@ class Post extends Model
             ->orderBy('post_date', 'desc')
             ->orderBy('ID', 'desc')
             ->first();
-        // return static::where('post_type', $this->type)
-        //     ->where('post_status', $this->status)
-        //     ->where('ID', '<', $this->ID)
-        //     // ->where('menu_order', 'desc')
-        //     ->where('post_date', '<=', (string)$this->post_date)
-        //     ->orderBy('ID', 'desc')
-        //     ->first();
     }
 
     /**
@@ -435,13 +428,6 @@ class Post extends Model
             ->where('post_date', '>', (string)$this->post_date)
             ->orderBy('menu_order', 'desc')
             ->orderBy('post_date', 'asc')
-            ->orderBy('ID', 'asc')
-            ->first();
-        return static::where('post_type', $this->type)
-            ->where('post_status', $this->status)
-            ->where('ID', '>', $this->ID)
-            // ->where('menu_order', 'asc')
-            ->where('post_date', '>=', (string)$this->post_date)
             ->orderBy('ID', 'asc')
             ->first();
     }
