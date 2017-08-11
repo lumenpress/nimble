@@ -2,7 +2,7 @@
     "name": "lumenpress/models",
     "autoload": {
         "psr-4": {
-            "Lumenpress\\Models\\": "src",
+            "Lumenpress\\Models\\": "src"
         }
     }
 }
