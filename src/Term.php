@@ -7,6 +7,12 @@ use Lumenpress\Models\Builders\TermBuilder;
 class Term extends TaxonomyTerm
 {
     /**
+     * [$taxonomies description]
+     * @var array
+     */
+    protected static $taxonomies = [];
+
+    /**
      * [$with description]
      * @var [type]
      */
@@ -218,6 +224,16 @@ class Term extends TaxonomyTerm
         };
         $this->tax->term_id = $this->term_id;
         return $this->tax->save();
+    }
+
+    public static function registerTaxonomy($type, $class)
+    {
+        static::$taxonomies[$type] = $class;
+    }
+
+    public static function getTermClassByTaxonomy($type)
+    {
+        return array_get(static::$taxonomies, $type, Term::class);
     }
 
 }

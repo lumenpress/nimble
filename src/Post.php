@@ -16,6 +16,11 @@ class Post extends Model
 
     protected static $postTaxonomy = [];
 
+    public static $postTypes = [
+        'post' => Post::class,
+        'page' => Page::class
+    ];
+
     /**
      * [$table description]
      * @var string
@@ -468,5 +473,15 @@ class Post extends Model
     public function __toString()
     {
         return $this->title ?: '';
+    }
+
+    public static function registerType($type, $class)
+    {
+        static::$postTypes[$type] = $class;
+    }
+
+    public static function getPostClassByType($type)
+    {
+        return array_get(static::$postTypes, $type, Post::class);
     }
 }
