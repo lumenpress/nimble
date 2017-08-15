@@ -3,8 +3,8 @@
 namespace Lumenpress\Models;
 
 use Lumenpress\Models\Builders\PostBuilder;
-use Lumenpress\Models\Acf\Concerns\HasAdvancedCustomFields;
-use Lumenpress\Models\Acf\Collections\FieldCollection;
+use Lumenpress\Acf\Concerns\HasAdvancedCustomFields;
+use Lumenpress\Acf\Collections\FieldCollection;
 
 class Post extends Model
 {
