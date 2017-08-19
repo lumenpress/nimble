@@ -1,6 +1,9 @@
 {
     "name": "lumenpress/models",
     "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
         "psr-4": {
             "Lumenpress\\Models\\": "src"
         }

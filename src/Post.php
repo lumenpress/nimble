@@ -95,7 +95,7 @@ class Post extends Model
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->post_author = (int) get_current_user_id();
+        $this->post_author = (int) lumenpress_get_current_user_id();
         $this->post_parent = 0;
         $this->id = 0;
         $this->post_status = 'publish';
