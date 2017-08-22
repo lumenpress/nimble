@@ -48,6 +48,16 @@ if (!function_exists('lumenpress_get_permalink')) {
     }
 }
 
+if (!function_exists('luemnpress_get_the_content')) {
+    function luemnpress_get_the_content($value)
+    {
+        if (function_exists('apply_filters')) {
+            return apply_filters('the_content', $value);
+        }
+        return $value;
+    }
+}
+
 if (!function_exists('lumenpress_is_serialized')) {
     function lumenpress_is_serialized( $data, $strict = true )
     {

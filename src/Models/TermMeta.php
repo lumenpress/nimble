@@ -1,6 +1,6 @@
 <?php 
 
-namespace Lumenpress\ORM;
+namespace Lumenpress\ORM\Models;
 
 class TermMeta extends Meta
 {

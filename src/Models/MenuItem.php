@@ -1,12 +1,13 @@
 <?php 
 
-namespace Lumenpress\ORM;
+namespace Lumenpress\ORM\Models;
 
 use Lumenpress\ORM\Builders\TermBuilder;
 
-class MenuItem extends Post
+class MenuItem extends AbstractPost
 {
-    
+    protected $currentActive;
+
     protected $postType = 'nav_menu_item';
 
     protected $with = ['meta'];
@@ -17,11 +18,7 @@ class MenuItem extends Post
         'post_name',
         'post_excerpt',
         'post_type',
-        'acf',
-        'tax'
     ];
-
-    protected $currentActive;
 
     public function __construct(array $attributes = [])
     {
@@ -161,6 +158,16 @@ class MenuItem extends Post
     }
 
     /**
+     * Accessor for xfn attribute.
+     *
+     * @return returnType
+     */
+    public function getXfnAttribute($value)
+    {
+        return $this->meta->_menu_item_xfn;
+    }
+
+    /**
      * Accessor for current attribute.
      *
      * @return returnType
@@ -225,15 +232,4 @@ class MenuItem extends Post
     {
         $this->currentActive = $value;
     }
-
-    /**
-     * Accessor for xfn attribute.
-     *
-     * @return returnType
-     */
-    public function getXfnAttribute($value)
-    {
-        return $this->meta->_menu_item_xfn;
-    }
-
 }

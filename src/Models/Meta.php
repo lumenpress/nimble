@@ -1,6 +1,6 @@
 <?php 
 
-namespace Lumenpress\ORM;
+namespace Lumenpress\ORM\Models;
 
 use Lumenpress\ORM\Collections\MetaCollection;
 use Lumenpress\ORM\Builders\MetaBuilder;

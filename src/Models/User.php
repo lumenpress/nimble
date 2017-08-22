@@ -1,6 +1,6 @@
 <?php
 
-namespace Lumenpress\ORM;
+namespace Lumenpress\ORM\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;

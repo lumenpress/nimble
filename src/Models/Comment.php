@@ -1,6 +1,6 @@
 <?php 
 
-namespace Lumenpress\ORM;
+namespace Lumenpress\ORM\Models;
 
 class Comment extends Model
 {
@@ -27,5 +27,4 @@ class Comment extends Model
      * @var array
      */
     protected $dates = ['comment_date'];
-
 }
