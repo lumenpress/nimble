@@ -2,11 +2,8 @@
 
 namespace Lumenpress\ORM\Models;
 
-class PostMeta extends Meta
+class PostMeta extends AbstractMeta
 {
-
-    protected $with = ['post'];
-
     /**
      * [$table description]
      * @var string
@@ -18,16 +15,4 @@ class PostMeta extends Meta
      * @var string
      */
     protected $objectKey = 'post_id';
-
-    /**
-     * PostMeta has one Post.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function post()
-    {
-        // hasOne(RelatedModel, foreignKeyOnRelatedModel = postMeta_id, localKey = id)
-        return $this->hasOne(Post::class, 'post_id');
-    }
-
 }

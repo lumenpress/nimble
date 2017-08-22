@@ -2,9 +2,8 @@
 
 namespace Lumenpress\ORM\Models;
 
-class TermMeta extends Meta
+class TermMeta extends AbstractMeta
 {
-
     /**
      * [$table description]
      * @var string
@@ -16,5 +15,4 @@ class TermMeta extends Meta
      * @var string
      */
     protected $objectKey = 'term_id';
-
 }

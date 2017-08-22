@@ -91,7 +91,7 @@ trait HasPostAttributes
      */
     public function setStatusAttribute($value)
     {
-        $this->attributes['post_status'] = $value;
+        $this->post_status = $value;
     }
 
     /**
@@ -111,7 +111,7 @@ trait HasPostAttributes
      */
     public function setTypeAttribute($value)
     {
-        $this->attributes['post_type'] = $value;
+        $this->post_type = $value;
     }
 
     /**
@@ -122,6 +122,26 @@ trait HasPostAttributes
     public function getTypeAttribute($value)
     {
         return $this->post_type;
+    }
+
+    /**
+     * Mutator for parentId attribute.
+     *
+     * @return void
+     */
+    public function setParentIdAttribute($value)
+    {
+        $this->post_parent = $value;
+    }
+
+    /**
+     * Accessor for parentId attribute.
+     *
+     * @return returnType
+     */
+    public function getParentIdAttribute($value)
+    {
+        return $this->post_parent;
     }
 
     /**
@@ -141,7 +161,7 @@ trait HasPostAttributes
      */
     public function getLinkAttribute($value)
     {
-        return $this->id ? lumenpress_get_permalink($id) 
+        return $this->id !== 0 ? lumenpress_get_permalink($this->id) 
             : url(($this->type === 'page' ? '' : $this->type).'/'.$this->slug);
     }
 

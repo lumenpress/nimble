@@ -19,6 +19,8 @@ abstract class AbstractPost extends Model
 
     protected $foreignKey = 'post_id';
 
+    protected $_slug;
+
     protected $dates = [
         'post_date', 
         'post_date_gmt', 
@@ -53,7 +55,6 @@ abstract class AbstractPost extends Model
     public function __construct(array $attributes = [])
     {
         $this->append('id');
-
         parent::__construct($attributes);
 
         $this->id = 0;
@@ -68,15 +69,15 @@ abstract class AbstractPost extends Model
 
     public function meta($key = null)
     {
-        $query = $this->hasMany(PostMeta::class, 'post_id');
+        $builder = $this->hasMany(PostMeta::class, 'post_id');
         if ($key) {
-            $query->where('meta_key', $key);
+            $builder->where('meta_key', $key);
         }
-        return $query;
+        return $builder;
     }
 
     /**
-     * Mutator for post_title attribute.
+     * Mutator for ID attribute.
      *
      * @return void
      */
@@ -86,13 +87,83 @@ abstract class AbstractPost extends Model
     }
 
     /**
-     * Accessor for Title attribute.
+     * Accessor for ID attribute.
      *
      * @return returnType
      */
     public function getIdAttribute($value)
     {
         return array_get($this->attributes, 'ID', 0);
+    }
+
+    /**
+     * Accessor for postType attribute.
+     *
+     * @return returnType
+     */
+    public function getPostTypeAttribute($value)
+    {
+        return $value;
+    }
+
+    /**
+     * Mutator for postType attribute.
+     *
+     * @return void
+     */
+    public function setPostTypeAttribute($value)
+    {
+        $this->attributes['post_type'] = $value;
+        if ($this->_slug) {
+            $this->setPostNameAttribute($this->_slug);
+        }
+    }
+
+    /**
+     * Accessor for post status attribute.
+     *
+     * @return returnType
+     */
+    public function getPostStatusAttribute($value)
+    {
+        return $value;
+    }
+
+    /**
+     * Mutator for post status attribute.
+     *
+     * @return void
+     */
+    public function setPostStatusAttribute($value)
+    {
+        $this->attributes['post_status'] = $value;
+        if ($this->_slug) {
+            $this->setPostNameAttribute($this->_slug);
+        }
+    }
+
+
+    /**
+     * Accessor for post parent attribute.
+     *
+     * @return returnType
+     */
+    public function getPostParentAttribute($value)
+    {
+        return $value;
+    }
+
+    /**
+     * Mutator for post parent attribute.
+     *
+     * @return void
+     */
+    public function setPostParentAttribute($value)
+    {
+        $this->attributes['post_parent'] = $value;
+        if ($this->_slug) {
+            $this->setPostNameAttribute($this->_slug);
+        }
     }
 
     /**
@@ -112,11 +183,12 @@ abstract class AbstractPost extends Model
      */
     public function setPostNameAttribute($value)
     {
+        $this->_slug = $value;
         $this->attributes['post_name'] = $this->getUniquePostName(
             str_slug($value), 
             $this->id,
-            $this->status, 
-            $this->post_type, 
+            $this->post_status, 
+            $this->post_type,
             $this->post_parent
         );
     }
@@ -135,12 +207,34 @@ abstract class AbstractPost extends Model
         return $slug;
     }
 
+   /**
+     * Set the specific relationship in the model.
+     *
+     * @param  string  $relation
+     * @param  mixed  $value
+     * @return $this
+     */
+    public function setRelation($relation, $value)
+    {
+        if (method_exists($value, 'setObject')) {
+            $value->setObject($this);
+        }
+
+        $this->relations[$relation] = $value;
+
+        return $this;
+    }
+
     public function save(array $options = [])
     {
-        if (empty($this->post_name)) {
-            $this->setPostNameAttribute($this->title);
+        if (!$this->_slug) {
+            $this->setPostNameAttribute($this->post_name ?: $this->title);
         }
-        return parent::save($options);
+        if (!parent::save($options)) {
+            return false;
+        }
+        $this->meta->save();
+        return true;
     }
 
     public static function registerType($type, $class)

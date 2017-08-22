@@ -76,7 +76,7 @@ class MenuCollection extends AbstractCollection
      * @param  [type] $objectId [description]
      * @return [type]           [description]
      */
-    public function save(Model $object)
+    public function save()
     {
         
     }

@@ -2,8 +2,6 @@
 
 namespace Lumenpress\ORM\Collections;
 
-use Illuminate\Database\Eloquent\Model;
-
 class MetaCollection extends AbstractCollection
 {
     /**
@@ -97,15 +95,17 @@ class MetaCollection extends AbstractCollection
 
     /**
      * [save description]
-     * @param  [type] $objectId [description]
-     * @return [type]           [description]
+     * @return [type] [description]
      */
-    public function save(Model $object)
+    public function save()
     {
+        if (!$this->object) {
+            return false;
+        }
         $flag = false;
         foreach ($this->items as $item) {
             if (isset($this->changedKeys[$item->key])) {
-                $item->objectId = $object->getKey();
+                $item->objectId = $this->object->id;
                 $flag = $item->save() || $flag;
             }
         }

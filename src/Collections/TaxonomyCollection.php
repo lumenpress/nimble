@@ -79,7 +79,7 @@ class TaxonomyCollection extends AbstractCollection
                     continue;
                 }
                 $ItemClass = $this->itemClass;
-                if ($item = $ItemClass::exists($taxonomy, $name)) {
+                if ($item = $ItemClass::exists($name, $taxonomy)) {
                     $this->extraItems[$item->taxonomy_id] = true;
                 } else {
                     $item = new $ItemClass;
@@ -122,8 +122,11 @@ class TaxonomyCollection extends AbstractCollection
      * @param  [type] $objectId [description]
      * @return [type]           [description]
      */
-    public function save(Model $object)
+    public function save()
     {
+        if (!$this->object) {
+            return false;
+        }
         $flag = false;
         foreach ($this->items as $item) {
             if (isset($this->changedKeys[$item->taxonomy.'>|<'.$item->name])) {
@@ -135,11 +138,11 @@ class TaxonomyCollection extends AbstractCollection
             $table = \DB::table('term_relationships');
             if ($new) {
                 $flag = $table->insert([
-                    'object_id' => $object->getKey(),
+                    'object_id' => $this->object->id,
                     'term_taxonomy_id' => $taxonomyId
                 ]) || $flag;
             } else {
-                $flag = $table->where('object_id', $object->getKey())
+                $flag = $table->where('object_id', $this->object->id)
                     ->where('term_taxonomy_id', $taxonomyId)->delete() || $flag;;
             }
         }

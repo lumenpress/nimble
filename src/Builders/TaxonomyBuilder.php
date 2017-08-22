@@ -27,13 +27,13 @@ class TaxonomyBuilder extends Builder
         return $this->where('taxonomy', $taxonomy);
     }
 
-    public function exists($taxonomy, $name, $parent = 0)
+    public function exists($term, $taxonomy = 'category', $parent = 0)
     {
         $builder = $this->where('taxonomy', $taxonomy);
-        if (is_numeric($name)) {
-            $builder->where('term_id', $name);
+        if (is_numeric($term)) {
+            $builder->where('term_id', $term);
         } else {
-            $builder->where('slug', str_slug($name));
+            $builder->where('slug', str_slug($term));
         }
         return $builder->where('parent', $parent)->first();
     }
@@ -60,7 +60,7 @@ class TaxonomyBuilder extends Builder
         if ($column == 'term_order' && !Schema::hasColumn('terms', $column)) {
             return $this;
         }
-        if (in_array($column, ['name', 'slug', 'term_order', 'term_group'])) {
+        if (in_array($column, ['name', 'slug', 'term_group'])) {
             $this->join('terms', function($join) use ($column)
             {
                 $join->on('terms.term_id', '=', 'term_taxonomy.term_id');

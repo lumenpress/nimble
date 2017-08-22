@@ -41,7 +41,7 @@ class MenuItemCollection extends AbstractCollection
         return $items;
     }
 
-    public function save(Model $model)
+    public function save()
     {
         # code...
     }

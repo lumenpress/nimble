@@ -25,14 +25,14 @@ abstract class AbstractCollection extends Collection
      */
     protected $extraItems = [];
 
-    protected $object;
+    public $object;
 
     /**
      * [save description]
      * @param  Model  $object [description]
      * @return [type]         [description]
      */
-    abstract public function save(Model $object);
+    abstract public function save();
 
     public function __toString()
     {
@@ -59,14 +59,10 @@ abstract class AbstractCollection extends Collection
         $this->offsetUnset($key);
     }
 
-    public function isNeedSave()
-    {
-        return !empty($this->items) || !empty($this->extraItems);
-    }
-
-    public function setObject($object)
+    public function setObject(&$object)
     {
         $this->object = $object;
+        return $this;
     }
 
     protected function setItemClass($itemClass)

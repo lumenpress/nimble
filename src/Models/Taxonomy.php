@@ -2,24 +2,107 @@
 
 namespace Lumenpress\ORM\Models;
 
-class Taxonomy extends TermTaxonomy
+use Illuminate\Support\Facades\Schema;
+use Lumenpress\ORM\Builders\TaxonomyBuilder;
+use Lumenpress\ORM\Collections\TaxonomyCollection;
+
+class Taxonomy extends Model
 {
-    protected $with = ['term', 'meta'];
+    /**
+     * [$taxonomyPost description]
+     * @var array
+     */
+    protected static $registeredTaxonomies;
+
+    /**
+     * [$table description]
+     * @var string
+     */
+    protected $table = 'term_taxonomy';
+
+    /**
+     * [$primaryKey description]
+     * @var string
+     */
+    protected $primaryKey = 'term_taxonomy_id';
+
+    /**
+     * [$timestamps description]
+     * @var boolean
+     */
+    public $timestamps = false;
 
     protected $appends = [
-        'taxonomy_id',
-        'name',
-        'slug',
-        'group',
-        'order',
-        'link',
+        'name', 'slug', 'group', 'order'
     ];
 
+    /**
+     * [$hidden description]
+     * @var [type]
+     */
     protected $hidden = [
         'term',
-        'term_taxonomy_id',
-        // 'pivot'
     ];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->count = 0;
+        $this->parent = 0;
+    }
+
+    /**
+     * Override newCollection() to return a custom collection.
+     *
+     * @param array $models
+     *
+     * @return \Lumenpress\ORM\PostMetaCollection
+     */
+    public function newCollection(array $models = [])
+    {
+        return TaxonomyCollection::create($models, static::class);
+    }
+
+    /**
+     * Create a new Eloquent query builder for the model.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder|static
+     */
+    public function newEloquentBuilder($query)
+    {
+        $builder = new TaxonomyBuilder($query);
+
+        if (property_exists($this, 'taxonomy') && $this->taxonomy) {
+            $builder->where('taxonomy', $this->taxonomy);
+        }
+
+        $builder->orderBy('taxonomy');
+
+        // d(Schema::hasColumn('terms', 'term_order'));
+
+        // $builder->orderBy('term_order');
+
+        return $builder;
+    }
+
+    /**
+     * Set the specific relationship in the model.
+     *
+     * @param  string  $relation
+     * @param  mixed  $value
+     * @return $this
+     */
+    public function setRelation($relation, $value)
+    {
+        if (method_exists($value, 'setObject')) {
+            $value->setObject($this);
+        }
+
+        $this->relations[$relation] = $value;
+
+        return $this;
+    }
 
     /**
      * [term description]
@@ -27,7 +110,7 @@ class Taxonomy extends TermTaxonomy
      */
     public function term()
     {
-        return $this->hasOne(TaxonomyTerm::class, 'term_id');
+        return $this->hasOne(Term::class, 'term_id');
     }
 
     /**
@@ -37,7 +120,40 @@ class Taxonomy extends TermTaxonomy
      */
     public function meta()
     {
-        return $this->hasMany(TermMeta::class, 'term_id');
+        return $this->term->meta();
+    }
+
+    /**
+     * Relationship with Posts model.
+     *
+     * @return Illuminate\Database\Eloquent\Relations
+     */
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'term_relationships', 'term_taxonomy_id', 'object_id');
+    }
+
+    /**
+     * Mutator for order attribute.
+     *
+     * @return TaxonomyTerm
+     */
+    protected function getTerm($key)
+    {
+        return $this->term instanceof Term ? $this->term->$key : null;
+    }
+
+    /**
+     * Mutator for order attribute.
+     *
+     * @return void
+     */
+    protected function setTerm($key, $value)
+    {
+        if (!$this->term) {
+            $this->relations['term'] = new Term;
+        }
+        $this->term->$key = $value;
     }
 
     /**
@@ -121,56 +237,71 @@ class Taxonomy extends TermTaxonomy
     }
 
     /**
-     * Accessor for Link attribute.
+     * Accessor for parentId attribute.
      *
      * @return returnType
      */
-    public function getLinkAttribute($value)
+    public function getParentIdAttribute($value)
     {
-        return get_term_link($this->term_id, $this->taxonomy);
+        return array_get($this->attributes, 'parent', 0);
     }
 
     /**
-     * Mutator for order attribute.
-     *
-     * @return TaxonomyTerm
-     */
-    protected function getTerm($key)
-    {
-        return $this->term instanceof TaxonomyTerm ? $this->term->$key : null;
-    }
-
-    /**
-     * Mutator for order attribute.
+     * Mutator for parentId attribute.
      *
      * @return void
      */
-    protected function setTerm($key, $value)
+    public function setParentIdAttribute($value)
     {
-        if (!$this->term) {
-            $this->relations['term'] = new TaxonomyTerm;
-        }
-        $this->term->$key = $value;
+        $this->attributes['parent'] = $value;
     }
 
-    public function save(array $options = array())
+    /**
+     * Accessor for id attribute.
+     *
+     * @return returnType
+     */
+    public function getIdAttribute($value)
+    {
+        return $value;
+    }
+
+    /**
+     * Mutator for id attribute.
+     *
+     * @return void
+     */
+    public function setIdAttribute($value)
+    {
+        $this->attributes['term_taxonomy_id'] = $value;
+    }
+
+    public function save(array $options = [])
     {
         if (!$this->taxonomy) {
             throw new \Exception("Invalid taxonomy.");
         }
-        if (!$this->term_id) {
-            if (static::exists($this->taxonomy, $this->name)) {
-                throw new \Exception('A term with the name provided already exists with this parent.');
-                // return false;
-            }
+
+        if (!$this->id && static::exists($this->name, $this->taxonomy, $this->parentId)) {
+            throw new \Exception('A term with the name provided already exists with this parent.');
         }
-        if (!$this->slug) {
-            $this->slug = str_slug($this->name);
+
+        if (!$this->term->save()) {
+            return false;
         }
-        $this->count = static::taxonomy($this->taxonomy)->count();
-        $this->term->save();
+
         $this->term_id = $this->term->term_id;
+
         return parent::save($options);
     }
 
+    public static function registerTaxonomy($type, $class)
+    {
+        static::$registeredTaxonomies[$type] = $class;
+    }
+
+    public static function getTermClassByTaxonomy($type)
+    {
+        return array_get(static::$registeredTaxonomies, $type, Term::class);
+    }
 }
