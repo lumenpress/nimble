@@ -30,7 +30,7 @@ class Term extends Model
      */
     protected $appends = [
         // 'id',
-        'group',
+        // 'group',
         // 'order',
     ];
 
@@ -44,11 +44,15 @@ class Term extends Model
         'term_group',
     ];
 
+    protected $aliases = [
+        'id' => 'term_id',
+        'group' => 'term_group',
+    ];
+
     public function __construct(array $attributes = [])
     {
-        $this->append('id');
         parent::__construct($attributes);
-        $this->id = 0;
+        $this->term_id = 0;
         $this->term_group = 0;
     }
 
@@ -78,26 +82,6 @@ class Term extends Model
     }
 
     /**
-     * Mutator for id attribute.
-     *
-     * @return void
-     */
-    public function setIdAttribute($value)
-    {
-        $this->attributes['term_id'] = $value;
-    }
-
-    /**
-     * Accessor for id attribute.
-     *
-     * @return returnType
-     */
-    public function getIdAttribute($value)
-    {
-        return $this->term_id;
-    }
-
-    /**
      * Mutator for name attribute.
      *
      * @return void
@@ -106,36 +90,6 @@ class Term extends Model
     {
         $this->attributes['name'] = $value;
         $this->slug = str_slug($value);
-    }
-
-    /**
-     * Accessor for name attribute.
-     *
-     * @return returnType
-     */
-    public function getNameAttribute($value)
-    {
-        return $value;
-    }
-
-    /**
-     * Mutator for group attribute.
-     *
-     * @return void
-     */
-    public function setGroupAttribute($value)
-    {
-        $this->attributes['term_group'] = $value;
-    }
-
-    /**
-     * Accessor for group attribute.
-     *
-     * @return returnType
-     */
-    public function getGroupAttribute($value)
-    {
-        return $this->term_group;
     }
 
     /**

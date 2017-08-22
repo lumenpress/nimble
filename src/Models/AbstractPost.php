@@ -28,36 +28,11 @@ abstract class AbstractPost extends Model
         'post_modified_gmt'
     ];
 
-    protected $hidden = [
-        // 'post_title',
-        // 'post_name',
-        // 'post_excerpt',
-        // 'post_content',
-        // 'post_parent',
-        // 'post_status',
-        // 'guid',
-        // 'post_date_gmt',
-        // 'post_date',
-        // 'post_modified',
-        // 'post_modified_gmt',
-        // 'post_author',
-        // 'comment_count',
-        // 'post_mime_type',
-        // 'post_type',
-        // 'ping_status',
-        // 'comment_status',
-        // 'post_password',
-        // 'pinged',
-        // 'to_ping',
-        // 'post_content_filtered'
-    ];
-
     public function __construct(array $attributes = [])
     {
-        $this->append('id');
         parent::__construct($attributes);
 
-        $this->id = 0;
+        $this->ID = 0;
         $this->post_title = 'Untitle';
         $this->post_parent = 0;
         $this->menu_order = 0;
@@ -74,26 +49,6 @@ abstract class AbstractPost extends Model
             $builder->where('meta_key', $key);
         }
         return $builder;
-    }
-
-    /**
-     * Mutator for ID attribute.
-     *
-     * @return void
-     */
-    public function setIdAttribute($value)
-    {
-        $this->attributes['ID'] = $value;
-    }
-
-    /**
-     * Accessor for ID attribute.
-     *
-     * @return returnType
-     */
-    public function getIdAttribute($value)
-    {
-        return array_get($this->attributes, 'ID', 0);
     }
 
     /**
@@ -197,11 +152,52 @@ abstract class AbstractPost extends Model
         $this->_slug = $value;
         $this->attributes['post_name'] = $this->getUniquePostName(
             str_slug($value), 
-            $this->id,
+            $this->ID,
             $this->post_status, 
             $this->post_type,
             $this->post_parent
         );
+    }
+
+    /**
+     * Accessor for post content attribute.
+     *
+     * @return returnType
+     */
+    public function getPostContentAttribute($value)
+    {
+        return luemnpress_get_the_content($value);
+    }
+
+    /**
+     * Mutator for postContent attribute.
+     *
+     * @return void
+     */
+    public function setPostContentAttribute($value)
+    {
+        $this->attributes['post_content'] = $value;
+    }
+
+    /**
+     * Mutator for guid attribute.
+     *
+     * @return void
+     */
+    public function setGuidAttribute($value)
+    {
+        $this->attributes['guid'] = $value;
+    }
+
+    /**
+     * Accessor for guid attribute.
+     *
+     * @return returnType
+     */
+    public function getGuidAttribute($value)
+    {
+        return $this->ID !== 0 ? lumenpress_get_permalink($this->ID) 
+            : url(($this->post_type === 'page' ? '' : $this->post_type).'/'.$this->post_name);
     }
 
     public function getUniquePostName($slug, $id = 0, $status = 'publish', $type = 'post', $parent = 0)
@@ -239,7 +235,7 @@ abstract class AbstractPost extends Model
     public function save(array $options = [])
     {
         if (!$this->_slug) {
-            $this->setPostNameAttribute($this->post_name ?: $this->title);
+            $this->post_name = $this->post_title;
         }
         if (!parent::save($options)) {
             return false;

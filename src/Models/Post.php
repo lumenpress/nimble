@@ -8,21 +8,70 @@ use Lumenpress\Acf\Collections\FieldCollection;
 
 class Post extends AbstractPost
 {
-    use Concerns\HasPostPaginationAttributes, 
-        Concerns\HasPostAttributes;
+    use Concerns\HasPostPaginationAttributes;
 
     protected $postType = 'post';
 
     protected $with = ['meta'];
 
-    protected $appends = [
-        'title',
-        'slug',
-        'content',
-        'excerpt',
-        'type',
-        'status',
-        'link',
+    protected $dates = [
+        'post_date', 
+        'post_date_gmt', 
+        'post_modified', 
+        'post_modified_gmt'
+    ];
+
+    protected $hidden = [
+        'ID',
+        'post_title',
+        'post_name',
+        'post_excerpt',
+        'post_content',
+        'post_parent',
+        'post_status',
+        'guid',
+        'post_date_gmt',
+        'post_date',
+        'post_modified',
+        'post_modified_gmt',
+        'post_author',
+        'comment_count',
+        'post_mime_type',
+        'post_type',
+        'ping_status',
+        'comment_status',
+        'post_password',
+        'pinged',
+        'to_ping',
+        'post_content_filtered'
+    ];
+
+    protected $aliases = [
+        'id' => 'ID',
+        'title' => 'post_title',
+        'slug' => 'post_name',
+        'excerpt' => 'post_excerpt',
+        'content' => 'post_content',
+        // 'parentId' => 'post_parent',
+        'parent_id' => 'post_parent',
+        'status' => 'post_status',
+        'type' => 'post_type',
+        'link' => 'guid',
+        'date_gmt' => 'post_date_gmt',
+        'date' => 'post_date',
+        'modified' => 'post_modified',
+        'modified_gmt' => 'post_modified_gmt',
+        // 'authorId' => 'post_author',
+        'author_id' => 'post_author',
+        'mimeType' => 'post_mime_type',
+        'mime_type' => 'post_mime_type',
+        'password' => 'post_password',
+        // 'commentCount' => 'comment_count',
+        // 'pingStatus' => 'ping_status',
+        // 'commentStatus' => 'comment_status',
+        // 'pinged' => 'pinged',
+        // 'toPing' => 'to_ping',
+        'content_filtered' => 'post_content_filtered'
     ];
 
     /**

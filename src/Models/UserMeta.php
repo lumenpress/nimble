@@ -2,7 +2,7 @@
 
 namespace Lumenpress\ORM\Models;
 
-class UserMeta extends Meta
+class UserMeta extends AbstractMeta
 {
 
     /**

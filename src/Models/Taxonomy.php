@@ -33,7 +33,15 @@ class Taxonomy extends Model
     public $timestamps = false;
 
     protected $appends = [
-        'id', 'name', 'slug', 'group', 'order'
+        'name', 
+        'slug', 
+        'group', 
+        'order'
+    ];
+
+    protected $aliases = [
+        'id' => 'term_taxonomy_id',
+        // 'parent_id' => 'parent',
     ];
 
     /**
@@ -51,9 +59,9 @@ class Taxonomy extends Model
     {
         parent::__construct($attributes);
 
+        $this->term_taxonomy_id = 0;
         $this->count = 0;
         $this->parent = 0;
-        $this->term_taxonomy_id = 0;
 
         if (property_exists($this, 'taxonomy')) {
             $this->attributes['taxonomy'] = $this->taxonomy;
@@ -263,26 +271,6 @@ class Taxonomy extends Model
     public function setParentIdAttribute($value)
     {
         $this->attributes['parent'] = $value;
-    }
-
-    /**
-     * Accessor for id attribute.
-     *
-     * @return returnType
-     */
-    public function getIdAttribute($value)
-    {
-        return $this->term_taxonomy_id;
-    }
-
-    /**
-     * Mutator for id attribute.
-     *
-     * @return void
-     */
-    public function setIdAttribute($value)
-    {
-        $this->attributes['term_taxonomy_id'] = $value;
     }
 
     public function save(array $options = [])

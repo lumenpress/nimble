@@ -19,15 +19,16 @@ abstract class AbstractMeta extends Model
      */
     protected $objectKey;
 
-    protected $appends = ['key', 'value'];
+    protected $aliases = [
+        'key' => 'meta_key',
+        'value' => 'meta_value'
+    ];
 
     protected $hidden = [
         'post_id',
         'term_id',
         'user_id',
         'meta_id',
-        'meta_key',
-        'meta_value',
     ];
 
     /**
@@ -122,33 +123,13 @@ abstract class AbstractMeta extends Model
     }
 
     /**
-     * Accessor for key attribute.
-     *
-     * @return returnType
-     */
-    public function getKeyAttribute($value)
-    {
-        return $this->meta_key;
-    }
-
-    /**
-     * Mutator for key attribute.
-     *
-     * @return void
-     */
-    public function setKeyAttribute($value)
-    {
-        $this->attributes['meta_key'] = $value;
-    }
-
-    /**
      * Accessor for metaValue attribute.
      *
      * @return returnType
      */
     public function getMetaValueAttribute($value)
     {
-        return is_serialized($this->attributes['meta_value']) 
+        return lumenpress_is_serialized($this->attributes['meta_value']) 
             ? unserialize($this->attributes['meta_value']) 
             : $this->attributes['meta_value'];
     }
@@ -161,26 +142,6 @@ abstract class AbstractMeta extends Model
     public function setMetaValueAttribute($value)
     {
         $this->attributes['meta_value'] = is_array($value) ? serialize($value) : $value;
-    }
-
-    /**
-     * Accessor for value attribute.
-     *
-     * @return returnType
-     */
-    public function getValueAttribute($value)
-    {
-        return $this->meta_value;
-    }
-
-    /**
-     * Mutator for value attribute.
-     *
-     * @return void
-     */
-    public function setValueAttribute($value)
-    {
-        $this->meta_value = $value;
     }
 
     public function __toString()
