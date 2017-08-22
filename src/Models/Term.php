@@ -98,6 +98,27 @@ class Term extends Model
     }
 
     /**
+     * Mutator for name attribute.
+     *
+     * @return void
+     */
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = $value;
+        $this->slug = str_slug($value);
+    }
+
+    /**
+     * Accessor for name attribute.
+     *
+     * @return returnType
+     */
+    public function getNameAttribute($value)
+    {
+        return $value;
+    }
+
+    /**
      * Mutator for group attribute.
      *
      * @return void

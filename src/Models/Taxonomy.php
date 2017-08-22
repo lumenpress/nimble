@@ -33,7 +33,7 @@ class Taxonomy extends Model
     public $timestamps = false;
 
     protected $appends = [
-        'name', 'slug', 'group', 'order'
+        'id', 'name', 'slug', 'group', 'order'
     ];
 
     /**
@@ -41,14 +41,23 @@ class Taxonomy extends Model
      * @var [type]
      */
     protected $hidden = [
+        'term_taxonomy_id',
         'term',
     ];
+
+    protected $with = ['term'];
 
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
+
         $this->count = 0;
         $this->parent = 0;
+        $this->term_taxonomy_id = 0;
+
+        if (property_exists($this, 'taxonomy')) {
+            $this->attributes['taxonomy'] = $this->taxonomy;
+        }
     }
 
     /**
@@ -77,7 +86,7 @@ class Taxonomy extends Model
             $builder->where('taxonomy', $this->taxonomy);
         }
 
-        $builder->orderBy('taxonomy');
+        // $builder->orderBy('taxonomy');
 
         // d(Schema::hasColumn('terms', 'term_order'));
 
@@ -110,7 +119,7 @@ class Taxonomy extends Model
      */
     public function term()
     {
-        return $this->hasOne(Term::class, 'term_id');
+        return $this->hasOne(Term::class, 'term_id', 'term_id');
     }
 
     /**
@@ -263,7 +272,7 @@ class Taxonomy extends Model
      */
     public function getIdAttribute($value)
     {
-        return $value;
+        return $this->term_taxonomy_id;
     }
 
     /**
@@ -282,7 +291,7 @@ class Taxonomy extends Model
             throw new \Exception("Invalid taxonomy.");
         }
 
-        if (!$this->id && static::exists($this->name, $this->taxonomy, $this->parentId)) {
+        if (!$this->term_taxonomy_id && static::exists($this->name, $this->parentId, $this->taxonomy)) {
             throw new \Exception('A term with the name provided already exists with this parent.');
         }
 

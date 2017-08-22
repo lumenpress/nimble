@@ -64,7 +64,7 @@ class TaxonomyCollection extends AbstractCollection
                     if (in_array($item->name, (array)$names)) {
                         $exists[] = $item->name;
                     } else {
-                        $this->extraItems[$item->taxonomy_id] = false;
+                        $this->extraItems[$item->id] = false;
                         unset($this->items[$index]);
                     }
                 }
@@ -79,8 +79,8 @@ class TaxonomyCollection extends AbstractCollection
                     continue;
                 }
                 $ItemClass = $this->itemClass;
-                if ($item = $ItemClass::exists($name, $taxonomy)) {
-                    $this->extraItems[$item->taxonomy_id] = true;
+                if ($item = $ItemClass::exists($name, 0, $taxonomy)) {
+                    $this->extraItems[$item->id] = true;
                 } else {
                     $item = new $ItemClass;
                     $item->taxonomy = $taxonomy;
@@ -106,12 +106,12 @@ class TaxonomyCollection extends AbstractCollection
         if (is_string($taxonomy)) {
             foreach ($this->items as $index => $item) {
                 if ($item->taxonomy == $taxonomy) {
-                    $this->extraItems[$item->taxonomy_id] = false;
+                    $this->extraItems[$item->id] = false;
                     unset($this->items[$index]);
                 }
             }
         } else {
-            $this->extraItems[$this->items[$taxonomy]->taxonomy_id] = false;
+            $this->extraItems[$this->items[$taxonomy]->id] = false;
             unset($this->items[$taxonomy]);
         }
         $this->items = array_values($this->items);
@@ -131,7 +131,7 @@ class TaxonomyCollection extends AbstractCollection
         foreach ($this->items as $item) {
             if (isset($this->changedKeys[$item->taxonomy.'>|<'.$item->name])) {
                 $flag = $item->save() || $flag;
-                $this->extraItems[$item->taxonomy_id] = true;
+                $this->extraItems[$item->id] = true;
             }
         }
         foreach ($this->extraItems as $taxonomyId => $new ) {

@@ -97,6 +97,17 @@ abstract class AbstractPost extends Model
     }
 
     /**
+     * Mutator for postTitle attribute.
+     *
+     * @return void
+     */
+    public function setPostTitleAttribute($value)
+    {
+        $this->attributes['post_title'] = $value;
+        $this->setPostNameAttribute($value);
+    }
+
+    /**
      * Accessor for postType attribute.
      *
      * @return returnType

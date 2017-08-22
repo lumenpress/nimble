@@ -51,7 +51,7 @@ trait HasPostAttributes
      */
     public function setContentAttribute($value)
     {
-        $this->attributes['post_content'] = $value;
+        $this->post_content = $value;
     }
 
     /**

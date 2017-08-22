@@ -27,15 +27,17 @@ class TaxonomyBuilder extends Builder
         return $this->where('taxonomy', $taxonomy);
     }
 
-    public function exists($term, $taxonomy = 'category', $parent = 0)
+    public function exists($term, $parent = 0, $taxonomy = null)
     {
-        $builder = $this->where('taxonomy', $taxonomy);
-        if (is_numeric($term)) {
-            $builder->where('term_id', $term);
-        } else {
-            $builder->where('slug', str_slug($term));
+        if ($taxonomy) {
+            $this->where('taxonomy', $taxonomy);
         }
-        return $builder->where('parent', $parent)->first();
+        if (is_numeric($term)) {
+            $this->where('term_id', $term);
+        } else {
+            $this->where('slug', str_slug($term));
+        }
+        return $this->where('parent', $parent)->first();
     }
 
     public function where($column, $operator = null, $value = null, $boolean = 'and')
