@@ -1,8 +1,8 @@
 <?php 
 
-namespace Lumenpress\Models;
+namespace Lumenpress\ORM;
 
-use Lumenpress\Models\Builders\TermBuilder;
+use Lumenpress\ORM\Builders\TermBuilder;
 
 class MenuItem extends Post
 {
@@ -34,7 +34,7 @@ class MenuItem extends Post
      *
      * @param array $models
      *
-     * @return \Lumenpress\Models\Collections\MenuCollection
+     * @return \Lumenpress\ORM\Collections\MenuCollection
      */
     public function newCollection(array $models = [])
     {

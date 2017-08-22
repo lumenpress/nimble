@@ -1,9 +1,9 @@
 <?php 
 
-namespace Lumenpress\Models;
+namespace Lumenpress\ORM;
 
-use Lumenpress\Models\Builders\TaxonomyBuilder;
-use Lumenpress\Models\Collections\TaxonomyCollection;
+use Lumenpress\ORM\Builders\TaxonomyBuilder;
+use Lumenpress\ORM\Collections\TaxonomyCollection;
 
 class TermTaxonomy extends Model
 {
@@ -47,7 +47,7 @@ class TermTaxonomy extends Model
      *
      * @param array $models
      *
-     * @return \Lumenpress\Models\PostMetaCollection
+     * @return \Lumenpress\ORM\PostMetaCollection
      */
     public function newCollection(array $models = [])
     {

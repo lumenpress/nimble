@@ -1,6 +1,6 @@
 <?php 
 
-namespace Lumenpress\Models;
+namespace Lumenpress\ORM;
 
 class Taxonomy extends TermTaxonomy
 {
@@ -33,7 +33,7 @@ class Taxonomy extends TermTaxonomy
     /**
      * Meta data relationship.
      *
-     * @return Lumenpress\Models\TermMetaCollection
+     * @return Lumenpress\ORM\TermMetaCollection
      */
     public function meta()
     {

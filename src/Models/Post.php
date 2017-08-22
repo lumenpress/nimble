@@ -1,8 +1,8 @@
 <?php 
 
-namespace Lumenpress\Models;
+namespace Lumenpress\ORM;
 
-use Lumenpress\Models\Builders\PostBuilder;
+use Lumenpress\ORM\Builders\PostBuilder;
 use Lumenpress\Acf\Concerns\HasAdvancedCustomFields;
 use Lumenpress\Acf\Collections\FieldCollection;
 
@@ -51,9 +51,9 @@ class Post extends Model
      * @var array
      */
     protected $with = [
-        'tax', 
-        'meta', 
-        'acf'
+        // 'tax', 
+        // 'meta', 
+        // 'acf'
     ];
 
     /**
@@ -67,7 +67,7 @@ class Post extends Model
         'excerpt',
         'type',
         'link',
-        'template',
+        // 'template',
         'date',
     ];
 
@@ -122,7 +122,7 @@ class Post extends Model
     /**
      * Meta relationship.
      *
-     * @return Lumenpress\Models\PostMetaCollection
+     * @return Lumenpress\ORM\PostMetaCollection
      */
     public function meta($key = null)
     {

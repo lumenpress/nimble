@@ -7,6 +7,16 @@ if (!function_exists('lumenpress_is_url')) {
     }
 }
 
+if (!function_exists('lumenpress_url')) {
+    function lumenpress_url($value)
+    {
+        if (lumenpress_is_url($value)) {
+            return $value;
+        }
+        return function_exists('home_url') ? home_url($value) : url($value);
+    }
+}
+
 if (!function_exists('lumenpress_asset_url')) {
     function lumenpress_asset_url($value)
     {

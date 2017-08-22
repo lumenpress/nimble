@@ -1,9 +1,9 @@
 <?php 
 
-namespace Lumenpress\Models;
+namespace Lumenpress\ORM;
 
-use Lumenpress\Models\Builders\TermBuilder;
-use Lumenpress\Models\Collections\MenuCollection;
+use Lumenpress\ORM\Builders\TermBuilder;
+use Lumenpress\ORM\Collections\MenuCollection;
 
 class Menu extends Taxonomy implements \IteratorAggregate, \Countable
 {
@@ -17,7 +17,7 @@ class Menu extends Taxonomy implements \IteratorAggregate, \Countable
      *
      * @param array $models
      *
-     * @return \Lumenpress\Models\Collections\MenuCollection
+     * @return \Lumenpress\ORM\Collections\MenuCollection
      */
     public function newCollection(array $models = [])
     {

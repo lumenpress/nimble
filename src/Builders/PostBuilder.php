@@ -1,8 +1,8 @@
 <?php 
 
-namespace Lumenpress\Models\Builders;
+namespace Lumenpress\ORM\Builders;
 
-use Lumenpress\Models\Page;
+use Lumenpress\ORM\Models\Page;
 
 class PostBuilder extends Builder
 {

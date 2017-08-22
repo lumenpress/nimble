@@ -1,11 +1,11 @@
 {
-    "name": "lumenpress/models",
+    "name": "lumenpress/orm",
     "autoload": {
         "files": [
             "src/helpers.php"
         ],
         "psr-4": {
-            "Lumenpress\\Models\\": "src"
+            "Lumenpress\\ORM\\": "src"
         }
     }
 }

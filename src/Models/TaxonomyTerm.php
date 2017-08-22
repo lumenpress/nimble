@@ -1,8 +1,8 @@
 <?php 
 
-namespace Lumenpress\Models;
+namespace Lumenpress\ORM;
 
-use Lumenpress\Models\Builders\TermBuilder;
+use Lumenpress\ORM\Builders\TermBuilder;
 
 class TaxonomyTerm extends Model
 {

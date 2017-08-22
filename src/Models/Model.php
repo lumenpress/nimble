@@ -1,6 +1,6 @@
 <?php 
 
-namespace Lumenpress\Models;
+namespace Lumenpress\ORM;
 
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 

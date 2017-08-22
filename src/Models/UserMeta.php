@@ -1,6 +1,6 @@
 <?php 
 
-namespace Lumenpress\Models;
+namespace Lumenpress\ORM;
 
 class UserMeta extends Meta
 {

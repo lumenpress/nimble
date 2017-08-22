@@ -1,8 +1,8 @@
 <?php 
 
-namespace Lumenpress\Models;
+namespace Lumenpress\ORM;
 
-use Lumenpress\Models\Builders\TermBuilder;
+use Lumenpress\ORM\Builders\TermBuilder;
 
 class Term extends TaxonomyTerm
 {
@@ -55,7 +55,7 @@ class Term extends TaxonomyTerm
     /**
      * Meta data relationship.
      *
-     * @return Lumenpress\Models\TermMetaCollection
+     * @return Lumenpress\ORM\TermMetaCollection
      */
     public function meta()
     {

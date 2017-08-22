@@ -1,6 +1,6 @@
 <?php 
 
-namespace Lumenpress\Models\Builders;
+namespace Lumenpress\ORM\Builders;
 
 class PostMetaBuilder extends MetaBuilder
 {

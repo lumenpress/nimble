@@ -1,9 +1,9 @@
 <?php 
 
-namespace Lumenpress\Models;
+namespace Lumenpress\ORM;
 
-use Lumenpress\Models\Collections\MetaCollection;
-use Lumenpress\Models\Builders\MetaBuilder;
+use Lumenpress\ORM\Collections\MetaCollection;
+use Lumenpress\ORM\Builders\MetaBuilder;
 
 class Meta extends Model
 {
@@ -45,7 +45,7 @@ class Meta extends Model
      *
      * @param array $models
      *
-     * @return \Lumenpress\Models\PostMetaCollection
+     * @return \Lumenpress\ORM\PostMetaCollection
      */
     public function newCollection(array $models = [])
     {
