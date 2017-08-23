@@ -7,17 +7,11 @@ use Lumenpress\ORM\Builders\MetaBuilder;
 
 abstract class AbstractMeta extends Model
 {
-    /**
-     * [$primaryKey description]
-     * @var string
-     */
+    protected $objectKey;
+
     protected $primaryKey = 'meta_id';
 
-    /**
-     * [$relationKey description]
-     * @var string
-     */
-    protected $objectKey;
+    public $timestamps = false;
 
     protected $aliases = [
         'key' => 'meta_key',
@@ -29,15 +23,10 @@ abstract class AbstractMeta extends Model
         'term_id',
         'user_id',
         'meta_id',
+        'comment_id',
         'meta_key',
         'meta_value',
     ];
-
-    /**
-     * [$timestamps description]
-     * @var boolean
-     */
-    public $timestamps = false;
 
     public function __construct(array $attributes = [])
     {
@@ -68,20 +57,17 @@ abstract class AbstractMeta extends Model
     public function newEloquentBuilder($query)
     {
         if (property_exists($this, 'builderClass') && !is_null($this->builderClass)) {
-            $cls = $this->builderClass;
+            $class = $this->builderClass;
         } else {
             $shortName = substr(strrchr(get_class($this), '\\'), 1);
-            $cls = "Lumenpress\Builders\\{$shortName}Builder";
+            $class = "Lumenpress\Builders\\{$shortName}Builder";
         }
 
-        if (!class_exists($cls)) {
-            $cls = MetaBuilder::class;
+        if (!class_exists($class)) {
+            $class = MetaBuilder::class;
         }
 
-        $builder = new $cls($query);
-        // $builder->setModel($this);
-
-        return $builder;
+        return new $class($query);
     }
 
     /**
@@ -146,8 +132,20 @@ abstract class AbstractMeta extends Model
         $this->attributes['meta_value'] = is_array($value) ? serialize($value) : $value;
     }
 
+    public function getObjectKeyName()
+    {
+        return $this->objectKey;
+    }
+
+    public function setObjectKeyName($key)
+    {
+        $this->objectKey = $key;
+        return $this;
+    }
+
     public function __toString()
     {
         return $this->value ?: '';
     }
+
 }

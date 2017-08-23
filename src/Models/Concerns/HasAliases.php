@@ -20,10 +20,10 @@ trait HasAliases
     {
         $attributes = parent::attributesToArray();
         foreach ($this->aliases as $aliasKey => $originalKey) {
-            if (isset($this->$originalKey)) {
+            if (isset($this->$aliasKey)) {
                 $attributes[$aliasKey] = in_array($originalKey, $this->dates) 
-                    ? (string) $this->getAttribute($originalKey)
-                    : $this->getAttribute($originalKey);
+                    ? (string) $this->getAttribute($aliasKey)
+                    : $this->getAttribute($aliasKey);
             }
         }
         return $attributes;
@@ -40,9 +40,10 @@ trait HasAliases
         if (isset($this->aliases[$key]) && !$this->hasGetMutator($key)) {
             $key = $this->aliases[$key];
             if (stripos($key, '.') !== false) {
-                $keys = explode('.', $key);
-                $relation = $this->getRelationValue(array_shift($keys));
-                return $relation->{$keys[0]};
+                return data_get($this, $key);
+                // $keys = explode('.', $key);
+                // $relation = $this->getRelationValue(array_shift($keys));
+                // return $relation ? $relation->{$keys[0]} : null;
             }
         }
         return parent::getAttribute($key);

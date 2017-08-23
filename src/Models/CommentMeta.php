@@ -2,17 +2,17 @@
 
 namespace Lumenpress\ORM\Models;
 
-class UserMeta extends AbstractMeta
+class CommentMeta extends AbstractMeta
 {
     /**
      * [$table description]
      * @var string
      */
-    protected $table = 'usermeta';
+    protected $table = 'commentmeta';
 
     /**
      * [$relationKey description]
      * @var string
      */
-    protected $objectKey = 'user_id';
+    protected $objectKey = 'comment_id';
 }

@@ -2,7 +2,6 @@
 
 namespace Lumenpress\ORM\Models;
 
-use Lumenpress\ORM\Builders\PostBuilder;
 use Lumenpress\Acf\Concerns\HasAdvancedCustomFields;
 use Lumenpress\Acf\Collections\FieldCollection;
 
@@ -76,17 +75,6 @@ class Post extends AbstractPost
     ];
 
     /**
-     * Create a new Eloquent query builder for the model.
-     *
-     * @param  \Illuminate\Database\Query\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder|static
-     */
-    public function newEloquentBuilder($query)
-    {
-        return new PostBuilder($query);
-    }
-
-    /**
      * Post belongs to Tax.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -99,20 +87,6 @@ class Post extends AbstractPost
             $builder->type($taxonomy);
         }
         return $builder;
-    }
-
-    /**
-     * Mutator for template attribute.
-     *
-     * @return void
-     */
-    public function setTemplateAttribute($value)
-    {
-        if ($value === 'default') {
-            unset($this->meta->_wp_page_template);
-        } else {
-            $this->meta->_wp_page_template = $value;
-        }
     }
 
     public function save(array $options = [])
