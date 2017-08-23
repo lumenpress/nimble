@@ -2,7 +2,7 @@
 
 namespace Lumenpress\ORM\Models;
 
-use Lumenpress\ORM\Builders\TermBuilder;
+use Lumenpress\ORM\Collections\MenuCollection;
 
 class MenuItem extends AbstractPost
 {
@@ -20,10 +20,19 @@ class MenuItem extends AbstractPost
         'post_type',
     ];
 
+    protected $aliases = [
+        'parent_id' => 'meta._menu_item_menu_item_parent',
+        'object_id' => 'meta._menu_item_object_id',
+        'object' => 'meta._menu_item_object',
+        'type' => 'meta._menu_item_type',
+        'target' => 'meta._menu_item_target',
+        'xfn' => 'meta._menu_item_xfn'
+    ];
+
     public function __construct(array $attributes = [])
     {
+        $this->append('classes', 'current');
         parent::__construct($attributes);
-        $this->append('type', 'classes', 'object', 'object_id', 'xfn', 'target', 'parent_id', 'current');
     }
 
     /**
@@ -35,14 +44,14 @@ class MenuItem extends AbstractPost
      */
     public function newCollection(array $models = [])
     {
-        return Collections\MenuItemCollection::create($models, static::class);
+        return MenuItemCollection::create($models, static::class);
     }
 
-    // /**
-    //  * Accessor for subMenu attribute.
-    //  *
-    //  * @return returnType
-    //  */
+    /**
+     * Accessor for subMenu attribute.
+     *
+     * @return returnType
+     */
     // public function getSubMenuAttribute($value)
     // {
     //     if (!$this->meta->_menu_item_menu_item_parent) {
@@ -51,16 +60,6 @@ class MenuItem extends AbstractPost
     //     // $meta = PostMeta::where('meta_key', '_menu_item_menu_item_parent')
     //     //     ->where('meta_value', $this->meta->_menu_item_menu_item_parent)->get();
     // }
-
-    /**
-     * Accessor for menuItemParent attribute.
-     *
-     * @return returnType
-     */
-    public function getParentIdAttribute($value)
-    {
-        return (int) $this->meta->_menu_item_menu_item_parent;
-    }
 
     /**
      * Accessor for title attribute.
@@ -115,56 +114,6 @@ class MenuItem extends AbstractPost
     public function getClassesAttribute($value)
     {
         return implode(' ', $this->meta->_menu_item_classes);
-    }
-
-    /**
-     * Accessor for objectId attribute.
-     *
-     * @return returnType
-     */
-    public function getObjectIdAttribute($value)
-    {
-        return (int)$this->meta->_menu_item_object_id;
-    }
-
-    /**
-     * Accessor for _menu_item_object attribute.
-     *
-     * @return returnType
-     */
-    public function getObjectAttribute($value)
-    {
-        return $this->meta->_menu_item_object;
-    }
-
-    /**
-     * Accessor for _menu_item_type attribute.
-     *
-     * @return returnType
-     */
-    public function getTypeAttribute($value)
-    {
-        return $this->meta->_menu_item_type;
-    }
-
-    /**
-     * Accessor for target attribute.
-     *
-     * @return returnType
-     */
-    public function getTargetAttribute($value)
-    {
-        return $this->meta->_menu_item_target;
-    }
-
-    /**
-     * Accessor for xfn attribute.
-     *
-     * @return returnType
-     */
-    public function getXfnAttribute($value)
-    {
-        return $this->meta->_menu_item_xfn;
     }
 
     /**

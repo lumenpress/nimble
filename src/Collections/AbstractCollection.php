@@ -7,37 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class AbstractCollection extends Collection
 {
-    /**
-     * [$itemClass description]
-     * @var [type]
-     */
+    use Concerns\HasRelationships;
+
     protected $itemClass;
 
-    /**
-     * [$changedKeys description]
-     * @var array
-     */
     protected $changedKeys = [];
 
-    /**
-     * [$extraItems description]
-     * @var array
-     */
     protected $extraItems = [];
 
-    public $object;
-
-    /**
-     * [save description]
-     * @param  Model  $object [description]
-     * @return [type]         [description]
-     */
     abstract public function save();
-
-    public function __toString()
-    {
-        return '';
-    }
 
     public function __isset($key)
     {
@@ -59,22 +37,8 @@ abstract class AbstractCollection extends Collection
         $this->offsetUnset($key);
     }
 
-    public function setObject(&$object)
+    public function __toString()
     {
-        $this->object = $object;
-        return $this;
+        return '';
     }
-
-    protected function setItemClass($itemClass)
-    {
-        $this->itemClass = $itemClass;
-    }
-
-    public static function create(array $models, $itemClass)
-    {
-        $collection = new static($models);
-        $collection->setItemClass($itemClass);
-        return $collection;
-    }
-
 }

@@ -71,7 +71,8 @@ class Post extends AbstractPost
         // 'commentStatus' => 'comment_status',
         // 'pinged' => 'pinged',
         // 'toPing' => 'to_ping',
-        'content_filtered' => 'post_content_filtered'
+        'content_filtered' => 'post_content_filtered',
+        'template' => 'meta._wp_page_template',
     ];
 
     /**
@@ -98,16 +99,6 @@ class Post extends AbstractPost
             $builder->type($taxonomy);
         }
         return $builder;
-    }
-
-    /**
-     * Accessor for template attribute.
-     *
-     * @return returnType
-     */
-    public function getTemplateAttribute($value)
-    {
-        return $this->meta->_wp_page_template;
     }
 
     /**

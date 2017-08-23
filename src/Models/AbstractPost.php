@@ -63,16 +63,6 @@ abstract class AbstractPost extends Model
     }
 
     /**
-     * Accessor for postType attribute.
-     *
-     * @return returnType
-     */
-    public function getPostTypeAttribute($value)
-    {
-        return $value;
-    }
-
-    /**
      * Mutator for postType attribute.
      *
      * @return void
@@ -83,16 +73,6 @@ abstract class AbstractPost extends Model
         if ($this->_slug) {
             $this->setPostNameAttribute($this->_slug);
         }
-    }
-
-    /**
-     * Accessor for post status attribute.
-     *
-     * @return returnType
-     */
-    public function getPostStatusAttribute($value)
-    {
-        return $value;
     }
 
     /**
@@ -108,17 +88,6 @@ abstract class AbstractPost extends Model
         }
     }
 
-
-    /**
-     * Accessor for post parent attribute.
-     *
-     * @return returnType
-     */
-    public function getPostParentAttribute($value)
-    {
-        return $value;
-    }
-
     /**
      * Mutator for post parent attribute.
      *
@@ -130,16 +99,6 @@ abstract class AbstractPost extends Model
         if ($this->_slug) {
             $this->setPostNameAttribute($this->_slug);
         }
-    }
-
-    /**
-     * Accessor for post name attribute.
-     *
-     * @return returnType
-     */
-    public function getPostNameAttribute($value)
-    {
-        return is_null($value) ? '' : $value;
     }
 
     /**
@@ -170,26 +129,6 @@ abstract class AbstractPost extends Model
     }
 
     /**
-     * Mutator for postContent attribute.
-     *
-     * @return void
-     */
-    public function setPostContentAttribute($value)
-    {
-        $this->attributes['post_content'] = $value;
-    }
-
-    /**
-     * Mutator for guid attribute.
-     *
-     * @return void
-     */
-    public function setGuidAttribute($value)
-    {
-        $this->attributes['guid'] = $value;
-    }
-
-    /**
      * Accessor for guid attribute.
      *
      * @return returnType
@@ -212,24 +151,6 @@ abstract class AbstractPost extends Model
             $slug = $tmp . '-' . (++$i);
         }
         return $slug;
-    }
-
-   /**
-     * Set the specific relationship in the model.
-     *
-     * @param  string  $relation
-     * @param  mixed  $value
-     * @return $this
-     */
-    public function setRelation($relation, $value)
-    {
-        if (method_exists($value, 'setObject')) {
-            $value->setObject($this);
-        }
-
-        $this->relations[$relation] = $value;
-
-        return $this;
     }
 
     public function save(array $options = [])

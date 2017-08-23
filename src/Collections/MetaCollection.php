@@ -61,8 +61,8 @@ class MetaCollection extends AbstractCollection
                     return;
                 }
             }
-            $cls = $this->itemClass;
-            $item = new $cls;
+            $class = $this->relatedClass;
+            $item = new $class;
             $item->key = $key;
             $item->value = $value;
             parent::offsetSet(null, $item);
@@ -99,13 +99,13 @@ class MetaCollection extends AbstractCollection
      */
     public function save()
     {
-        if (!$this->object) {
+        if (!$this->relatedParent) {
             return false;
         }
         $flag = false;
         foreach ($this->items as $item) {
             if (isset($this->changedKeys[$item->key])) {
-                $item->objectId = $this->object->id;
+                $item->objectId = $this->relatedParent->id;
                 $flag = $item->save() || $flag;
             }
         }
