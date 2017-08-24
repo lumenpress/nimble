@@ -12,7 +12,6 @@ trait PostAttributes
     public function setPostTitleAttribute($value)
     {
         $this->attributes['post_title'] = $value;
-        $this->setPostNameAttribute($value);
     }
 
     /**

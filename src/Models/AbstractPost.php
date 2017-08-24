@@ -36,7 +36,7 @@ abstract class AbstractPost extends Model
         parent::__construct($attributes);
 
         $this->ID = 0;
-        $this->post_title = 'Untitle';
+        // $this->post_title = 'Untitle';
         $this->post_parent = 0;
         $this->menu_order = 0;
         $this->post_status = 'publish';
