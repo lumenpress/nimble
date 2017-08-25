@@ -71,7 +71,7 @@ abstract class AbstractPost extends Model
 
     public function save(array $options = [])
     {
-        if (!$this->_slug) {
+        if (!$this->post_name) {
             $this->post_name = $this->post_title;
         }
         if (!parent::save($options)) {
