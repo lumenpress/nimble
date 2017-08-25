@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class MenuItemCollection extends AbstractCollection
 {
-
     public $actives = [];
 
     protected $active = false;

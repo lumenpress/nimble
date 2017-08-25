@@ -3,13 +3,13 @@
 namespace Lumenpress\ORM\Models;
 
 use Lumenpress\ORM\Builders\PostBuilder;
-use Lumenpress\ORM\Models\Concerns\PostAttributes;
+use Lumenpress\ORM\Concerns\HasPostAttributes;
 
 abstract class AbstractPost extends Model
 {
-    use PostAttributes;
+    use HasPostAttributes;
 
-    protected static $registeredPostTypes = [
+    protected static $registeredTypes = [
         'post' => Post::class,
         'page' => Page::class
     ];
@@ -81,13 +81,17 @@ abstract class AbstractPost extends Model
         return true;
     }
 
-    public static function registerType($type, $class)
+    public static function register($type, $className)
     {
-        static::$registeredPostTypes[$type] = $class;
+        if (!class_exists($className)) {
+            throw new \Exception("{$className} class doesn't exist.", 1);
+        }
+        static::$registeredTypes[$type] = $className;
     }
 
-    public static function getPostClassByType($type)
+    public static function getClassNameByType($type, $default = Post::class)
     {
-        return array_get(static::$registeredPostTypes, $type, Post::class);
+        return array_get(static::$registeredTypes, $type, $default);
     }
+
 }

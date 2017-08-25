@@ -1,8 +1,8 @@
 <?php 
 
-namespace Lumenpress\ORM\Models\Concerns;
+namespace Lumenpress\ORM\Concerns;
 
-trait PostAttributes
+trait HasPostAttributes
 {
     /**
      * Mutator for postTitle attribute.

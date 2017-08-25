@@ -1,7 +1,7 @@
 <?php 
-namespace Lumenpress\ORM\Collections\Concerns;
+namespace Lumenpress\ORM\Concerns;
 
-trait HasRelationships
+trait HasRelatedAttributes
 {
     protected $relatedParent;
 

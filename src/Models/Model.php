@@ -2,11 +2,12 @@
 
 namespace Lumenpress\ORM\Models;
 
+use Lumenpress\ORM\Concerns\HasAliases;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 
 class Model extends EloquentModel
 {
-    use Concerns\HasAliases;
+    use HasAliases;
 
     /**
      * Unset an attribute on the model.

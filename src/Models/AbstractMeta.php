@@ -2,8 +2,8 @@
 
 namespace Lumenpress\ORM\Models;
 
-use Lumenpress\ORM\Collections\MetaCollection;
 use Lumenpress\ORM\Builders\MetaBuilder;
+use Lumenpress\ORM\Collections\MetaCollection;
 
 abstract class AbstractMeta extends Model
 {

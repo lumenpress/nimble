@@ -2,12 +2,11 @@
 
 namespace Lumenpress\ORM\Models;
 
-use Lumenpress\Acf\Concerns\HasAdvancedCustomFields;
-use Lumenpress\Acf\Collections\FieldCollection;
+use Lumenpress\ORM\Concerns\HasPostPaginationAttributes;
 
 class Post extends AbstractPost
 {
-    use Concerns\HasPostPaginationAttributes;
+    use HasPostPaginationAttributes;
 
     protected $postType = 'post';
 

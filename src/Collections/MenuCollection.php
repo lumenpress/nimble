@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class MenuCollection extends AbstractCollection
 {
-
     protected $locations = [];
 
     public function __construct(array $items = [])

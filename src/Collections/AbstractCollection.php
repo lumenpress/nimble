@@ -4,10 +4,11 @@ namespace Lumenpress\ORM\Collections;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Lumenpress\ORM\Concerns\HasRelatedAttributes;
 
 abstract class AbstractCollection extends Collection
 {
-    use Concerns\HasRelationships;
+    use HasRelatedAttributes;
 
     protected $itemClass;
 

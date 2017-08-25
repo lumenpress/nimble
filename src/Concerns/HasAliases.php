@@ -1,6 +1,6 @@
 <?php 
 
-namespace Lumenpress\ORM\Models\Concerns;
+namespace Lumenpress\ORM\Concerns;
 
 trait HasAliases
 {
