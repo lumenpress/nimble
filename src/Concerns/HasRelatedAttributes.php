@@ -1,4 +1,5 @@
 <?php 
+
 namespace Lumenpress\ORM\Concerns;
 
 trait HasRelatedAttributes

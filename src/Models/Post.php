@@ -2,11 +2,17 @@
 
 namespace Lumenpress\ORM\Models;
 
+use Lumenpress\ORM\Concerns\RegisterTypes;
 use Lumenpress\ORM\Concerns\HasPostPaginationAttributes;
 
 class Post extends AbstractPost
 {
-    use HasPostPaginationAttributes;
+    use HasPostPaginationAttributes, RegisterTypes;
+
+    protected static $registeredTypes = [
+        'post' => Post::class,
+        'page' => Page::class
+    ];
 
     protected $postType = 'post';
 

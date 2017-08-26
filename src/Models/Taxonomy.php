@@ -3,16 +3,20 @@
 namespace Lumenpress\ORM\Models;
 
 use Illuminate\Support\Facades\Schema;
+use Lumenpress\ORM\Concerns\RegisterTypes;
+use Lumenpress\ORM\Concerns\TaxonomyAttributes;
 use Lumenpress\ORM\Builders\TaxonomyBuilder;
 use Lumenpress\ORM\Collections\TaxonomyCollection;
 
 class Taxonomy extends Model
 {
+    use RegisterTypes, TaxonomyAttributes;
+
     /**
      * [$taxonomyPost description]
      * @var array
      */
-    protected static $registeredTaxonomies;
+    protected static $registeredTypes = [];
 
     /**
      * [$table description]
@@ -32,16 +36,21 @@ class Taxonomy extends Model
      */
     public $timestamps = false;
 
+    /**
+     * [$with description]
+     * @var array
+     */
+    protected $with = ['term'];
+
+    /**
+     * [$appends description]
+     * @var [type]
+     */
     protected $appends = [
         'name', 
         'slug', 
         'group', 
         'order'
-    ];
-
-    protected $aliases = [
-        'id' => 'term_taxonomy_id',
-        // 'parent_id' => 'parent',
     ];
 
     /**
@@ -53,7 +62,14 @@ class Taxonomy extends Model
         'term',
     ];
 
-    protected $with = ['term'];
+    /**
+     * [$aliases description]
+     * @var [type]
+     */
+    protected $aliases = [
+        'id' => 'term_taxonomy_id',
+        // 'parent_id' => 'parent',
+    ];
 
     public function __construct(array $attributes = [])
     {
@@ -104,24 +120,6 @@ class Taxonomy extends Model
     }
 
     /**
-     * Set the specific relationship in the model.
-     *
-     * @param  string  $relation
-     * @param  mixed  $value
-     * @return $this
-     */
-    public function setRelation($relation, $value)
-    {
-        if (method_exists($value, 'setObject')) {
-            $value->setObject($this);
-        }
-
-        $this->relations[$relation] = $value;
-
-        return $this;
-    }
-
-    /**
      * [term description]
      * @return [type] [description]
      */
@@ -151,128 +149,10 @@ class Taxonomy extends Model
     }
 
     /**
-     * Mutator for order attribute.
-     *
-     * @return TaxonomyTerm
+     * [save description]
+     * @param  array  $options [description]
+     * @return [type]          [description]
      */
-    protected function getTerm($key)
-    {
-        return $this->term instanceof Term ? $this->term->$key : null;
-    }
-
-    /**
-     * Mutator for order attribute.
-     *
-     * @return void
-     */
-    protected function setTerm($key, $value)
-    {
-        if (!$this->term) {
-            $this->relations['term'] = new Term;
-        }
-        $this->term->$key = $value;
-    }
-
-    /**
-     * Accessor for name attribute.
-     *
-     * @return returnType
-     */
-    public function getNameAttribute($value)
-    {
-        return $this->getTerm('name');
-    }
-
-    /**
-     * Mutator for name attribute.
-     *
-     * @return void
-     */
-    public function setNameAttribute($value)
-    {
-        $this->setTerm('name', $value);
-    }
-
-    /**
-     * Accessor for slug attribute.
-     *
-     * @return returnType
-     */
-    public function getSlugAttribute($value)
-    {
-        return $this->getTerm('slug');
-    }
-
-    /**
-     * Mutator for slug attribute.
-     *
-     * @return void
-     */
-    public function setSlugAttribute($value)
-    {
-        $this->setTerm('slug', $value);
-    }
-
-    /**
-     * Accessor for group attribute.
-     *
-     * @return returnType
-     */
-    public function getGroupAttribute($value)
-    {
-        return $this->getTerm('group');
-    }
-
-    /**
-     * Mutator for group attribute.
-     *
-     * @return void
-     */
-    public function setGroupAttribute($value)
-    {
-        $this->setTerm('group', $value);
-    }
-
-    /**
-     * Accessor for order attribute.
-     *
-     * @return returnType
-     */
-    public function getOrderAttribute($value)
-    {
-        return $this->getTerm('order');
-    }
-
-    /**
-     * Mutator for order attribute.
-     *
-     * @return void
-     */
-    public function setOrderAttribute($value)
-    {
-        $this->setTerm('order', $value);
-    }
-
-    /**
-     * Accessor for parentId attribute.
-     *
-     * @return returnType
-     */
-    public function getParentIdAttribute($value)
-    {
-        return array_get($this->attributes, 'parent', 0);
-    }
-
-    /**
-     * Mutator for parentId attribute.
-     *
-     * @return void
-     */
-    public function setParentIdAttribute($value)
-    {
-        $this->attributes['parent'] = $value;
-    }
-
     public function save(array $options = [])
     {
         if (!$this->taxonomy) {
@@ -290,15 +170,5 @@ class Taxonomy extends Model
         $this->term_id = $this->term->term_id;
 
         return parent::save($options);
-    }
-
-    public static function registerTaxonomy($type, $class)
-    {
-        static::$registeredTaxonomies[$type] = $class;
-    }
-
-    public static function getTermClassByTaxonomy($type)
-    {
-        return array_get(static::$registeredTaxonomies, $type, Term::class);
     }
 }

@@ -9,11 +9,6 @@ abstract class AbstractPost extends Model
 {
     use HasPostAttributes;
 
-    protected static $registeredTypes = [
-        'post' => Post::class,
-        'page' => Page::class
-    ];
-
     const CREATED_AT = 'post_date';
 
     const UPDATED_AT = 'post_modified';
@@ -79,19 +74,6 @@ abstract class AbstractPost extends Model
         }
         $this->meta->save();
         return true;
-    }
-
-    public static function register($type, $className)
-    {
-        if (!class_exists($className)) {
-            throw new \Exception("{$className} class doesn't exist.", 1);
-        }
-        static::$registeredTypes[$type] = $className;
-    }
-
-    public static function getClassNameByType($type, $default = Post::class)
-    {
-        return array_get(static::$registeredTypes, $type, $default);
     }
 
 }
