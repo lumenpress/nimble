@@ -12,6 +12,42 @@ trait HasAliases
     protected $aliases = [];
 
     /**
+     * Get the visible attributes for the model.
+     *
+     * @return array
+     */
+    public function getAliases()
+    {
+        return $this->aliases;
+    }
+
+    /**
+     * Set the aliase attributes for the model.
+     *
+     * @param  array  $visible
+     * @return $this
+     */
+    public function setAliases(array $aliases)
+    {
+        $this->aliases = $aliases;
+
+        return $this;
+    }
+
+    /**
+     * Add aliase attributes for the model.
+     *
+     * @param  array|string|null  $attributes
+     * @return void
+     */
+    public function addAliases($attributes = null)
+    {
+        $this->aliases = array_merge(
+            $this->aliases, is_array($attributes) ? $attributes : func_get_args()
+        );
+    }
+
+    /**
      * Convert the model's attributes to an array.
      *
      * @return array
