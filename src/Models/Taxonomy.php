@@ -93,7 +93,7 @@ class Taxonomy extends Model
      */
     public function newCollection(array $models = [])
     {
-        return TaxonomyCollection::create($models, static::class);
+        return (new TaxonomyCollection($models))->setRelated($this);
     }
 
     /**

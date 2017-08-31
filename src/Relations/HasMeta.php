@@ -36,24 +36,8 @@ class HasMeta extends HasMany
     protected function newRelatedInstance($parent)
     {
         return tap(new Meta, function ($instance) use ($parent) {
-            switch ($parent->getTable()) {
-                case 'posts':
-                    $instance->setTable('postmeta');
-                    $instance->setObjectKeyName('post_id');
-                    break;
-                case 'terms':
-                    $instance->setTable('termmeta');
-                    $instance->setObjectKeyName('term_id');
-                    break;
-                case 'users':
-                    $instance->setTable('usermeta');
-                    $instance->setObjectKeyName('term_id');
-                    break;
-                case 'comments':
-                    $instance->setTable('commentmeta');
-                    $instance->setObjectKeyName('term_id');
-                    break;
-            }
+            $instance->setTableThroughParentTable($parent->getTable());
+
             if (! $instance->getConnectionName()) {
                 $instance->setConnection($parent->getConnectionName());
             }

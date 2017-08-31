@@ -83,6 +83,28 @@ class Meta extends Model
         $this->attributes['meta_value'] = is_array($value) ? serialize($value) : $value;
     }
 
+    public function setTableThroughParentTable($table)
+    {
+        switch ($table) {
+            case 'posts':
+                $this->setTable('postmeta');
+                $this->setObjectKeyName('post_id');
+                break;
+            case 'terms':
+                $this->setTable('termmeta');
+                $this->setObjectKeyName('term_id');
+                break;
+            case 'users':
+                $this->setTable('usermeta');
+                $this->setObjectKeyName('user_id');
+                break;
+            case 'comments':
+                $this->setTable('commentmeta');
+                $this->setObjectKeyName('comment_id');
+                break;
+        }
+    }
+
     public function getObjectKeyName()
     {
         return $this->objectKey;

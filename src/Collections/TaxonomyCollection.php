@@ -76,18 +76,17 @@ class TaxonomyCollection extends AbstractCollection
                 if (in_array($name, $exists)) {
                     continue;
                 }
-                $class = $this->relatedClass;
+                $class = get_class($this->related);
                 if ($item = $class::exists($name, 0, $taxonomy)) {
                     $this->extraItems[$item->id] = true;
                 } else {
-                    $item = new $class;
+                    $item = $this->related->newInstance();
                     $item->taxonomy = $taxonomy;
                     $item->name = $name;
                     $this->changedKeys[$taxonomy.'>|<'.$name] = true;
                 }
                 $this->items[] = $item;
             }
-            // d(count($this->items));
         } else {
             parent::offsetSet($taxonomy, $value);
         }
