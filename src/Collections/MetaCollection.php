@@ -12,16 +12,7 @@ class MetaCollection extends AbstractCollection
      */
     public function offsetExists($key)
     {
-        if (is_string($key)) {
-            foreach ($this->items as $item) {
-                if ($item->key == $key) {
-                    return true;
-                }
-            }
-            return false;
-        } else {
-            return array_key_exists($key, $this->items);
-        }
+        return isset($this->items[$key]);
     }
 
     /**
@@ -32,15 +23,7 @@ class MetaCollection extends AbstractCollection
      */
     public function offsetGet($key)
     {
-        if (is_string($key)) {
-            foreach ($this->items as $item) {
-                if ($item->key == $key) {
-                    return $item->value;
-                }
-            }
-        } else {
-            return $this->items[$key];
-        }
+        return isset($this->items[$key]) ? $this->items[$key]->value : null;
     }
 
     /**
@@ -52,22 +35,18 @@ class MetaCollection extends AbstractCollection
      */
     public function offsetSet($key, $value)
     {
-        if (is_string($key)) {
-            $this->changedKeys[$key] = true;
-            foreach ($this->items as $index => $item) {
-                if ($item->key == $key) {
-                    $item->value = $value;
-                    parent::offsetSet($index, $item);
-                    return;
-                }
-            }
+        $this->changedKeys[$key] = true;
+
+        if (isset($this->items[$key])) {
+            $item = $this->items[$key];
+        } else {
             $item = $this->related->newInstance();
             $item->key = $key;
-            $item->value = $value;
-            parent::offsetSet(null, $item);
-            return;
         }
-        parent::offsetSet($key, $value);
+
+        $item->value = $value;
+
+        $this->items[$key] = $item;
     }
 
     /**
@@ -78,15 +57,7 @@ class MetaCollection extends AbstractCollection
      */
     public function offsetUnset($key)
     {
-        if (is_string($key)) {
-            foreach ($this->items as $index => $item) {
-                if ($item->key == $key) {
-                    $this->extraItems[] = $item;
-                    unset($this->items[$index]);
-                    return;
-                }
-            }
-        } else {
+        if (isset($this->items[$key])) {
             $this->extraItems[] = $this->items[$key];
             unset($this->items[$key]);
         }

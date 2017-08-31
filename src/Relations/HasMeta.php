@@ -19,34 +19,32 @@ class HasMeta extends HasMany
      */
     public function __construct(Model $parent)
     {
-        $instance = $this->newRelatedInstance($parent);
+        $this->parent = $parent;
+
+        $instance = $this->newRelatedInstance();
 
         parent::__construct(
             $instance->newQuery(), 
             $parent,
-            $this->getForeignKey($parent), 
+            $this->getForeignKey(), 
             $parent->getKeyName()
         );
     }
 
-    /**
-     * [getAcfRelated description]
-     * @return [type] [description]
-     */
-    protected function newRelatedInstance($parent)
+    protected function newRelatedInstance()
     {
-        return tap(new Meta, function ($instance) use ($parent) {
-            $instance->setTableThroughParentTable($parent->getTable());
+        return tap(new Meta, function ($instance) {
+            $instance->setTableThroughParentTable($this->parent->getTable());
 
             if (! $instance->getConnectionName()) {
-                $instance->setConnection($parent->getConnectionName());
+                $instance->setConnection($this->parent->getConnectionName());
             }
         });
     }
 
-    protected function getForeignKey($parent)
+    protected function getForeignKey()
     {
-        switch ($parent->getTable()) {
+        switch ($this->parent->getTable()) {
             case 'posts':
                 return 'postmeta.post_id';
             case 'terms':

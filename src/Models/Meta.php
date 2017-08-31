@@ -34,7 +34,11 @@ class Meta extends Model
      */
     public function newCollection(array $models = [])
     {
-        return (new MetaCollection($models))->setRelated($this);
+        $items = [];
+        foreach ($models as $index => $model) {
+            $items[$model->key] = $model;
+        }
+        return (new MetaCollection($items))->setRelated($this);
     }
 
     /**
@@ -140,7 +144,7 @@ class Meta extends Model
 
     public function __toString()
     {
-        return '';
+        return is_string($this->value) || is_numeric($this->value) ? $this->value : '';
     }
 
     public static function table($table)

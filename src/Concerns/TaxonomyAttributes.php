@@ -2,6 +2,8 @@
 
 namespace Lumenpress\ORM\Concerns;
 
+use Lumenpress\ORM\Models\Term;
+
 trait TaxonomyAttributes
 {
     /**

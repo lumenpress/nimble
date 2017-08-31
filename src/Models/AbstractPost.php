@@ -73,7 +73,11 @@ abstract class AbstractPost extends Model
         if (!parent::save($options)) {
             return false;
         }
-        $this->meta->save();
+        foreach ($this->relations as $relation) {
+            if (method_exists($relation, 'save')) {
+                $relation->save();
+            }
+        }
         return true;
     }
 

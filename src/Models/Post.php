@@ -93,13 +93,4 @@ class Post extends AbstractPost
         }
         return $builder;
     }
-
-    public function save(array $options = [])
-    {
-        if (!parent::save($options)) {
-            return false;
-        }
-        $this->tax->save();
-        return true;
-    }
 }
