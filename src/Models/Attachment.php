@@ -50,12 +50,16 @@ class Attachment extends AbstractPost
         //$url = get_template_directory_uri() . '/' . $src;
         //$tmp = download_url( $url );
         $tmp = null;
-        if (lumenpress_is_url($src)) {
+        if (stripos($src, lumenpress_asset_url()) === 0) {
+            $url = str_replace(lumenpress_asset_url(), '', $src);
+            $url = file_exists($url) ? $url : lumenpress_asset_path($url);
+            $tmp = wp_tempnam($url);
+            @copy($url, $tmp);
+        } elseif (lumenpress_is_url($src)) {
             $tmp = download_url($src, 5000);
         } else {
             $url = file_exists($src) ? $src : lumenpress_asset_path($src);
             $tmp = wp_tempnam($url);
-            d($url);
             @copy($url, $tmp);
         }
         // clearing the stat cache

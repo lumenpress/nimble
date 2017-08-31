@@ -8,6 +8,8 @@ trait HasRelatedAttributes
 
     protected $relatedClass;
 
+    protected $related;
+
     public function setRelatedParent(&$relatedParent)
     {
         $this->relatedParent = $relatedParent;
@@ -17,6 +19,12 @@ trait HasRelatedAttributes
     public function setRelatedClass($relatedClass)
     {
         $this->relatedClass = $relatedClass;
+        return $this;
+    }
+
+    public function setRelated($related)
+    {
+        $this->related = $related;
         return $this;
     }
 

@@ -2,6 +2,7 @@
 
 namespace Lumenpress\ORM\Models;
 
+use Lumenpress\ORM\Relations\HasMeta;
 use Lumenpress\ORM\Builders\TermBuilder;
 
 class Term extends Model
@@ -74,7 +75,7 @@ class Term extends Model
 
     public function meta($key = null)
     {
-        $builder = $this->hasMany(TermMeta::class, 'term_id');
+        $builder = new HasMeta($this);
         if ($key) {
             $builder->where('meta_key', $key);
         }

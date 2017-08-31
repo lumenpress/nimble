@@ -4,6 +4,7 @@ namespace Lumenpress\ORM\Models;
 
 use Lumenpress\ORM\Builders\PostBuilder;
 use Lumenpress\ORM\Concerns\HasPostAttributes;
+use Lumenpress\ORM\Relations\HasMeta;
 
 abstract class AbstractPost extends Model
 {
@@ -57,11 +58,11 @@ abstract class AbstractPost extends Model
 
     public function meta($key = null)
     {
-        $builder = $this->hasMany(PostMeta::class, 'post_id');
+        $relation = new HasMeta($this);
         if ($key) {
-            $builder->where('meta_key', $key);
+            $relation->where('meta_key', $key);
         }
-        return $builder;
+        return $relation;
     }
 
     public function save(array $options = [])

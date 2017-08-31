@@ -40,11 +40,9 @@ trait HasAliases
      * @param  array|string|null  $attributes
      * @return void
      */
-    public function addAliases($attributes = null)
+    public function addAliases(array $attributes)
     {
-        $this->aliases = array_merge(
-            $this->aliases, is_array($attributes) ? $attributes : func_get_args()
-        );
+        $this->aliases = array_merge($this->aliases, $attributes);
     }
 
     /**
