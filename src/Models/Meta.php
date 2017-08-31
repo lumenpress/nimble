@@ -83,9 +83,24 @@ class Meta extends Model
         $this->attributes['meta_value'] = is_array($value) ? serialize($value) : $value;
     }
 
-    public function setTableThroughParentTable($table)
+    public function getObjectKeyName()
     {
-        switch ($table) {
+        return $this->objectKey;
+    }
+
+    public function setObjectKeyName($key)
+    {
+        $this->objectKey = $key;
+
+        $this->addAliases(['object_id' => $key]);
+        $this->addHidden($key);
+
+        return $this;
+    }
+
+    public function setTableThroughParentTable($parentTable)
+    {
+        switch ($parentTable) {
             case 'posts':
                 $this->setTable('postmeta');
                 $this->setObjectKeyName('post_id');
@@ -105,19 +120,22 @@ class Meta extends Model
         }
     }
 
-    public function getObjectKeyName()
+    public function setObjectKeyNameThroughTable($table)
     {
-        return $this->objectKey;
-    }
-
-    public function setObjectKeyName($key)
-    {
-        $this->objectKey = $key;
-
-        $this->addAliases(['object_id' => $key]);
-        $this->addHidden($key);
-
-        return $this;
+        switch ($table) {
+            case 'postmeta':
+                $this->setObjectKeyName('post_id');
+                break;
+            case 'termmeta':
+                $this->setObjectKeyName('term_id');
+                break;
+            case 'usermeta':
+                $this->setObjectKeyName('user_id');
+                break;
+            case 'commentmeta':
+                $this->setObjectKeyName('comment_id');
+                break;
+        }
     }
 
     public function __toString()
@@ -125,4 +143,11 @@ class Meta extends Model
         return '';
     }
 
+    public static function table($table)
+    {
+        $meta = new static;
+        $meta->setTable($table);
+        $meta->setObjectKeyNameThroughTable($table);
+        return $meta->newQuery();
+    }
 }

@@ -24,4 +24,14 @@ class MetaBuilder extends Builder
         $attributes = ['meta_value' => $value];
         return $this->update($attributes);
     }
+
+    public function objectKey($objectKey)
+    {
+        return $this->where($this->getModel()->getObjectKeyName(), $objectKey);
+    }
+
+    public function key($key)
+    {
+        return $this->where('meta_key', $key);
+    }
 }

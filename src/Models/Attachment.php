@@ -29,7 +29,10 @@ class Attachment extends AbstractPost
 
     private static function getAttachmentUniqid($value)
     {
-        $meta = PostMeta::where('meta_key', '_lumenpress_asset_uniqid')->where('meta_value', $value)->first();
+        $meta = Meta::table('postmeta')
+            ->where('meta_key', '_lumenpress_asset_uniqid')
+            ->where('meta_value', $value)
+            ->first();
         return $meta ? $meta->post_id : 0;
     }
 
