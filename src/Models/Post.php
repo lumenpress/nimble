@@ -14,8 +14,6 @@ class Post extends AbstractPost
         'page' => Page::class
     ];
 
-    protected $postType = 'post';
-
     protected $with = ['meta'];
 
     protected $dates = [
@@ -60,7 +58,7 @@ class Post extends AbstractPost
         'parent_id' => 'post_parent',
         'status' => 'post_status',
         'type' => 'post_type',
-        'link' => 'guid',
+        // 'link' => 'guid',
         'date_gmt' => 'post_date_gmt',
         'date' => 'post_date',
         'modified' => 'post_modified',

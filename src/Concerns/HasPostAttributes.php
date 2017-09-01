@@ -4,6 +4,8 @@ namespace Lumenpress\ORM\Concerns;
 
 trait HasPostAttributes
 {
+    protected $_slug;
+
     /**
      * Mutator for postTitle attribute.
      *
@@ -81,17 +83,17 @@ trait HasPostAttributes
     }
 
     /**
-     * Accessor for guid attribute.
+     * Accessor for link attribute.
      *
      * @return returnType
      */
-    public function getGuidAttribute($value)
+    public function getLinkAttribute($value)
     {
         return $this->ID !== 0 ? lumenpress_get_permalink($this->ID) 
             : url(($this->post_type === 'page' ? '' : $this->post_type).'/'.$this->post_name);
     }
 
-    public function getUniquePostName($slug, $id = 0, $status = 'publish', $type = 'post', $parent = 0)
+    protected function getUniquePostName($slug, $id = 0, $status = 'publish', $type = 'post', $parent = 0)
     {
         $i = 1;
         $tmp = $slug;
@@ -103,5 +105,20 @@ trait HasPostAttributes
             $slug = $tmp . '-' . (++$i);
         }
         return $slug;
+    }
+
+    protected function getGuessGuid()
+    {
+        if (!$this->ID) {
+            return '';
+        }
+        switch ($this->post_type) {
+            case 'page':
+                return url('?page_id='.$this->ID);
+            case 'post':
+                return url('?p='.$this->ID);
+            default:
+                return url('?post_type='.$this->post_type.'&name='.$this->post_name);
+        }
     }
 }

@@ -18,8 +18,6 @@ abstract class AbstractPost extends Model
 
     protected $primaryKey = 'ID';
 
-    protected $_slug;
-
     protected $dates = [
         'post_date', 
         'post_date_gmt', 
@@ -32,13 +30,20 @@ abstract class AbstractPost extends Model
         parent::__construct($attributes);
 
         $this->ID = 0;
+        $this->post_author = (int) lumenpress_get_current_user_id();
+        $this->post_content = '';
         // $this->post_title = 'Untitle';
+        $this->post_excerpt = '';
+        $this->post_status = 'publish';
+        $this->comment_status = 'open';
+        $this->ping_status = 'open';
+        $this->to_ping = '';
+        $this->pinged = '';
+        $this->post_content_filtered = '';
         $this->post_parent = 0;
         $this->menu_order = 0;
-        $this->post_status = 'publish';
-        $this->comment_status = 'closed';
-        $this->post_author = (int) lumenpress_get_current_user_id();
         $this->post_type = property_exists($this, 'postType') ? $this->postType : 'post';
+        $this->comment_count = 0;
     }
 
     /**
@@ -70,15 +75,27 @@ abstract class AbstractPost extends Model
         if (!$this->post_name) {
             $this->post_name = $this->post_title;
         }
+
         if (!parent::save($options)) {
             return false;
         }
+        
+        if (!$this->guid) {
+            $this->guid = $this->getGuessGuid();
+        }
+        
+        if (!$this->post_date_gmt) {
+            $this->post_date_gmt = $this->post_date->timezone('UTC');
+        }
+
+        $this->post_modified_gmt = $this->post_modified->timezone('UTC');;
+        
         foreach ($this->relations as $relation) {
             if (method_exists($relation, 'save')) {
                 $relation->save();
             }
         }
-        return true;
-    }
 
+        return parent::save();
+    }
 }

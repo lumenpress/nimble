@@ -7,5 +7,14 @@
         "psr-4": {
             "Lumenpress\\ORM\\": "src"
         }
+    },
+    "require": {
+        "php": ">=5.6.4",
+        "illuminate/database": "5.4"
+    },
+    "require-dev": {
+        "kint-php/kint": "^2.1",
+        "phpunit/phpunit": "^6.3",
+        "vlucas/phpdotenv": "^2.4"
     }
 }
