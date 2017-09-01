@@ -2,7 +2,7 @@
     "name": "lumenpress/orm",
     "require": {
         "php": ">=5.6.4",
-        "illuminate/database": "5.4"
+        "illuminate/database": "^5.4"
     },
     "require-dev": {
         "kint-php/kint": "^2.1",
@@ -19,8 +19,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Lumenpress\\ORM\\Tests\\": "tests",
-            "Lumenpress\\ORM\\Tests\\Database\\": "tests/database"
+            "Lumenpress\\ORM\\Tests\\": "tests"
         }
     }
 }

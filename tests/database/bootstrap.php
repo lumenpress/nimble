@@ -1,6 +1,8 @@
 <?php 
 
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Lumenpress\ORM\Tests\Database\CreateTables;
+use Illuminate\Support\Str;
 
 require_once __DIR__.'/../../vendor/autoload.php';
 
@@ -37,4 +39,11 @@ $capsule->setAsGlobal();
 // Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
 $capsule->bootEloquent();
 
-require_once __DIR__ . '/migrations.php';
+foreach (glob(__DIR__.'/migrations/*.php') as $file) {
+    require_once $file;
+    $class = Str::studly(substr(basename($file, '.php'), 18));
+    $class = "Lumenpress\ORM\Tests\database\migrations\\".$class;
+    $migration = new $class;
+    $migration->down();
+    $migration->up();
+}

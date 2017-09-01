@@ -1,6 +1,6 @@
 <?php 
 
-namespace Lumenpress\ORM\Tests\Database;
+namespace Lumenpress\ORM\Tests\database;
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Database\Capsule\Manager as Capsule;

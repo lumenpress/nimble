@@ -2,6 +2,8 @@
 
 namespace Lumenpress\ORM\Concerns;
 
+use Carbon\Carbon;
+
 trait HasPostAttributes
 {
     protected $_slug;
