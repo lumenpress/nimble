@@ -42,9 +42,18 @@ if (!function_exists('lumenpress_get_term_link')) {
 }
 
 if (!function_exists('lumenpress_get_permalink')) {
-    function lumenpress_get_permalink($post = 0, $leavename = false)
+    function lumenpress_get_permalink($post)
     {
-        return function_exists('get_permalink') ? get_permalink($post, $leavename) : '';
+        if (function_exists('get_permalink')) {
+            return get_permalink($post->ID);
+        }
+        if (getenv('APP_ENV') === 'testing') {
+            $url = getenv('APP_SITEURL');
+        } else {
+            $url = url('');
+        }
+        $part = $post->post_type == 'page' ? '' : $post->post_type;
+        return "$url/$part/$post->post_name";
     }
 }
 

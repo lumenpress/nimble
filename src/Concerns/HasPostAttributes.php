@@ -85,14 +85,33 @@ trait HasPostAttributes
     }
 
     /**
+     * Accessor for post_date_gmt attribute.
+     *
+     * @return returnType
+     */
+    public function getPostDateGmtAttribute($value)
+    {
+        return $this->post_date->timezone('UTC');
+    }
+
+    /**
+     * Accessor for post_modified_gmt attribute.
+     *
+     * @return returnType
+     */
+    public function getPostModifiedGmtAttribute($value)
+    {
+        return $this->post_modified->timezone('UTC');
+    }
+
+    /**
      * Accessor for link attribute.
      *
      * @return returnType
      */
     public function getLinkAttribute($value)
     {
-        return $this->ID !== 0 ? lumenpress_get_permalink($this->ID) 
-            : url(($this->post_type === 'page' ? '' : $this->post_type).'/'.$this->post_name);
+        return lumenpress_get_permalink($this);
     }
 
     protected function getUniquePostName($slug, $id = 0, $status = 'publish', $type = 'post', $parent = 0)

@@ -2,12 +2,14 @@
 
 namespace Lumenpress\ORM\Relations;
 
-use Lumenpress\ORM\Models\Meta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Lumenpress\ORM\Models\Meta;
 
 class HasMeta extends HasMany
 {
+    protected $tmpData = [];
+
     /**
      * Create a new has one or many relationship instance.
      *
@@ -53,6 +55,46 @@ class HasMeta extends HasMany
                 return 'usermeta.user_id';
             case 'comments':
                 return 'commentmeta.comment_id';
+        }
+    }
+
+    public function key($key = null)
+    {
+        switch ($this->parent->getTable()) {
+            case 'posts':
+                $objectKeyName = 'post_id';
+                break;
+            case 'terms':
+                $objectKeyName = 'term_id';
+                break;
+            case 'users':
+                $objectKeyName = 'user_id';
+                break;
+            case 'comments':
+                $objectKeyName = 'comment_id';
+                break;
+        }
+        $this->tmpData[$objectKeyName] = $this->getParentKey();
+        $this->tmpData['meta_key'] = $key;
+        $this->query->where('meta_key', $key);
+        return $this;
+    }
+
+    public function value($value = null)
+    {
+        if (is_null($value)) {
+            return $this->query->value('meta_value');
+        }
+        $this->tmpData['meta_value'] = $value;
+        return $this;
+    }
+
+    public function push()
+    {
+        if ($this->query->first()) {
+            return $this->query->update($this->tmpData);
+        } else {
+            return $this->query->insert($this->tmpData);
         }
     }
 }

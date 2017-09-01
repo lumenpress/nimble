@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Lumenpress\ORM\Concerns\HasRelatedAttributes;
 
-abstract class AbstractCollection extends Collection
+abstract class AbstractCollection extends Collection implements RelatedCollection
 {
     use HasRelatedAttributes;
 

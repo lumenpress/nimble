@@ -2,8 +2,10 @@
 
 namespace Lumenpress\ORM\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Lumenpress\ORM\Builders\MetaBuilder;
 use Lumenpress\ORM\Collections\MetaCollection;
+use Lumenpress\ORM\Collections\RelatedCollection;
 
 class Meta extends Model
 {
@@ -34,11 +36,7 @@ class Meta extends Model
      */
     public function newCollection(array $models = [])
     {
-        $items = [];
-        foreach ($models as $index => $model) {
-            $items[$model->key] = $model;
-        }
-        return (new MetaCollection($items))->setRelated($this);
+        return (new MetaCollection($models))->setRelated($this);
     }
 
     /**
@@ -64,6 +62,9 @@ class Meta extends Model
         $model = parent::newInstance($attributes, $exists);
         $model->setTable($this->table);
         $model->setObjectKeyName($this->objectKey);
+        // foreach ($attributes as $key => $value) {
+        //     $model->$key = $value;
+        // }
         return $model;
     }
 

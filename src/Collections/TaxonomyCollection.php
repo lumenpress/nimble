@@ -3,6 +3,7 @@
 namespace Lumenpress\ORM\Collections;
 
 use Illuminate\Database\Eloquent\Model;
+use Lumenpress\ORM\Models\TermRelationships;
 
 class TaxonomyCollection extends AbstractCollection
 {
@@ -41,9 +42,9 @@ class TaxonomyCollection extends AbstractCollection
                     $items->push($item);
                 }
             }
-            return $items;
+            return $items->isEmpty() ? null : $items;
         } else {
-            return collect($this->items[$key]);
+            return isset($this->items[$key]) ? collect($this->items[$key]) : null;
         }
     }
 
@@ -77,7 +78,7 @@ class TaxonomyCollection extends AbstractCollection
                     continue;
                 }
                 $class = get_class($this->related);
-                if ($item = $class::exists($name, 0, $taxonomy)) {
+                if ($item = $class::exists($name, $taxonomy, 0)) {
                     $this->extraItems[$item->id] = true;
                 } else {
                     $item = $this->related->newInstance();
@@ -132,14 +133,13 @@ class TaxonomyCollection extends AbstractCollection
             }
         }
         foreach ($this->extraItems as $taxonomyId => $new ) {
-            $table = \DB::table('term_relationships');
             if ($new) {
-                $flag = $table->insert([
+                $flag = TermRelationships::create([
                     'object_id' => $this->relatedParent->id,
                     'term_taxonomy_id' => $taxonomyId
-                ]) || $flag;
+                ]) || $flag;;
             } else {
-                $flag = $table->where('object_id', $this->relatedParent->id)
+                $flag = TermRelationships::where('object_id', $this->relatedParent->id)
                     ->where('term_taxonomy_id', $taxonomyId)->delete() || $flag;;
             }
         }

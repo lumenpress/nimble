@@ -2,6 +2,8 @@
 
 namespace Lumenpress\ORM\Collections;
 
+use Illuminate\Support\Arr;
+
 class MetaCollection extends AbstractCollection
 {
     /**
@@ -12,7 +14,15 @@ class MetaCollection extends AbstractCollection
      */
     public function offsetExists($key)
     {
-        return isset($this->items[$key]);
+        if (is_numeric($key)) {
+            return parent::offsetExists($key);
+        }
+        foreach ($this->items as $index => $item) {
+            if ($item->key == $key) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -23,7 +33,14 @@ class MetaCollection extends AbstractCollection
      */
     public function offsetGet($key)
     {
-        return isset($this->items[$key]) ? $this->items[$key]->value : null;
+        if (is_numeric($key)) {
+            return isset($this->items[$key]) ? $this->items[$key]->value : null;
+        }
+        foreach ($this->items as $index => $item) {
+            if ($item->key == $key) {
+                return $item->value;
+            }
+        }
     }
 
     /**
@@ -35,18 +52,44 @@ class MetaCollection extends AbstractCollection
      */
     public function offsetSet($key, $value)
     {
-        $this->changedKeys[$key] = true;
+        if (is_null($key) || is_numeric($key)) {
+            if (!is_array($value)) {
+                throw new \Exception("value invalid", 1);
+            }
 
-        if (isset($this->items[$key])) {
+            if (is_null($key) && !Arr::has($value, ['key', 'value', 'object_id'])) {
+                throw new \Exception("value invalid", 1);
+            }
+
+            if (is_null($key)) {
+                $key = count($this->items);
+                $this->items[$key] = $this->related->newInstance();
+            }
+
             $item = $this->items[$key];
-        } else {
-            $item = $this->related->newInstance();
-            $item->key = $key;
+
+            foreach ($value as $k => $v) {
+                $item->$k = $v;
+            }
+
+            $this->changedKeys[$item->key] = true;
+
+            return;
         }
 
-        $item->value = $value;
+        $this->changedKeys[$key] = true;
 
-        $this->items[$key] = $item;
+        foreach ($this->items as $index => $item) {
+            if ($item->key == $key) {
+                $item->value = $value;
+                return;
+            }
+        }
+
+        $item = $this->related->newInstance();
+        $item->key = $key;
+        $item->value = $value;
+        $this->items[] = $item;
     }
 
     /**
@@ -57,9 +100,16 @@ class MetaCollection extends AbstractCollection
      */
     public function offsetUnset($key)
     {
-        if (isset($this->items[$key])) {
+        if (is_numeric($key)) {
             $this->extraItems[] = $this->items[$key];
             unset($this->items[$key]);
+            return;
+        }
+        foreach ($this->items as $index => $item) {
+            if ($item->key == $item) {
+                $this->extraItems[] = $item;
+                unset($this->items[$index]);
+            }
         }
     }
 
@@ -69,13 +119,12 @@ class MetaCollection extends AbstractCollection
      */
     public function save()
     {
-        if (!$this->relatedParent) {
-            return false;
-        }
         $flag = false;
         foreach ($this->items as $item) {
             if (isset($this->changedKeys[$item->key])) {
-                $item->object_id = $this->relatedParent->id;
+                if ($this->relatedParent) {
+                    $item->object_id = $this->relatedParent->id;
+                }
                 $flag = $item->save() || $flag;
             }
         }

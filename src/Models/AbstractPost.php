@@ -5,6 +5,7 @@ namespace Lumenpress\ORM\Models;
 use Lumenpress\ORM\Builders\PostBuilder;
 use Lumenpress\ORM\Concerns\HasPostAttributes;
 use Lumenpress\ORM\Relations\HasMeta;
+use Lumenpress\ORM\Collections\RelatedCollection;
 
 abstract class AbstractPost extends Model
 {
@@ -30,7 +31,8 @@ abstract class AbstractPost extends Model
         parent::__construct($attributes);
 
         $this->ID = 0;
-        $this->post_author = (int) lumenpress_get_current_user_id();
+        // $this->post_author = (int) lumenpress_get_current_user_id();
+        $this->post_author = 0;
         $this->post_content = '';
         // $this->post_title = 'Untitle';
         $this->post_excerpt = '';
@@ -65,7 +67,7 @@ abstract class AbstractPost extends Model
     {
         $relation = new HasMeta($this);
         if ($key) {
-            $relation->where('meta_key', $key);
+            $relation->key($key);
         }
         return $relation;
     }
@@ -91,7 +93,7 @@ abstract class AbstractPost extends Model
         $this->post_modified_gmt = $this->post_modified->timezone('UTC');;
         
         foreach ($this->relations as $relation) {
-            if (method_exists($relation, 'save')) {
+            if ($relation instanceof RelatedCollection) {
                 $relation->save();
             }
         }

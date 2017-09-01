@@ -68,7 +68,7 @@ class Taxonomy extends Model
      */
     protected $aliases = [
         'id' => 'term_taxonomy_id',
-        // 'parent_id' => 'parent',
+        'parent_id' => 'parent',
     ];
 
     public function __construct(array $attributes = [])
@@ -78,6 +78,7 @@ class Taxonomy extends Model
         $this->term_taxonomy_id = 0;
         $this->count = 0;
         $this->parent = 0;
+        $this->description = '';
 
         if (property_exists($this, 'taxonomy')) {
             $this->attributes['taxonomy'] = $this->taxonomy;
@@ -159,8 +160,12 @@ class Taxonomy extends Model
             throw new \Exception("Invalid taxonomy.");
         }
 
-        if (!$this->term_taxonomy_id && static::exists($this->name, $this->parentId, $this->taxonomy)) {
+        if (!$this->term_taxonomy_id && static::exists($this->name, $this->taxonomy, $this->parent_id)) {
             throw new \Exception('A term with the name provided already exists with this parent.');
+        }
+
+        if (is_null($this->name)) {
+            throw new \Exception("name is invalid", 1);
         }
 
         if (!$this->term->save()) {

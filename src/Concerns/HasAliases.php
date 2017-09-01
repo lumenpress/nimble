@@ -74,10 +74,10 @@ trait HasAliases
         if (isset($this->aliases[$key]) && !$this->hasGetMutator($key)) {
             $key = $this->aliases[$key];
             if (stripos($key, '.') !== false) {
-                return data_get($this, $key);
-                // $keys = explode('.', $key);
-                // $relation = $this->getRelationValue(array_shift($keys));
-                // return $relation ? $relation->{$keys[0]} : null;
+                // return data_get($this, $key);
+                $keys = explode('.', $key);
+                $relation = $this->getRelationValue(array_shift($keys));
+                return $relation ? $relation->{$keys[0]} : null;
             }
         }
         return parent::getAttribute($key);
