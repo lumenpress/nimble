@@ -1,12 +1,5 @@
 <?php 
 
-if (function_exists('url') && getenv('APP_ENV') == 'testing') {
-    function url($value)
-    {
-        return getenv('APP_SITEURL').'/'.$value;
-    }
-}
-
 if (!function_exists('lumenpress_is_url')) {
     function lumenpress_is_url($value)
     {

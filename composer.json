@@ -1,13 +1,5 @@
 {
     "name": "lumenpress/orm",
-    "autoload": {
-        "files": [
-            "src/helpers.php"
-        ],
-        "psr-4": {
-            "Lumenpress\\ORM\\": "src"
-        }
-    },
     "require": {
         "php": ">=5.6.4",
         "illuminate/database": "5.4"
@@ -16,5 +8,19 @@
         "kint-php/kint": "^2.1",
         "phpunit/phpunit": "^6.3",
         "vlucas/phpdotenv": "^2.4"
+    },
+    "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
+        "psr-4": {
+            "Lumenpress\\ORM\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Lumenpress\\ORM\\Tests\\": "tests",
+            "Lumenpress\\ORM\\Tests\\Database\\": "tests/database"
+        }
     }
 }

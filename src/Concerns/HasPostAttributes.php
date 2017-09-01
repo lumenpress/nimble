@@ -112,13 +112,18 @@ trait HasPostAttributes
         if (!$this->ID) {
             return '';
         }
+        if (getenv('APP_ENV') === 'testing') {
+            $url = getenv('APP_SITEURL');
+        } else {
+            $url = url('');
+        }
         switch ($this->post_type) {
             case 'page':
-                return url('?page_id='.$this->ID);
+                return $url.'?page_id='.$this->ID;
             case 'post':
-                return url('?p='.$this->ID);
+                return $url.'?p='.$this->ID;
             default:
-                return url('?post_type='.$this->post_type.'&name='.$this->post_name);
+                return $url.'?post_type='.$this->post_type.'&name='.$this->post_name;
         }
     }
 }

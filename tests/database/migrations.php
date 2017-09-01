@@ -1,57 +1,7 @@
 <?php 
 
-use Illuminate\Database\Capsule\Manager as Capsule;
-use Illuminate\Support\Facades\Facade;
 use Illuminate\Database\Schema\Blueprint;
-use Lumenpress\ORM\Models\Post;
-
-require dirname(dirname(__DIR__)).'/vendor/autoload.php';
-
-try {
-    (new Dotenv\Dotenv(dirname(dirname(__DIR__))))->load();
-} catch (Dotenv\Exception\InvalidPathException $e) {
-    //
-}
-
-date_default_timezone_set('America/Los_Angeles');
-
-$capsule = new Capsule;
-
-$capsule->addConnection([
-    'driver'    => getenv('DB_DRIVER')?:'mysql',
-    'host'      => getenv('DB_HOST')?:'mysql',
-    'database'  => getenv('DB_NAME')?:'wordpress',
-    'username'  => getenv('DB_USER')?:'wordpress',
-    'password'  => getenv('DB_PASSWORD')?:'wordpress',
-    'charset'   => 'utf8',
-    'collation' => 'utf8_unicode_ci',
-    'prefix'    => getenv('DB_PREFIX')?:'wp_testing_',
-]);
-
-// Set the event dispatcher used by Eloquent models... (optional)
-// use Illuminate\Events\Dispatcher;
-// use Illuminate\Container\Container;
-
-// $capsule->setEventDispatcher(new Dispatcher(new Container));
-
-// Make this Capsule instance available globally via static methods... (optional)
-$capsule->setAsGlobal();
-
-// Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
-$capsule->bootEloquent();
-
-class Schema extends Facade
-{
-    public static function connection($name)
-    {
-        return Capsule::schema($name);
-    }
-
-    protected static function getFacadeAccessor()
-    {
-        return Capsule::schema();
-    }
-}
+use Lumenpress\ORM\Tests\Database\Schema;
 
 Schema::dropIfExists('comments');
 Schema::create('comments', function (Blueprint $table) {
@@ -204,17 +154,3 @@ Schema::create('users', function (Blueprint $table) {
     $table->index('user_nicename', 'user_nicename');
     $table->index('user_email', 'user_email');
 });
-
-$post = new Post;
-$post->title = 'abc';
-$post->author_id = 1;
-$post->save();
-
-$post = new Post;
-$post->type = 'page';
-$post->title = 'abc';
-$post->author_id = 1;
-
-d($post->save());
-
-// d(Post::first());
