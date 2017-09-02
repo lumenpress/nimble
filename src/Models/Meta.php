@@ -96,7 +96,13 @@ class Meta extends Model
      */
     public function getMetaValueAttribute($value)
     {
-        return lumenpress_is_serialized($value) ? unserialize($value) : $value;
+        if ($value === 'b:0;') {
+            return false;
+        }
+        if (($result = @unserialize($value)) !== false) {
+            return $result;
+        }
+        return $value;
     }
 
     /**

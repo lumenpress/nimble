@@ -2,14 +2,14 @@
 
 namespace Lumenpress\ORM\Models;
 
-use Lumenpress\ORM\Builders\PostBuilder;
-use Lumenpress\ORM\Concerns\HasPostAttributes;
 use Lumenpress\ORM\Relations\HasMeta;
+use Lumenpress\ORM\Builders\PostBuilder;
+use Lumenpress\ORM\Concerns\PostAttributes;
 use Lumenpress\ORM\Collections\RelatedCollection;
 
 abstract class AbstractPost extends Model
 {
-    use HasPostAttributes;
+    use PostAttributes;
 
     const CREATED_AT = 'post_date';
 

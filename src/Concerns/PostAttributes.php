@@ -4,7 +4,7 @@ namespace Lumenpress\ORM\Concerns;
 
 use Carbon\Carbon;
 
-trait HasPostAttributes
+trait PostAttributes
 {
     protected $_slug;
 
@@ -111,7 +111,13 @@ trait HasPostAttributes
      */
     public function getLinkAttribute($value)
     {
-        return lumenpress_get_permalink($this);
+        if (function_exists('get_permalink')) {
+            return get_permalink($this->ID);
+        }
+        return sprintf('%s/%s/%s', 
+            getenv('APP_ENV') === 'testing' ? getenv('APP_SITEURL') : url(''), 
+            $this->post_type == 'page' ? '' : $this->post_type, 
+            $this->post_name);
     }
 
     protected function getUniquePostName($slug, $id = 0, $status = 'publish', $type = 'post', $parent = 0)

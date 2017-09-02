@@ -55,7 +55,7 @@ class PostMetaTest extends TestCase
         $post = Post::find($post->ID);
 
         $this->assertTrue(isset($post->meta->arr));
-        $this->assertEquals($post->meta->arr, $arr);
+        $this->assertSame($post->meta->arr, $arr);
     }
 
     public function testDeleteMeta()
