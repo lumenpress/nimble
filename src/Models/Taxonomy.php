@@ -43,18 +43,6 @@ class Taxonomy extends Model
     protected $with = ['term'];
 
     /**
-     * [$appends description]
-     * @var [type]
-     */
-    protected $appends = [
-        'name', 
-        'slug', 
-        'group', 
-        // 'order',
-        'parent_id'
-    ];
-
-    /**
      * [$hidden description]
      * @var [type]
      */
@@ -73,12 +61,12 @@ class Taxonomy extends Model
 
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
-
         $this->term_taxonomy_id = 0;
         $this->count = 0;
         $this->parent = 0;
         $this->description = '';
+
+        parent::__construct($attributes);
 
         if (property_exists($this, 'taxonomy')) {
             $this->attributes['taxonomy'] = $this->taxonomy;
@@ -106,43 +94,6 @@ class Taxonomy extends Model
         // $builder->orderBy('term_order');
 
         return $builder;
-    }
-
-    public function setRelation($relation, $value)
-    {
-        if (method_exists($value, 'setRelatedParent')) {
-            if ($relation == 'meta') {
-                $value->setRelatedParent($this->term);
-            } else {
-                $value->setRelatedParent($this);
-            }
-        }
-
-        $this->relations[$relation] = $value;
-
-        return $this;
-    }
-
-    /**
-     * [term description]
-     * @return [type] [description]
-     */
-    public function term()
-    {
-        return $this->hasOne(Term::class, 'term_id', 'term_id');
-    }
-
-    /**
-     * Meta data relationship.
-     *
-     * @return Lumenpress\ORM\TermMetaCollection
-     */
-    public function meta()
-    {
-        if (!$this->term) {
-            $this->relations['term'] = new Term;
-        }
-        return $this->term->meta();
     }
 
     /**
@@ -176,14 +127,6 @@ class Taxonomy extends Model
 
         if (!$this->term->save()) {
             return false;
-        }
-
-        $this->meta->save();
-
-        foreach ($this->relations as $key => $relation) {
-            if (!in_array($key, ['term', 'meta']) && $relation instanceof RelatedCollection) {
-                $relation->save();
-            }
         }
 
         $this->term_id = $this->term->term_id;

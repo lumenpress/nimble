@@ -4,6 +4,7 @@ namespace Lumenpress\ORM\Models;
 
 use Lumenpress\ORM\Relations\HasMeta;
 use Lumenpress\ORM\Builders\TermBuilder;
+use Lumenpress\ORM\Collections\RelatedCollection;
 
 class Term extends Model
 {
@@ -52,9 +53,10 @@ class Term extends Model
 
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
         $this->term_id = 0;
         $this->term_group = 0;
+
+        parent::__construct($attributes);
     }
 
     public function __toString()

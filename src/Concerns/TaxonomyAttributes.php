@@ -7,106 +7,51 @@ use Lumenpress\ORM\Models\Term;
 trait TaxonomyAttributes
 {
     /**
-     * Mutator for order attribute.
-     *
-     * @return TaxonomyTerm
+     * [$termClass description]
+     * @var [type]
      */
-    protected function getTerm($key)
-    {
-        return $this->term instanceof Term ? $this->term->$key : null;
-    }
+    protected $termClass = Term::class;
 
     /**
-     * Mutator for order attribute.
-     *
-     * @return void
+     * [term description]
+     * @return [type] [description]
      */
-    protected function setTerm($key, $value)
+    public function term()
     {
-        if (!$this->term) {
-            $this->relations['term'] = new Term;
+        return $this->hasOne($this->termClass, 'term_id', 'term_id');
+    }
+
+    public function getAttribute($key)
+    {
+        if (!is_null($value = parent::getAttribute($key))) {
+            return $value;
         }
-        $this->term->$key = $value;
+
+        return $this->getRelation('term')->getAttribute($key);
+    }
+
+    public function setAttribute($key, $value)
+    {
+        if (in_array($key, ['id', 'term_taxonomy_id', 'term_id', 'count', 'parent', 'description', 'taxonomy'])) {
+            return parent::setAttribute($key, $value);
+        }
+
+        return $this->getRelation('term')->setAttribute($key, $value);
     }
 
     /**
-     * Accessor for name attribute.
+     * Get a specified relationship.
      *
-     * @return returnType
+     * @param  string  $relation
+     * @return mixed
      */
-    public function getNameAttribute($value)
+    public function getRelation($relation)
     {
-        return $this->getTerm('name');
-    }
-
-    /**
-     * Mutator for name attribute.
-     *
-     * @return void
-     */
-    public function setNameAttribute($value)
-    {
-        $this->setTerm('name', $value);
-    }
-
-    /**
-     * Accessor for slug attribute.
-     *
-     * @return returnType
-     */
-    public function getSlugAttribute($value)
-    {
-        return $this->getTerm('slug');
-    }
-
-    /**
-     * Mutator for slug attribute.
-     *
-     * @return void
-     */
-    public function setSlugAttribute($value)
-    {
-        $this->setTerm('slug', $value);
-    }
-
-    /**
-     * Accessor for group attribute.
-     *
-     * @return returnType
-     */
-    public function getGroupAttribute($value)
-    {
-        return $this->getTerm('group');
-    }
-
-    /**
-     * Mutator for group attribute.
-     *
-     * @return void
-     */
-    public function setGroupAttribute($value)
-    {
-        $this->setTerm('group', $value);
-    }
-
-    /**
-     * Accessor for order attribute.
-     *
-     * @return returnType
-     */
-    public function getOrderAttribute($value)
-    {
-        return $this->getTerm('order');
-    }
-
-    /**
-     * Mutator for order attribute.
-     *
-     * @return void
-     */
-    public function setOrderAttribute($value)
-    {
-        $this->setTerm('order', $value);
+        if ($relation == 'term' && !isset($this->relations[$relation])) {
+            $class = $this->termClass;
+            $this->relations[$relation] = new $class;
+        }
+        return $this->relations[$relation];
     }
 
     /**

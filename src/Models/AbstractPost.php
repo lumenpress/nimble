@@ -28,8 +28,6 @@ abstract class AbstractPost extends Model
 
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
-
         $this->ID = 0;
         // $this->post_author = (int) lumenpress_get_current_user_id();
         $this->post_author = 0;
@@ -46,6 +44,8 @@ abstract class AbstractPost extends Model
         $this->menu_order = 0;
         $this->post_type = property_exists($this, 'postType') ? $this->postType : 'post';
         $this->comment_count = 0;
+
+        parent::__construct($attributes);
     }
 
     /**
@@ -85,8 +85,8 @@ abstract class AbstractPost extends Model
         if (!$this->guid) {
             $this->guid = $this->getGuessGuid();
         }
-        
-        if (!$this->post_date_gmt) {
+
+        if (!isset($this->attributes['post_date_gmt'])) {
             $this->post_date_gmt = $this->post_date->timezone('UTC');
         }
 
@@ -99,5 +99,13 @@ abstract class AbstractPost extends Model
         }
 
         return parent::save();
+    }
+
+    public function delete()
+    {
+        foreach ($this->hasMany(Post::class, 'post_parent')->get() as $model) {
+            $model->delete();
+        }
+        return parent::delete();
     }
 }

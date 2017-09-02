@@ -34,7 +34,7 @@ class TermTaxonomyTest extends TestCase
         $tax->taxonomy = 'category';
 
         $this->assertFalse(isset($tax->meta->text));
-        
+
         $tax->meta->text = 'Text1';
         $this->assertTrue(isset($tax->meta->text));
 
