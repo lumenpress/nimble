@@ -5,7 +5,7 @@ namespace Lumenpress\ORM\Collections;
 use Illuminate\Support\Arr;
 use Lumenpress\ORM\Models\Taxonomy;
 
-class MetaCollection extends AbstractCollection
+class MetaCollection extends Collection
 {
     /**
      * Determine if an item exists at an offset.

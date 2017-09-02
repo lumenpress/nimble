@@ -22,7 +22,7 @@ class PostMetaTest extends TestCase
         $text = 'This is a text';
         
         $this->assertFalse(isset($post->meta->text));
-        
+
         $post->meta->text = $text;
         
         $this->assertTrue(isset($post->meta->text));

@@ -4,7 +4,7 @@ namespace Lumenpress\ORM\Collections;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MenuCollection extends AbstractCollection
+class MenuCollection extends Collection
 {
     protected $locations = [];
 

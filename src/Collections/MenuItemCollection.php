@@ -4,7 +4,7 @@ namespace Lumenpress\ORM\Collections;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MenuItemCollection extends AbstractCollection
+class MenuItemCollection extends Collection
 {
     public $actives = [];
 

@@ -16,7 +16,10 @@ class Taxonomy extends Model
      * [$taxonomyPost description]
      * @var array
      */
-    protected static $registeredTypes = [];
+    protected static $registeredTypes = [
+        'category' => Category::class,
+        'post_tag' => Tag::class,
+    ];
 
     /**
      * [$table description]
@@ -49,6 +52,15 @@ class Taxonomy extends Model
     protected $hidden = [
         'term_taxonomy_id',
         'term',
+    ];
+
+    /**
+     * Fields that can be mass assigned.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'taxonomy',
     ];
 
     /**
@@ -94,6 +106,58 @@ class Taxonomy extends Model
         // $builder->orderBy('term_order');
 
         return $builder;
+    }
+
+    /**
+     * Create a new model instance that is existing.
+     *
+     * @param  array  $attributes
+     * @param  string|null  $connection
+     * @return static
+     */
+    public function newFromBuilder($attributes = [], $connection = null)
+    {
+        $attributes = (array) $attributes;
+
+        if (isset($attributes['taxonomy'])) {
+            $model = $this->newInstance(['taxonomy' => $attributes['taxonomy']], true);
+        } else {
+            $model = $this->newInstance([], true);
+        }
+
+        $model->setRawAttributes($attributes, true);
+
+        $model->setConnection($connection ?: $this->getConnectionName());
+
+        return $model;
+    }
+
+    /**
+     * Create a new instance of the given model.
+     *
+     * @param  array  $attributes
+     * @param  bool  $exists
+     * @return static
+     */
+    public function newInstance($attributes = [], $exists = false)
+    {
+        $attributes = (array) $attributes;
+
+        $taxonomy = isset($attributes['taxonomy']) ? $attributes['taxonomy'] : '';
+        $class = static::getClassNameByType($taxonomy, static::class);
+
+        // This method just provides a convenient way for us to generate fresh model
+        // instances of this current model. It is particularly useful during the
+        // hydration of new objects via the Eloquent query builder instances.
+        $model = new $class($attributes);
+
+        $model->exists = $exists;
+
+        $model->setConnection(
+            $this->getConnectionName()
+        );
+
+        return $model;
     }
 
     /**
