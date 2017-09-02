@@ -12,11 +12,6 @@ class TaxonomyBuilder extends Builder
         'group' => 'term_group',
     ];
 
-    public function is($taxonomy)
-    {
-        return $this->where('taxonomy', $taxonomy);
-    }
-
     public function type($taxonomy)
     {
         return $this->where('taxonomy', $taxonomy);
@@ -27,7 +22,7 @@ class TaxonomyBuilder extends Builder
         return $this->where('taxonomy', $taxonomy);
     }
 
-    public function exists($term, $parent = 0, $taxonomy = null)
+    public function exists($term, $taxonomy = null, $parent = 0)
     {
         if ($taxonomy) {
             $this->where('taxonomy', $taxonomy);

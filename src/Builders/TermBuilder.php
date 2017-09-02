@@ -21,7 +21,6 @@ class TermBuilder extends Builder
         return parent::where($column, $operator, $value, $boolean);
     }
 
-
     /**
      * Add an "order by" clause to the query.
      *

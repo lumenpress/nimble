@@ -122,8 +122,10 @@ class Term extends Model
         if (!parent::save($options)) {
             return false;
         }
-        if (!$this->meta->isEmpty()) {
-            return $this->meta->save();
+        foreach ($this->relations as $key => $relation) {
+            if ($relation instanceof RelatedCollection) {
+                $relation->save();
+            }
         }
         return true;
     }

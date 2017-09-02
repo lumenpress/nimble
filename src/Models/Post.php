@@ -84,7 +84,7 @@ class Post extends AbstractPost
      */
     public function tax($taxonomy = null)
     {
-        $builder = $this->belongsToMany(Taxonomy::class, 
+        $builder = $this->belongsToMany(PostTaxonomy::class, 
             'term_relationships', 'object_id', 'term_taxonomy_id');
         if ($taxonomy) {
             $builder->type($taxonomy);

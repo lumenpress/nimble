@@ -3,6 +3,7 @@
 namespace Lumenpress\ORM\Collections;
 
 use Illuminate\Support\Arr;
+use Lumenpress\ORM\Models\Taxonomy;
 
 class MetaCollection extends AbstractCollection
 {
@@ -106,7 +107,7 @@ class MetaCollection extends AbstractCollection
             return;
         }
         foreach ($this->items as $index => $item) {
-            if ($item->key == $item) {
+            if ($item->key == $key) {
                 $this->extraItems[] = $item;
                 unset($this->items[$index]);
             }
@@ -123,7 +124,7 @@ class MetaCollection extends AbstractCollection
         foreach ($this->items as $item) {
             if (isset($this->changedKeys[$item->key])) {
                 if ($this->relatedParent) {
-                    $item->object_id = $this->relatedParent->id;
+                    $item->object_id = $this->relatedParent->getKey();
                 }
                 $flag = $item->save() || $flag;
             }

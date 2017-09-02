@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 use Lumenpress\ORM\Concerns\RegisterTypes;
 use Lumenpress\ORM\Concerns\TaxonomyAttributes;
 use Lumenpress\ORM\Builders\TaxonomyBuilder;
-use Lumenpress\ORM\Collections\TaxonomyCollection;
+use Lumenpress\ORM\Collections\RelatedCollection;
 
 class Taxonomy extends Model
 {
@@ -50,7 +50,8 @@ class Taxonomy extends Model
         'name', 
         'slug', 
         'group', 
-        'order'
+        // 'order',
+        'parent_id'
     ];
 
     /**
@@ -68,7 +69,6 @@ class Taxonomy extends Model
      */
     protected $aliases = [
         'id' => 'term_taxonomy_id',
-        'parent_id' => 'parent',
     ];
 
     public function __construct(array $attributes = [])
@@ -83,18 +83,6 @@ class Taxonomy extends Model
         if (property_exists($this, 'taxonomy')) {
             $this->attributes['taxonomy'] = $this->taxonomy;
         }
-    }
-
-    /**
-     * Override newCollection() to return a custom collection.
-     *
-     * @param array $models
-     *
-     * @return \Lumenpress\ORM\PostMetaCollection
-     */
-    public function newCollection(array $models = [])
-    {
-        return (new TaxonomyCollection($models))->setRelated($this);
     }
 
     /**
@@ -120,6 +108,21 @@ class Taxonomy extends Model
         return $builder;
     }
 
+    public function setRelation($relation, $value)
+    {
+        if (method_exists($value, 'setRelatedParent')) {
+            if ($relation == 'meta') {
+                $value->setRelatedParent($this->term);
+            } else {
+                $value->setRelatedParent($this);
+            }
+        }
+
+        $this->relations[$relation] = $value;
+
+        return $this;
+    }
+
     /**
      * [term description]
      * @return [type] [description]
@@ -136,6 +139,9 @@ class Taxonomy extends Model
      */
     public function meta()
     {
+        if (!$this->term) {
+            $this->relations['term'] = new Term;
+        }
         return $this->term->meta();
     }
 
@@ -170,6 +176,14 @@ class Taxonomy extends Model
 
         if (!$this->term->save()) {
             return false;
+        }
+
+        $this->meta->save();
+
+        foreach ($this->relations as $key => $relation) {
+            if (!in_array($key, ['term', 'meta']) && $relation instanceof RelatedCollection) {
+                $relation->save();
+            }
         }
 
         $this->term_id = $this->term->term_id;

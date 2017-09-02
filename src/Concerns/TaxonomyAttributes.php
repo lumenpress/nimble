@@ -116,7 +116,7 @@ trait TaxonomyAttributes
      */
     public function getParentIdAttribute($value)
     {
-        return array_get($this->attributes, 'parent', 0);
+        return isset($this->attributes['parent']) ? $this->attributes['parent'] : 0;
     }
 
     /**

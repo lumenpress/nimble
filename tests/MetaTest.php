@@ -44,4 +44,17 @@ class MetaTest extends TestCase
 
         $this->assertEquals($meta->text, 'value2');
     }
+
+    public function testCreatingMeta()
+    {
+        $meta = new Meta;
+        $meta->table = 'postmeta';
+        $meta->object_id = 1;
+        $meta->key = 'key1';
+        $meta->value = 'key1value1';
+        $this->assertTrue($meta->save());
+
+        $post = Post::find(1);
+        $this->assertEquals('key1value1', $post->meta->key1);
+    }
 }

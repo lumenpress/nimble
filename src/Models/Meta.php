@@ -69,6 +69,27 @@ class Meta extends Model
     }
 
     /**
+     * Accessor for table attribute.
+     *
+     * @return returnType
+     */
+    public function getTableAttribute($value)
+    {
+        return $this->table;
+    }
+
+    /**
+     * Mutator for table attribute.
+     *
+     * @return void
+     */
+    public function setTableAttribute($value)
+    {
+        $this->table = $value;
+        $this->setObjectKeyNameThroughTable($value);
+    }
+
+    /**
      * Accessor for metaValue attribute.
      *
      * @return returnType
@@ -151,8 +172,9 @@ class Meta extends Model
     public static function table($table)
     {
         $meta = new static;
-        $meta->setTable($table);
-        $meta->setObjectKeyNameThroughTable($table);
+        $meta->setTableAttribute($table);
+        // $meta->setTable($table);
+        // $meta->setObjectKeyNameThroughTable($table);
         return $meta->newQuery();
     }
 }

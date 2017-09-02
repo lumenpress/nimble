@@ -36,9 +36,6 @@ class PostMetaTest extends TestCase
         $this->assertEquals($post->meta->text, $text);
     }
 
-    /**
-     * @covers class::ArrayMeta()
-     */
     public function testArrayMeta()
     {
         $post = new Post;
@@ -59,6 +56,23 @@ class PostMetaTest extends TestCase
 
         $this->assertTrue(isset($post->meta->arr));
         $this->assertEquals($post->meta->arr, $arr);
+    }
+
+    public function testDeleteMeta()
+    {
+        $post = new Post;
+        $post->title = 'test delete post meta';
+        $post->meta->text = 'Text1';
+        $post->save();
+
+        unset($post->meta->text);
+        $this->assertFalse(isset($post->meta->text));
+
+        $post->save();
+        $this->assertFalse(isset($post->meta->text));
+
+        $post = Post::find($post->ID);
+        $this->assertFalse(isset($post->meta->text));
     }
 
     public function testMetaQueryBuilder()
