@@ -85,6 +85,26 @@ class Term extends Model
     }
 
     /**
+     * Term belongs to Tax.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function tax()
+    {
+        return $this->belongsTo(Taxonomy::class, 'term_id');
+    }
+
+    /**
+     * Accessor for taxonomy attribute.
+     *
+     * @return returnType
+     */
+    public function getTaxonomyAttribute($value)
+    {
+        return $this->tax->taxonomy;
+    }
+
+    /**
      * Mutator for name attribute.
      *
      * @return void

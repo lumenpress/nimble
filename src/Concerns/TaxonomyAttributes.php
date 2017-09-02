@@ -55,6 +55,17 @@ trait TaxonomyAttributes
     }
 
     /**
+     * Mutator for taxonomy attribute.
+     *
+     * @return void
+     */
+    public function setTaxonomyAttribute($value)
+    {
+        $this->attributes['taxonomy'] = $value;
+        $this->getRelation('term')->setRelation('tax', $this);
+    }
+
+    /**
      * Accessor for parentId attribute.
      *
      * @return returnType

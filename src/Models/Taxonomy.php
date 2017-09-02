@@ -69,7 +69,7 @@ class Taxonomy extends Model
         parent::__construct($attributes);
 
         if (property_exists($this, 'taxonomy')) {
-            $this->attributes['taxonomy'] = $this->taxonomy;
+            $this->setTaxonomyAttribute($this->taxonomy);
         }
     }
 
