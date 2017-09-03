@@ -23,6 +23,46 @@
 - [User](#)
 - [Comment](#)
 
+```php
+$post = new Post;
+$post->title = 'Hello World';
+$post->content = 'This is a post.';
+
+// meta
+$post->meta->foo = 'bar';
+$post->meta->arr = ['value1', 'value2'];
+
+// taxonomy
+$post->tax->category = 'category name';
+$post->tax->post_tag = ['tag1', 'tag2'];
+
+// acf
+// text type
+$post->acf->text = 'Text1';
+
+// group type
+$post->acf->hero = [
+  'image' => '/path/to/image.png',
+  'link' => 'http://'
+];
+
+// repeater type
+$post->acf->slides = [
+  [
+    'image' => '/path/to/image.png',
+    'description' => 'some text1',
+    'link' => 'http://'
+  ],
+  [
+    'image' => '/path/to/image.png',
+    'description' => 'some text2',
+    'link' => 'http://'
+  ],
+];
+
+$post->save();
+```
+
 ## Post/Page
 
 ### Models

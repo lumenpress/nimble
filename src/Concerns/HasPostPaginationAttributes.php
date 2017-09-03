@@ -4,7 +4,6 @@ namespace Lumenpress\ORM\Concerns;
 
 trait HasPostPaginationAttributes
 {
-
     protected function queryAdjacentRelation()
     {
         return static::where('post_type', $this->post_type)

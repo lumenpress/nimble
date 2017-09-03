@@ -22,11 +22,11 @@ class TaxonomyCollection extends Collection
         if (is_numeric($key)) {
             return array_key_exists($key, $this->items);
         }
-        
+
         if (isset($this->aliases[$key])) {
             $key = $this->aliases[$key];
         }
-        
+
         foreach ($this->items as $item) {
             if ($item->taxonomy == $key) {
                 return true;
@@ -47,6 +47,7 @@ class TaxonomyCollection extends Collection
         if (is_numeric($key)) {
             return isset($this->items[$key]) ? $this->items[$key] : null;
         }
+
         $items = collect([]);
         
         foreach ($this->items as $item) {
@@ -69,10 +70,10 @@ class TaxonomyCollection extends Collection
     {
         if (is_null($taxonomy) || is_numeric($taxonomy)) {
             if (!is_array($names)) {
-                throw new \Exception("value invalid", 1);
+                throw new \Exception("args invalid", 1);
             }
 
-            if (is_null($taxonomy) && !Arr::has($value, ['key', 'value', 'object_id'])) {
+            if (is_null($taxonomy) && !Arr::has($value, ['name', 'taxonomy'])) {
                 throw new \Exception("value invalid", 1);
             }
 
@@ -87,7 +88,7 @@ class TaxonomyCollection extends Collection
                 $item->$k = $v;
             }
 
-            // $this->changedKeys[$item->key] = true;
+            $this->changedKeys[$item->taxonomy.'>|<'.$item->name] = true;
 
             return;
         }
@@ -168,7 +169,7 @@ class TaxonomyCollection extends Collection
                 $flag = TermRelationships::create([
                     'object_id' => $this->relatedParent->id,
                     'term_taxonomy_id' => $taxonomyId
-                ]) || $flag;;
+                ]) || $flag;
             } else {
                 $flag = TermRelationships::where('object_id', $this->relatedParent->id)
                     ->where('term_taxonomy_id', $taxonomyId)->delete() || $flag;;

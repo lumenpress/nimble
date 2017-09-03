@@ -42,7 +42,6 @@ class PostTaxTest extends TestCase
 
         $this->assertCount(count($categories), $post->tax->category, 'message');
         $this->assertCount(1, $post->tax->post_tag, 'message');
-
         foreach ($post->tax->category as $category) {
             $this->assertInstanceOf(Category::class, $category, 'message');
         }
