@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Models;
 
@@ -26,9 +26,9 @@ class Post extends AbstractPost
     ];
 
     protected $dates = [
-        'post_date', 
-        'post_date_gmt', 
-        'post_modified', 
+        'post_date',
+        'post_date_gmt',
+        'post_modified',
         'post_modified_gmt'
     ];
 
@@ -93,7 +93,7 @@ class Post extends AbstractPost
      */
     public function tax($taxonomy = null)
     {
-        $builder = $this->belongsToMany(PostTaxonomy::class, 
+        $builder = $this->belongsToMany(PostTaxonomy::class,
             'term_relationships', 'object_id', 'term_taxonomy_id');
         if ($taxonomy) {
             $builder->type($taxonomy);
@@ -104,13 +104,13 @@ class Post extends AbstractPost
     /**
      * Create a new model instance that is existing.
      *
-     * @param  array  $attributes
-     * @param  string|null  $connection
+     * @param  array $attributes
+     * @param  string|null $connection
      * @return static
      */
     public function newFromBuilder($attributes = [], $connection = null)
     {
-        $attributes = (array) $attributes;
+        $attributes = (array)$attributes;
 
         if (isset($attributes['post_type'])) {
             $model = $this->newInstance(['post_type' => $attributes['post_type']], true);
@@ -128,13 +128,13 @@ class Post extends AbstractPost
     /**
      * Create a new instance of the given model.
      *
-     * @param  array  $attributes
-     * @param  bool  $exists
+     * @param  array $attributes
+     * @param  bool $exists
      * @return static
      */
     public function newInstance($attributes = [], $exists = false)
     {
-        $attributes = (array) $attributes;
+        $attributes = (array)$attributes;
 
         $postType = isset($attributes['post_type']) ? $attributes['post_type'] : 'post';
         $class = static::getClassNameByType($postType, static::class);

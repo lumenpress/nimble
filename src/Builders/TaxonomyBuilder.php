@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Builders;
 
@@ -41,8 +41,7 @@ class TaxonomyBuilder extends Builder
             $column = $this->aliases[$column];
         }
         if (in_array($column, ['name', 'slug', 'term_group', 'term_order'])) {
-            return $this->whereHas('term', function($query) use ($column, $operator, $value, $boolean)
-            {
+            return $this->whereHas('term', function ($query) use ($column, $operator, $value, $boolean) {
                 $query->where($column, $operator, $value, $boolean);
             });
         }
@@ -58,10 +57,9 @@ class TaxonomyBuilder extends Builder
             return $this;
         }
         if (in_array($column, ['name', 'slug', 'term_group'])) {
-            $this->join('terms', function($join) use ($column)
-            {
+            $this->join('terms', function ($join) use ($column) {
                 $join->on('terms.term_id', '=', 'term_taxonomy.term_id');
-            })->orderBy('terms.'.$column);
+            })->orderBy('terms.' . $column);
         } else {
             return parent::orderBy($column, $direction);
         }

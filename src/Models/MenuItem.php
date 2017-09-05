@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Models;
 
@@ -93,10 +93,10 @@ class MenuItem extends AbstractPost
     {
         switch ($this->type) {
             case 'post_type':
-                return get_permalink((int) $this->object_id);
+                return get_permalink((int)$this->object_id);
                 break;
             case 'taxonomy':
-                return get_term_link((int) $this->object_id, $this->object);
+                return get_term_link((int)$this->object_id, $this->object);
                 break;
             case 'custom':
                 return $this->meta->_menu_item_url;
@@ -130,7 +130,7 @@ class MenuItem extends AbstractPost
         global $wp_query, $wp_rewrite;
 
         $queried_object = $wp_query->get_queried_object();
-        $queried_object_id = (int) $wp_query->queried_object_id;
+        $queried_object_id = (int)$wp_query->queried_object_id;
 
         $active_object = '';
         $active_ancestor_item_ids = array();
@@ -138,13 +138,13 @@ class MenuItem extends AbstractPost
         $active_parent_object_ids = array();
         $possible_taxonomy_ancestors = array();
         $possible_object_parents = array();
-        $home_page_id = (int) get_option( 'page_for_posts' );
+        $home_page_id = (int)get_option('page_for_posts');
         if (
             $this->object_id == $queried_object_id &&
             (
-                ( ! empty( $home_page_id ) && 'post_type' == $this->type && $wp_query->is_home && $home_page_id == $this->object_id ) ||
-                ( 'post_type' == $this->type && $wp_query->is_singular ) ||
-                ( 'taxonomy' == $this->type && ( $wp_query->is_category || $wp_query->is_tag || $wp_query->is_tax ) && $queried_object->taxonomy == $this->object )
+                (!empty($home_page_id) && 'post_type' == $this->type && $wp_query->is_home && $home_page_id == $this->object_id) ||
+                ('post_type' == $this->type && $wp_query->is_singular) ||
+                ('taxonomy' == $this->type && ($wp_query->is_category || $wp_query->is_tag || $wp_query->is_tax) && $queried_object->taxonomy == $this->object)
             )
         ) {
             return $this->currentActive = true;
@@ -153,19 +153,19 @@ class MenuItem extends AbstractPost
             is_post_type_archive([$this->object])
         ) {
             return $this->currentActive = true;
-        } elseif ( 'custom' == $this->object && isset( $_SERVER['HTTP_HOST'] ) ) {
-            $_root_relative_current = untrailingslashit( $_SERVER['REQUEST_URI'] );
+        } elseif ('custom' == $this->object && isset($_SERVER['HTTP_HOST'])) {
+            $_root_relative_current = untrailingslashit($_SERVER['REQUEST_URI']);
 
             //if it is the customize page then it will strips the query var off the url before entering the comparison block.
-            if ( is_customize_preview() ) {
-                $_root_relative_current = strtok( untrailingslashit( $_SERVER['REQUEST_URI'] ), '?' );
+            if (is_customize_preview()) {
+                $_root_relative_current = strtok(untrailingslashit($_SERVER['REQUEST_URI']), '?');
             }
-            $current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_root_relative_current );
-            $raw_item_url = strpos( $this->link, '#' ) ? substr( $this->link, 0, strpos( $this->link, '#' ) ) : $this->link;
-            $item_url = set_url_scheme( untrailingslashit( $raw_item_url ) );
-            $_indexless_current = untrailingslashit( preg_replace( '/' . preg_quote( $wp_rewrite->index, '/' ) . '$/', '', $current_url ) );
+            $current_url = set_url_scheme('http://' . $_SERVER['HTTP_HOST'] . $_root_relative_current);
+            $raw_item_url = strpos($this->link, '#') ? substr($this->link, 0, strpos($this->link, '#')) : $this->link;
+            $item_url = set_url_scheme(untrailingslashit($raw_item_url));
+            $_indexless_current = untrailingslashit(preg_replace('/' . preg_quote($wp_rewrite->index, '/') . '$/', '', $current_url));
 
-            if ( $raw_item_url && in_array( $item_url, array( $current_url, $_indexless_current, $_root_relative_current ) ) ) {
+            if ($raw_item_url && in_array($item_url, array($current_url, $_indexless_current, $_root_relative_current))) {
                 return $this->currentActive = true;
             }
         }

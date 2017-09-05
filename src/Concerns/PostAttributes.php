@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Concerns;
 
@@ -66,9 +66,9 @@ trait PostAttributes
     {
         $this->_slug = $value;
         $this->attributes['post_name'] = $this->getUniquePostName(
-            str_slug($value), 
+            str_slug($value),
             $this->ID,
-            $this->post_status, 
+            $this->post_status,
             $this->post_type,
             $this->post_parent
         );
@@ -114,9 +114,9 @@ trait PostAttributes
         if (function_exists('get_permalink')) {
             return get_permalink($this->ID);
         }
-        return sprintf('%s/%s/%s', 
-            getenv('APP_ENV') === 'testing' ? getenv('APP_SITEURL') : url(''), 
-            $this->post_type == 'page' ? '' : $this->post_type, 
+        return sprintf('%s/%s/%s',
+            getenv('APP_ENV') === 'testing' ? getenv('APP_SITEURL') : url(''),
+            $this->post_type == 'page' ? '' : $this->post_type,
             $this->post_name);
     }
 
@@ -125,10 +125,10 @@ trait PostAttributes
         $i = 1;
         $tmp = $slug;
         while (static::where('post_type', $type)
-            ->where('ID', '!=', $id)
-            ->where('post_parent', $parent)
-            ->where('post_status', $status)
-            ->where('post_name', $slug)->count() > 0) {
+                ->where('ID', '!=', $id)
+                ->where('post_parent', $parent)
+                ->where('post_status', $status)
+                ->where('post_name', $slug)->count() > 0) {
             $slug = $tmp . '-' . (++$i);
         }
         return $slug;
@@ -146,11 +146,11 @@ trait PostAttributes
         }
         switch ($this->post_type) {
             case 'page':
-                return $url.'?page_id='.$this->ID;
+                return $url . '?page_id=' . $this->ID;
             case 'post':
-                return $url.'?p='.$this->ID;
+                return $url . '?p=' . $this->ID;
             default:
-                return $url.'?post_type='.$this->post_type.'&name='.$this->post_name;
+                return $url . '?post_type=' . $this->post_type . '&name=' . $this->post_name;
         }
     }
 }

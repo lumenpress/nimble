@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Tests;
 
@@ -87,7 +87,7 @@ class RegisterTypesTest extends TestCase
             Post::register($key, $value);
         }
 
-        for ($i=0; $i < 10; $i++) { 
+        for ($i = 0; $i < 10; $i++) {
             $model = new Post;
             $model->title = $faker->name;
             $model->type = $faker->randomElement(array_keys($types));
@@ -117,7 +117,7 @@ class RegisterTypesTest extends TestCase
             Taxonomy::register($key, $value);
         }
 
-        for ($i=0; $i < 10; $i++) { 
+        for ($i = 0; $i < 10; $i++) {
             $model = new Taxonomy;
             $model->name = $faker->name;
             $model->taxonomy = $faker->randomElement(array_keys($types));

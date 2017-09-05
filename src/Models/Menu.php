@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Models;
 
@@ -31,7 +31,7 @@ class Menu extends Taxonomy implements \IteratorAggregate, \Countable
      */
     public function items()
     {
-        return $this->belongsToMany(MenuItem::class, 
+        return $this->belongsToMany(MenuItem::class,
             'term_relationships', 'term_taxonomy_id', 'object_id')->orderby('menu_order');
     }
 

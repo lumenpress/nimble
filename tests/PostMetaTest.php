@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Tests;
 
@@ -20,11 +20,11 @@ class PostMetaTest extends TestCase
         $post->title = 'test post meta';
 
         $text = 'This is a text';
-        
+
         $this->assertFalse(isset($post->meta->text));
 
         $post->meta->text = $text;
-        
+
         $this->assertTrue(isset($post->meta->text));
         $this->assertEquals($post->meta->text, $text);
 
@@ -41,7 +41,7 @@ class PostMetaTest extends TestCase
         $post = new Post;
         $post->title = 'test post meta';
 
-        $arr = [1,2,3];
+        $arr = [1, 2, 3];
 
         $this->assertInstanceOf(RelatedCollection::class, $post->meta);
 

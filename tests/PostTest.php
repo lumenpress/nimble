@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Tests;
 
@@ -25,19 +25,19 @@ class PostTest extends TestCase
 
         $page = Post::find($post->ID);
 
-        $this->assertTrue($post->type  == 'page' && $page->type == 'page');
+        $this->assertTrue($post->type == 'page' && $page->type == 'page');
     }
 
     public function testPostSlug()
     {
         $title = 'test post slug';
 
-        for ($i=1; $i < 6; $i++) { 
+        for ($i = 1; $i < 6; $i++) {
             $post = new Post;
             $post->title = $title;
             $post->save();
             $this->assertTrue($post->post_name == $post->slug);
-            $this->assertTrue(Str::slug($title).($i==1?'':'-'.$i) == $post->slug);
+            $this->assertTrue(Str::slug($title) . ($i == 1 ? '' : '-' . $i) == $post->slug);
         }
     }
 

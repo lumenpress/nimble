@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Models;
 
@@ -91,7 +91,7 @@ class Taxonomy extends Model
     /**
      * Create a new Eloquent query builder for the model.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \Illuminate\Database\Query\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
     public function newEloquentBuilder($query)
@@ -114,13 +114,13 @@ class Taxonomy extends Model
     /**
      * Create a new model instance that is existing.
      *
-     * @param  array  $attributes
-     * @param  string|null  $connection
+     * @param  array $attributes
+     * @param  string|null $connection
      * @return static
      */
     public function newFromBuilder($attributes = [], $connection = null)
     {
-        $attributes = (array) $attributes;
+        $attributes = (array)$attributes;
 
         if (isset($attributes['taxonomy'])) {
             $model = $this->newInstance(['taxonomy' => $attributes['taxonomy']], true);
@@ -138,13 +138,13 @@ class Taxonomy extends Model
     /**
      * Create a new instance of the given model.
      *
-     * @param  array  $attributes
-     * @param  bool  $exists
+     * @param  array $attributes
+     * @param  bool $exists
      * @return static
      */
     public function newInstance($attributes = [], $exists = false)
     {
-        $attributes = (array) $attributes;
+        $attributes = (array)$attributes;
 
         $taxonomy = isset($attributes['taxonomy']) ? $attributes['taxonomy'] : '';
         $class = static::getClassNameByType($taxonomy, static::class);
@@ -175,7 +175,7 @@ class Taxonomy extends Model
 
     /**
      * [save description]
-     * @param  array  $options [description]
+     * @param  array $options [description]
      * @return [type]          [description]
      */
     public function save(array $options = [])

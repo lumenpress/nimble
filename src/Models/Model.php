@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Models;
 
@@ -12,7 +12,7 @@ class Model extends EloquentModel
     /**
      * Unset an attribute on the model.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return void
      */
     public function __unset($key)

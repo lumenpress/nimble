@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Collections;
 
@@ -21,7 +21,7 @@ class MenuCollection extends Collection
     /**
      * Determine if an item exists at an offset.
      *
-     * @param  mixed  $key
+     * @param  mixed $key
      * @return bool
      */
     public function offsetExists($key)
@@ -36,7 +36,7 @@ class MenuCollection extends Collection
     /**
      * Get an item at a given offset.
      *
-     * @param  mixed  $key
+     * @param  mixed $key
      * @return mixed
      */
     public function offsetGet($key)
@@ -50,24 +50,24 @@ class MenuCollection extends Collection
     /**
      * Set the item at a given offset.
      *
-     * @param  mixed  $key
-     * @param  mixed  $value
+     * @param  mixed $key
+     * @param  mixed $value
      * @return void
      */
     public function offsetSet($key, $menu)
     {
-        
+
     }
 
     /**
      * Unset the item at a given offset.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return void
      */
     public function offsetUnset($taxonomy)
     {
-        
+
     }
 
     /**
@@ -77,6 +77,6 @@ class MenuCollection extends Collection
      */
     public function save()
     {
-        
+
     }
 }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Builders;
 
@@ -62,9 +62,9 @@ class PostBuilder extends Builder
      * $buidler->orderBy('column', 'asc')
      *
      * $buidler->orderBy('meta.column', 'asc')
-     * 
+     *
      * @param  [type] $column [description]
-     * @param  string $order  [description]
+     * @param  string $order [description]
      * @return [type]         [description]
      */
     public function orderBy($column, $order = 'asc')
@@ -76,13 +76,12 @@ class PostBuilder extends Builder
             return parent::orderBy($column, $order);
         }
         $column = str_replace('meta.', '', $column);
-        return $this->join('postmeta', function($join) use ($column)
-        {
+        return $this->join('postmeta', function ($join) use ($column) {
             $join->on('posts.ID', '=', 'postmeta.post_id');
             $join->where('meta_key', $column);
         })
-        ->groupBy('posts.ID')
-        ->orderBy('postmeta.meta_value', $order);
+            ->groupBy('posts.ID')
+            ->orderBy('postmeta.meta_value', $order);
     }
 
 }

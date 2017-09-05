@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Collections;
 
@@ -14,7 +14,7 @@ class TaxonomyCollection extends Collection
     /**
      * Determine if an item exists at an offset.
      *
-     * @param  mixed  $key
+     * @param  mixed $key
      * @return bool
      */
     public function offsetExists($key)
@@ -39,7 +39,7 @@ class TaxonomyCollection extends Collection
     /**
      * Get an item at a given offset.
      *
-     * @param  mixed  $key
+     * @param  mixed $key
      * @return mixed
      */
     public function offsetGet($key)
@@ -49,21 +49,21 @@ class TaxonomyCollection extends Collection
         }
 
         $items = collect([]);
-        
+
         foreach ($this->items as $item) {
             if ($item->taxonomy == $key) {
                 $items->push($item);
             }
         }
-        
+
         return $items->isEmpty() ? null : $items;
     }
 
     /**
      * Set the item at a given offset.
      *
-     * @param  mixed  $key
-     * @param  mixed  $value
+     * @param  mixed $key
+     * @param  mixed $value
      * @return void
      */
     public function offsetSet($taxonomy, $names)
@@ -88,7 +88,7 @@ class TaxonomyCollection extends Collection
                 $item->$k = $v;
             }
 
-            $this->changedKeys[$item->taxonomy.'>|<'.$item->name] = true;
+            $this->changedKeys[$item->taxonomy . '>|<' . $item->name] = true;
 
             return;
         }
@@ -119,7 +119,7 @@ class TaxonomyCollection extends Collection
                 $item = $this->related->newInstance(['taxonomy' => $taxonomy]);
                 $item->taxonomy = $taxonomy;
                 $item->name = $name;
-                $this->changedKeys[$taxonomy.'>|<'.$name] = true;
+                $this->changedKeys[$taxonomy . '>|<' . $name] = true;
             }
             $this->items[] = $item;
         }
@@ -128,7 +128,7 @@ class TaxonomyCollection extends Collection
     /**
      * Unset the item at a given offset.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return void
      */
     public function offsetUnset($taxonomy)
@@ -159,20 +159,20 @@ class TaxonomyCollection extends Collection
         }
         $flag = false;
         foreach ($this->items as $item) {
-            if (isset($this->changedKeys[$item->taxonomy.'>|<'.$item->name])) {
+            if (isset($this->changedKeys[$item->taxonomy . '>|<' . $item->name])) {
                 $flag = $item->save() || $flag;
                 $this->extraItems[$item->id] = true;
             }
         }
-        foreach ($this->extraItems as $taxonomyId => $new ) {
+        foreach ($this->extraItems as $taxonomyId => $new) {
             if ($new) {
                 $flag = TermRelationships::create([
-                    'object_id' => $this->relatedParent->id,
-                    'term_taxonomy_id' => $taxonomyId
-                ]) || $flag;
+                        'object_id' => $this->relatedParent->id,
+                        'term_taxonomy_id' => $taxonomyId
+                    ]) || $flag;
             } else {
                 $flag = TermRelationships::where('object_id', $this->relatedParent->id)
-                    ->where('term_taxonomy_id', $taxonomyId)->delete() || $flag;;
+                        ->where('term_taxonomy_id', $taxonomyId)->delete() || $flag;;
             }
         }
         $this->changedKeys = [];

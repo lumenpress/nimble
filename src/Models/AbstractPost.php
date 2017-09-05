@@ -20,9 +20,9 @@ abstract class AbstractPost extends Model
     protected $primaryKey = 'ID';
 
     protected $dates = [
-        'post_date', 
-        'post_date_gmt', 
-        'post_modified', 
+        'post_date',
+        'post_date_gmt',
+        'post_modified',
         'post_modified_gmt'
     ];
 
@@ -51,7 +51,7 @@ abstract class AbstractPost extends Model
     /**
      * Create a new Eloquent query builder for the model.
      *
-     * @param  \Illuminate\Database\Query\Builder  $query
+     * @param  \Illuminate\Database\Query\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
     public function newEloquentBuilder($query)
@@ -81,7 +81,7 @@ abstract class AbstractPost extends Model
         if (!parent::save($options)) {
             return false;
         }
-        
+
         if (!$this->guid) {
             $this->guid = $this->getGuessGuid();
         }
@@ -91,7 +91,7 @@ abstract class AbstractPost extends Model
         }
 
         $this->post_modified_gmt = $this->post_modified->timezone('UTC');;
-        
+
         foreach ($this->relations as $relation) {
             if ($relation instanceof RelatedCollection) {
                 $relation->save();

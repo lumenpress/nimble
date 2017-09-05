@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Collections;
 
@@ -34,7 +34,7 @@ class MenuItemCollection extends Collection
             }
             if (isset($main[$item->ID])) {
                 $items[$key]->sub_menu = $this->flatToTree($main[$item->ID], $main);
-                $items[$key]->current = $items[$key]->current ? : $this->active;
+                $items[$key]->current = $items[$key]->current ?: $this->active;
             }
         }
         return $items;

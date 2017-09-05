@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Concerns;
 
@@ -36,7 +36,7 @@ trait TaxonomyAttributes
     /**
      * Get a specified relationship.
      *
-     * @param  string  $relation
+     * @param  string $relation
      * @return mixed
      */
     public function getRelation($relation)

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Concerns;
 
@@ -24,7 +24,7 @@ trait HasAliases
     /**
      * Set the aliase attributes for the model.
      *
-     * @param  array  $visible
+     * @param  array $visible
      * @return $this
      */
     public function setAliases(array $aliases)
@@ -37,7 +37,7 @@ trait HasAliases
     /**
      * Add aliase attributes for the model.
      *
-     * @param  array|string|null  $attributes
+     * @param  array|string|null $attributes
      * @return void
      */
     public function addAliases(array $attributes)
@@ -55,8 +55,8 @@ trait HasAliases
         $attributes = parent::attributesToArray();
         foreach ($this->aliases as $aliasKey => $originalKey) {
             if (isset($this->$aliasKey)) {
-                $attributes[$aliasKey] = in_array($originalKey, $this->dates) 
-                    ? (string) $this->getAttribute($aliasKey)
+                $attributes[$aliasKey] = in_array($originalKey, $this->dates)
+                    ? (string)$this->getAttribute($aliasKey)
                     : $this->getAttribute($aliasKey);
             }
         }
@@ -66,7 +66,7 @@ trait HasAliases
     /**
      * Get an attribute from the model.
      *
-     * @param  string  $key
+     * @param  string $key
      * @return mixed
      */
     public function getAttribute($key)
@@ -86,8 +86,8 @@ trait HasAliases
     /**
      * Set a given attribute on the model.
      *
-     * @param  string  $key
-     * @param  mixed  $value
+     * @param  string $key
+     * @param  mixed $value
      * @return $this
      */
     public function setAttribute($key, $value)
@@ -127,8 +127,8 @@ trait HasAliases
     /**
      * Set the specific relationship in the model.
      *
-     * @param  string  $relation
-     * @param  mixed  $value
+     * @param  string $relation
+     * @param  mixed $value
      * @return $this
      */
     public function setRelation($relation, $value)

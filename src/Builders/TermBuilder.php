@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Builders;
 
@@ -24,8 +24,8 @@ class TermBuilder extends Builder
     /**
      * Add an "order by" clause to the query.
      *
-     * @param  string  $column
-     * @param  string  $direction
+     * @param  string $column
+     * @param  string $direction
      * @return $this
      */
     public function orderBy($column, $direction = 'asc')

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lumenpress\ORM\Relations;
 
@@ -13,10 +13,10 @@ class HasMeta extends HasMany
     /**
      * Create a new has one or many relationship instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Illuminate\Database\Eloquent\Model  $parent
-     * @param  string  $foreignKey
-     * @param  string  $localKey
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param  \Illuminate\Database\Eloquent\Model $parent
+     * @param  string $foreignKey
+     * @param  string $localKey
      * @return void
      */
     public function __construct(Model $parent)
@@ -26,9 +26,9 @@ class HasMeta extends HasMany
         $instance = $this->newRelatedInstance();
 
         parent::__construct(
-            $instance->newQuery(), 
+            $instance->newQuery(),
             $parent,
-            $this->getForeignKey(), 
+            $this->getForeignKey(),
             $parent->getKeyName()
         );
     }
@@ -38,7 +38,7 @@ class HasMeta extends HasMany
         return tap(new Meta, function ($instance) {
             $instance->setTableThroughParentTable($this->parent->getTable());
 
-            if (! $instance->getConnectionName()) {
+            if (!$instance->getConnectionName()) {
                 $instance->setConnection($this->parent->getConnectionName());
             }
         });
