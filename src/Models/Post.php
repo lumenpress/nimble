@@ -14,8 +14,6 @@ class Post extends AbstractPost
         'page' => Page::class
     ];
 
-    protected $taxonomyClass = PostTaxonomy::class;
-
     protected $with = ['meta'];
 
     /**
@@ -95,7 +93,7 @@ class Post extends AbstractPost
      */
     public function tax($taxonomy = null)
     {
-        $builder = $this->belongsToMany($this->taxonomyClass, 
+        $builder = $this->belongsToMany(PostTaxonomy::class, 
             'term_relationships', 'object_id', 'term_taxonomy_id');
         if ($taxonomy) {
             $builder->type($taxonomy);
