@@ -39,7 +39,8 @@ class MetaCollection extends Collection
         }
         foreach ($this->items as $index => $item) {
             if ($item->key == $key) {
-                return $item->value;
+                // Returns null when value is empty.
+                return $item->value == '' ? null : $item->value;
             }
         }
     }
