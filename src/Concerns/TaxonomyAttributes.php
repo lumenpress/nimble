@@ -7,18 +7,12 @@ use Lumenpress\ORM\Models\Term;
 trait TaxonomyAttributes
 {
     /**
-     * [$termClass description]
-     * @var [type]
-     */
-    protected $termClass = Term::class;
-
-    /**
      * [term description]
      * @return [type] [description]
      */
     public function term()
     {
-        return $this->hasOne($this->termClass, 'term_id', 'term_id');
+        return $this->hasOne(static::$termClass, 'term_id', 'term_id');
     }
 
     public function getAttribute($key)
@@ -48,7 +42,7 @@ trait TaxonomyAttributes
     public function getRelation($relation)
     {
         if ($relation == 'term' && !isset($this->relations[$relation])) {
-            $class = $this->termClass;
+            $class = static::$termClass;
             $this->relations[$relation] = new $class;
         }
         return $this->relations[$relation];

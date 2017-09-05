@@ -21,6 +21,8 @@ class Taxonomy extends Model
         'post_tag' => Tag::class,
     ];
 
+    protected static $termClass = Term::class;
+
     /**
      * [$table description]
      * @var string
@@ -197,5 +199,10 @@ class Taxonomy extends Model
         $this->term_id = $this->term->term_id;
 
         return parent::save($options);
+    }
+
+    public static function setTermClass($termClass)
+    {
+        static::$termClass = $termClass;
     }
 }
