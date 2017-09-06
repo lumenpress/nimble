@@ -2,12 +2,10 @@
 
 namespace Lumenpress\ORM\Models;
 
-use Lumenpress\ORM\Builders\TermBuilder;
 use Lumenpress\ORM\Collections\MenuCollection;
 
 class Menu extends Taxonomy implements \IteratorAggregate, \Countable
 {
-
     protected $with = ['term', 'items'];
 
     protected $taxonomy = 'nav_menu';
@@ -44,5 +42,4 @@ class Menu extends Taxonomy implements \IteratorAggregate, \Countable
     {
         return $this->items->count();
     }
-
 }

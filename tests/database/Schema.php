@@ -2,8 +2,8 @@
 
 namespace Lumenpress\ORM\Tests\database;
 
-use Illuminate\Support\Facades\Facade;
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Support\Facades\Facade;
 
 class Schema extends Facade
 {

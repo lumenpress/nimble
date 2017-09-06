@@ -2,9 +2,9 @@
 
 namespace Lumenpress\ORM\Tests\database\migrations;
 
-use Lumenpress\ORM\Tests\database\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Lumenpress\ORM\Tests\database\Schema;
 
 class CreateCommentsTable extends Migration
 {

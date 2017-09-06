@@ -7,7 +7,8 @@ use Lumenpress\ORM\Models\Term;
 trait TaxonomyAttributes
 {
     /**
-     * [term description]
+     * [term description].
+     *
      * @return [type] [description]
      */
     public function term()
@@ -36,15 +37,17 @@ trait TaxonomyAttributes
     /**
      * Get a specified relationship.
      *
-     * @param  string $relation
+     * @param string $relation
+     *
      * @return mixed
      */
     public function getRelation($relation)
     {
         if ($relation == 'term' && !isset($this->relations[$relation])) {
             $class = static::$termClass;
-            $this->relations[$relation] = new $class;
+            $this->relations[$relation] = new $class();
         }
+
         return $this->relations[$relation];
     }
 

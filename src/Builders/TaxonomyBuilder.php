@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class TaxonomyBuilder extends Builder
 {
     protected $aliases = [
-        'tag' => 'post_tag',
+        'tag'   => 'post_tag',
         'order' => 'term_order',
         'group' => 'term_group',
     ];
@@ -32,6 +32,7 @@ class TaxonomyBuilder extends Builder
         } else {
             $this->where('slug', str_slug($term));
         }
+
         return $this->where('parent', $parent)->first();
     }
 
@@ -45,6 +46,7 @@ class TaxonomyBuilder extends Builder
                 $query->where($column, $operator, $value, $boolean);
             });
         }
+
         return parent::where($column, $operator, $value, $boolean);
     }
 
@@ -59,10 +61,11 @@ class TaxonomyBuilder extends Builder
         if (in_array($column, ['name', 'slug', 'term_group'])) {
             $this->join('terms', function ($join) use ($column) {
                 $join->on('terms.term_id', '=', 'term_taxonomy.term_id');
-            })->orderBy('terms.' . $column);
+            })->orderBy('terms.'.$column);
         } else {
             return parent::orderBy($column, $direction);
         }
+
         return $this;
     }
 }

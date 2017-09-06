@@ -10,7 +10,7 @@ class PostTest extends TestCase
 {
     public function testCreatingPost()
     {
-        $post = new Post;
+        $post = new Post();
         $post->title = 'test creating post';
 
         $this->assertTrue($post->save());
@@ -18,7 +18,7 @@ class PostTest extends TestCase
 
     public function testCreatingPage()
     {
-        $post = new Post;
+        $post = new Post();
         $post->type = 'page';
         $post->title = 'test creating page';
         $post->save();
@@ -33,17 +33,17 @@ class PostTest extends TestCase
         $title = 'test post slug';
 
         for ($i = 1; $i < 6; $i++) {
-            $post = new Post;
+            $post = new Post();
             $post->title = $title;
             $post->save();
             $this->assertTrue($post->post_name == $post->slug);
-            $this->assertTrue(Str::slug($title) . ($i == 1 ? '' : '-' . $i) == $post->slug);
+            $this->assertTrue(Str::slug($title).($i == 1 ? '' : '-'.$i) == $post->slug);
         }
     }
 
     public function testPostDates()
     {
-        $post = new Post;
+        $post = new Post();
         $post->title = 'test post timestamps';
         // $post->author_id = 1;
         $post->save();
@@ -54,8 +54,8 @@ class PostTest extends TestCase
         $this->assertInstanceOf(Carbon::class, $post->modified);
         $this->assertInstanceOf(Carbon::class, $post->modified_gmt);
 
-        $this->assertEquals((string)$post->date->timezone('UTC'), (string)$post->date_gmt);
-        $this->assertEquals((string)$post->modified->timezone('UTC'), (string)$post->modified_gmt);
+        $this->assertEquals((string) $post->date->timezone('UTC'), (string) $post->date_gmt);
+        $this->assertEquals((string) $post->modified->timezone('UTC'), (string) $post->modified_gmt);
 
         $post = Post::find($post->ID);
 
@@ -71,7 +71,7 @@ class PostTest extends TestCase
 
     public function testPostAliases()
     {
-        $post = new Post;
+        $post = new Post();
         $post->title = 'test post aliases';
         // $post->author_id = 1;
         $post->save();
@@ -86,23 +86,23 @@ class PostTest extends TestCase
      */
     public function testDefaultAttributes()
     {
-        $post = new Post;
+        $post = new Post();
         $post->title = 'test post default attributes';
         $post->save();
         $defaults = [
-            'post_author' => 0,
-            'post_content' => '',
-            'post_excerpt' => '',
-            'post_status' => 'publish',
-            'comment_status' => 'open',
-            'ping_status' => 'open',
-            'to_ping' => '',
-            'pinged' => '',
+            'post_author'           => 0,
+            'post_content'          => '',
+            'post_excerpt'          => '',
+            'post_status'           => 'publish',
+            'comment_status'        => 'open',
+            'ping_status'           => 'open',
+            'to_ping'               => '',
+            'pinged'                => '',
             'post_content_filtered' => '',
-            'post_parent' => 0,
-            'menu_order' => 0,
-            'post_type' => 'post',
-            'comment_count' => 0
+            'post_parent'           => 0,
+            'menu_order'            => 0,
+            'post_type'             => 'post',
+            'comment_count'         => 0,
         ];
         foreach ($defaults as $key => $value) {
             $this->assertEquals($post->$key, $value, $key);
@@ -112,5 +112,4 @@ class PostTest extends TestCase
             $this->assertEquals($post->$key, $value, $key);
         }
     }
-
 }

@@ -24,7 +24,8 @@ trait HasAliases
     /**
      * Set the aliase attributes for the model.
      *
-     * @param  array $visible
+     * @param array $visible
+     *
      * @return $this
      */
     public function setAliases(array $aliases)
@@ -37,7 +38,8 @@ trait HasAliases
     /**
      * Add aliase attributes for the model.
      *
-     * @param  array|string|null $attributes
+     * @param array|string|null $attributes
+     *
      * @return void
      */
     public function addAliases(array $attributes)
@@ -56,17 +58,19 @@ trait HasAliases
         foreach ($this->aliases as $aliasKey => $originalKey) {
             if (isset($this->$aliasKey)) {
                 $attributes[$aliasKey] = in_array($originalKey, $this->dates)
-                    ? (string)$this->getAttribute($aliasKey)
+                    ? (string) $this->getAttribute($aliasKey)
                     : $this->getAttribute($aliasKey);
             }
         }
+
         return $attributes;
     }
 
     /**
      * Get an attribute from the model.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return mixed
      */
     public function getAttribute($key)
@@ -77,17 +81,20 @@ trait HasAliases
                 // return data_get($this, $key);
                 $keys = explode('.', $key);
                 $relation = $this->getRelationValue(array_shift($keys));
+
                 return $relation ? $relation->{$keys[0]} : null;
             }
         }
+
         return parent::getAttribute($key);
     }
 
     /**
      * Set a given attribute on the model.
      *
-     * @param  string $key
-     * @param  mixed $value
+     * @param string $key
+     * @param mixed  $value
+     *
      * @return $this
      */
     public function setAttribute($key, $value)
@@ -101,9 +108,11 @@ trait HasAliases
                     $relation->{$keys[0]} = $value;
                 }
                 unset($keys, $relation);
+
                 return $this;
             }
         }
+
         return parent::setAttribute($key, $value);
     }
 
@@ -118,6 +127,7 @@ trait HasAliases
                     unset($relation->{$keys[0]});
                 }
                 unset($keys, $relation);
+
                 return;
             }
         }
@@ -127,8 +137,9 @@ trait HasAliases
     /**
      * Set the specific relationship in the model.
      *
-     * @param  string $relation
-     * @param  mixed $value
+     * @param string $relation
+     * @param mixed  $value
+     *
      * @return $this
      */
     public function setRelation($relation, $value)
@@ -141,5 +152,4 @@ trait HasAliases
 
         return $this;
     }
-
 }

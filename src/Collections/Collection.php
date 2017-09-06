@@ -7,33 +7,39 @@ use Illuminate\Database\Eloquent\Collection as BaseCollection;
 abstract class Collection extends BaseCollection implements RelatedCollection
 {
     /**
-     * [$related description]
+     * [$related description].
+     *
      * @var [type]
      */
     protected $related;
 
     /**
-     * [$relatedParent description]
+     * [$relatedParent description].
+     *
      * @var [type]
      */
     protected $relatedParent;
 
     /**
-     * [$changedKeys description]
+     * [$changedKeys description].
+     *
      * @var array
      */
     protected $changedKeys = [];
 
     /**
-     * [$extraItems description]
+     * [$extraItems description].
+     *
      * @var array
      */
     protected $extraItems = [];
 
     /**
-     * [__isset description]
-     * @param  [type]  $key [description]
-     * @return boolean      [description]
+     * [__isset description].
+     *
+     * @param [type] $key [description]
+     *
+     * @return bool [description]
      */
     public function __isset($key)
     {
@@ -41,9 +47,11 @@ abstract class Collection extends BaseCollection implements RelatedCollection
     }
 
     /**
-     * [__get description]
-     * @param  [type] $key [description]
-     * @return [type]      [description]
+     * [__get description].
+     *
+     * @param [type] $key [description]
+     *
+     * @return [type] [description]
      */
     public function __get($key)
     {
@@ -51,7 +59,8 @@ abstract class Collection extends BaseCollection implements RelatedCollection
     }
 
     /**
-     * [__set description]
+     * [__set description].
+     *
      * @param [type] $key   [description]
      * @param [type] $value [description]
      */
@@ -61,7 +70,8 @@ abstract class Collection extends BaseCollection implements RelatedCollection
     }
 
     /**
-     * [__unset description]
+     * [__unset description].
+     *
      * @param [type] $key [description]
      */
     public function __unset($key)
@@ -70,7 +80,8 @@ abstract class Collection extends BaseCollection implements RelatedCollection
     }
 
     /**
-     * [__toString description]
+     * [__toString description].
+     *
      * @return string [description]
      */
     public function __toString()
@@ -79,27 +90,32 @@ abstract class Collection extends BaseCollection implements RelatedCollection
     }
 
     /**
-     * [setRelatedParent description]
+     * [setRelatedParent description].
+     *
      * @param [type] &$relatedParent [description]
      */
     public function setRelatedParent(&$relatedParent)
     {
         $this->relatedParent = $relatedParent;
+
         return $this;
     }
 
     /**
-     * [setRelated description]
+     * [setRelated description].
+     *
      * @param [type] $related [description]
      */
     public function setRelated($related)
     {
         $this->related = $related;
+
         return $this;
     }
 
     /**
-     * [save description]
+     * [save description].
+     *
      * @return bool [description]
      */
     abstract public function save();

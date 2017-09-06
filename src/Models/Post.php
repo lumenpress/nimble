@@ -2,16 +2,16 @@
 
 namespace Lumenpress\ORM\Models;
 
-use Lumenpress\ORM\Concerns\RegisterTypes;
 use Lumenpress\ORM\Concerns\HasPostPaginationAttributes;
+use Lumenpress\ORM\Concerns\RegisterTypes;
 
 class Post extends AbstractPost
 {
     use HasPostPaginationAttributes, RegisterTypes;
 
     protected static $registeredTypes = [
-        'post' => Post::class,
-        'page' => Page::class
+        'post' => self::class,
+        'page' => Page::class,
     ];
 
     protected $with = ['meta'];
@@ -22,14 +22,14 @@ class Post extends AbstractPost
      * @var array
      */
     protected $fillable = [
-        'post_type'
+        'post_type',
     ];
 
     protected $dates = [
         'post_date',
         'post_date_gmt',
         'post_modified',
-        'post_modified_gmt'
+        'post_modified_gmt',
     ];
 
     protected $hidden = [
@@ -54,36 +54,36 @@ class Post extends AbstractPost
         'post_password',
         'pinged',
         'to_ping',
-        'post_content_filtered'
+        'post_content_filtered',
     ];
 
     protected $aliases = [
-        'id' => 'ID',
-        'title' => 'post_title',
-        'slug' => 'post_name',
+        'id'      => 'ID',
+        'title'   => 'post_title',
+        'slug'    => 'post_name',
         'excerpt' => 'post_excerpt',
         'content' => 'post_content',
         // 'parentId' => 'post_parent',
         'parent_id' => 'post_parent',
-        'status' => 'post_status',
-        'type' => 'post_type',
+        'status'    => 'post_status',
+        'type'      => 'post_type',
         // 'link' => 'guid',
         'created_at_gmt' => 'post_date_gmt',
-        'created_at' => 'post_date',
-        'updated_at' => 'post_modified',
+        'created_at'     => 'post_date',
+        'updated_at'     => 'post_modified',
         'updated_at_gmt' => 'post_modified_gmt',
         // 'authorId' => 'post_author',
         'author_id' => 'post_author',
-        'mimeType' => 'post_mime_type',
+        'mimeType'  => 'post_mime_type',
         'mime_type' => 'post_mime_type',
-        'password' => 'post_password',
+        'password'  => 'post_password',
         // 'commentCount' => 'comment_count',
         // 'pingStatus' => 'ping_status',
         // 'commentStatus' => 'comment_status',
         // 'pinged' => 'pinged',
         // 'toPing' => 'to_ping',
         'content_filtered' => 'post_content_filtered',
-        'template' => 'meta._wp_page_template',
+        'template'         => 'meta._wp_page_template',
     ];
 
     /**
@@ -98,19 +98,21 @@ class Post extends AbstractPost
         if ($taxonomy) {
             $builder->type($taxonomy);
         }
+
         return $builder;
     }
 
     /**
      * Create a new model instance that is existing.
      *
-     * @param  array $attributes
-     * @param  string|null $connection
+     * @param array       $attributes
+     * @param string|null $connection
+     *
      * @return static
      */
     public function newFromBuilder($attributes = [], $connection = null)
     {
-        $attributes = (array)$attributes;
+        $attributes = (array) $attributes;
 
         if (isset($attributes['post_type'])) {
             $model = $this->newInstance(['post_type' => $attributes['post_type']], true);
@@ -128,13 +130,14 @@ class Post extends AbstractPost
     /**
      * Create a new instance of the given model.
      *
-     * @param  array $attributes
-     * @param  bool $exists
+     * @param array $attributes
+     * @param bool  $exists
+     *
      * @return static
      */
     public function newInstance($attributes = [], $exists = false)
     {
-        $attributes = (array)$attributes;
+        $attributes = (array) $attributes;
 
         $postType = isset($attributes['post_type']) ? $attributes['post_type'] : 'post';
         $class = static::getClassNameByType($postType, static::class);
@@ -152,5 +155,4 @@ class Post extends AbstractPost
 
         return $model;
     }
-
 }

@@ -3,17 +3,17 @@
 namespace Lumenpress\ORM\Models;
 
 use Illuminate\Support\Facades\Schema;
+use Lumenpress\ORM\Builders\TaxonomyBuilder;
 use Lumenpress\ORM\Concerns\RegisterTypes;
 use Lumenpress\ORM\Concerns\TaxonomyAttributes;
-use Lumenpress\ORM\Builders\TaxonomyBuilder;
-use Lumenpress\ORM\Collections\RelatedCollection;
 
 class Taxonomy extends Model
 {
     use RegisterTypes, TaxonomyAttributes;
 
     /**
-     * [$taxonomyPost description]
+     * [$taxonomyPost description].
+     *
      * @var array
      */
     protected static $registeredTypes = [
@@ -24,31 +24,36 @@ class Taxonomy extends Model
     protected static $termClass = Term::class;
 
     /**
-     * [$table description]
+     * [$table description].
+     *
      * @var string
      */
     protected $table = 'term_taxonomy';
 
     /**
-     * [$primaryKey description]
+     * [$primaryKey description].
+     *
      * @var string
      */
     protected $primaryKey = 'term_taxonomy_id';
 
     /**
-     * [$timestamps description]
-     * @var boolean
+     * [$timestamps description].
+     *
+     * @var bool
      */
     public $timestamps = false;
 
     /**
-     * [$with description]
+     * [$with description].
+     *
      * @var array
      */
     protected $with = ['term'];
 
     /**
-     * [$hidden description]
+     * [$hidden description].
+     *
      * @var [type]
      */
     protected $hidden = [
@@ -66,11 +71,12 @@ class Taxonomy extends Model
     ];
 
     /**
-     * [$aliases description]
+     * [$aliases description].
+     *
      * @var [type]
      */
     protected $aliases = [
-        'id' => 'term_taxonomy_id',
+        'id'   => 'term_taxonomy_id',
         'type' => 'taxonomy',
     ];
 
@@ -91,7 +97,8 @@ class Taxonomy extends Model
     /**
      * Create a new Eloquent query builder for the model.
      *
-     * @param  \Illuminate\Database\Query\Builder $query
+     * @param \Illuminate\Database\Query\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
     public function newEloquentBuilder($query)
@@ -114,13 +121,14 @@ class Taxonomy extends Model
     /**
      * Create a new model instance that is existing.
      *
-     * @param  array $attributes
-     * @param  string|null $connection
+     * @param array       $attributes
+     * @param string|null $connection
+     *
      * @return static
      */
     public function newFromBuilder($attributes = [], $connection = null)
     {
-        $attributes = (array)$attributes;
+        $attributes = (array) $attributes;
 
         if (isset($attributes['taxonomy'])) {
             $model = $this->newInstance(['taxonomy' => $attributes['taxonomy']], true);
@@ -138,13 +146,14 @@ class Taxonomy extends Model
     /**
      * Create a new instance of the given model.
      *
-     * @param  array $attributes
-     * @param  bool $exists
+     * @param array $attributes
+     * @param bool  $exists
+     *
      * @return static
      */
     public function newInstance($attributes = [], $exists = false)
     {
-        $attributes = (array)$attributes;
+        $attributes = (array) $attributes;
 
         $taxonomy = isset($attributes['taxonomy']) ? $attributes['taxonomy'] : '';
         $class = static::getClassNameByType($taxonomy, static::class);
@@ -174,14 +183,16 @@ class Taxonomy extends Model
     }
 
     /**
-     * [save description]
-     * @param  array $options [description]
-     * @return [type]          [description]
+     * [save description].
+     *
+     * @param array $options [description]
+     *
+     * @return [type] [description]
      */
     public function save(array $options = [])
     {
         if (!$this->taxonomy) {
-            throw new \Exception("Invalid taxonomy.");
+            throw new \Exception('Invalid taxonomy.');
         }
 
         if (!$this->term_taxonomy_id && static::exists($this->name, $this->taxonomy, $this->parent_id)) {
@@ -189,7 +200,7 @@ class Taxonomy extends Model
         }
 
         if (is_null($this->name)) {
-            throw new \Exception("name is invalid", 1);
+            throw new \Exception('name is invalid', 1);
         }
 
         if (!$this->term->save()) {

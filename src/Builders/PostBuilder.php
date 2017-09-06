@@ -2,15 +2,13 @@
 
 namespace Lumenpress\ORM\Builders;
 
-use Lumenpress\ORM\Models\Page;
-
 class PostBuilder extends Builder
 {
     protected $aliases = [
-        'title' => 'post_title',
-        'slug' => 'post_name',
-        'type' => 'post_type',
-        'date' => 'post_date',
+        'title'         => 'post_title',
+        'slug'          => 'post_name',
+        'type'          => 'post_type',
+        'date'          => 'post_date',
         'meta.template' => 'meta._wp_page_template',
     ];
 
@@ -32,6 +30,7 @@ class PostBuilder extends Builder
             $post = $query->parent($parentId)->slug($slug)->first();
             $parentId = isset($post->id) ? $post->id : 0;
         }
+
         return $post;
     }
 
@@ -40,6 +39,7 @@ class PostBuilder extends Builder
         if (is_array($type)) {
             return $this->whereIn('post_type', $type);
         }
+
         return $this->where('post_type', $type);
     }
 
@@ -48,6 +48,7 @@ class PostBuilder extends Builder
         if (is_array($status)) {
             return $this->whereIn('post_status', $status);
         }
+
         return $this->where('post_status', $status);
     }
 
@@ -57,15 +58,16 @@ class PostBuilder extends Builder
     }
 
     /**
-     * [orderBy description]
+     * [orderBy description].
      *
      * $buidler->orderBy('column', 'asc')
      *
      * $buidler->orderBy('meta.column', 'asc')
      *
-     * @param  [type] $column [description]
-     * @param  string $order [description]
-     * @return [type]         [description]
+     * @param [type] $column [description]
+     * @param string $order  [description]
+     *
+     * @return [type] [description]
      */
     public function orderBy($column, $order = 'asc')
     {
@@ -76,6 +78,7 @@ class PostBuilder extends Builder
             return parent::orderBy($column, $order);
         }
         $column = str_replace('meta.', '', $column);
+
         return $this->join('postmeta', function ($join) use ($column) {
             $join->on('posts.ID', '=', 'postmeta.post_id');
             $join->where('meta_key', $column);
@@ -83,5 +86,4 @@ class PostBuilder extends Builder
             ->groupBy('posts.ID')
             ->orderBy('postmeta.meta_value', $order);
     }
-
 }

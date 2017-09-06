@@ -19,8 +19,9 @@ class Option extends Model
     protected $primaryKey = 'option_id';
 
     /**
-     * [$timestamps description]
-     * @var boolean
+     * [$timestamps description].
+     *
+     * @var bool
      */
     public $timestamps = false;
 
@@ -63,5 +64,4 @@ class Option extends Model
     {
         $this->attributes['option_value'] = $value;
     }
-
 }

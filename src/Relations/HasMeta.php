@@ -13,10 +13,11 @@ class HasMeta extends HasMany
     /**
      * Create a new has one or many relationship instance.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param  \Illuminate\Database\Eloquent\Model $parent
-     * @param  string $foreignKey
-     * @param  string $localKey
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param \Illuminate\Database\Eloquent\Model   $parent
+     * @param string                                $foreignKey
+     * @param string                                $localKey
+     *
      * @return void
      */
     public function __construct(Model $parent)
@@ -35,7 +36,7 @@ class HasMeta extends HasMany
 
     protected function newRelatedInstance()
     {
-        return tap(new Meta, function ($instance) {
+        return tap(new Meta(), function ($instance) {
             $instance->setTableThroughParentTable($this->parent->getTable());
 
             if (!$instance->getConnectionName()) {
@@ -77,6 +78,7 @@ class HasMeta extends HasMany
         $this->tmpData[$objectKeyName] = $this->getParentKey();
         $this->tmpData['meta_key'] = $key;
         $this->query->where('meta_key', $key);
+
         return $this;
     }
 
@@ -86,6 +88,7 @@ class HasMeta extends HasMany
             return $this->query->value('meta_value');
         }
         $this->tmpData['meta_value'] = $value;
+
         return $this;
     }
 

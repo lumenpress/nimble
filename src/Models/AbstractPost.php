@@ -2,10 +2,10 @@
 
 namespace Lumenpress\ORM\Models;
 
-use Lumenpress\ORM\Relations\HasMeta;
 use Lumenpress\ORM\Builders\PostBuilder;
-use Lumenpress\ORM\Concerns\PostAttributes;
 use Lumenpress\ORM\Collections\RelatedCollection;
+use Lumenpress\ORM\Concerns\PostAttributes;
+use Lumenpress\ORM\Relations\HasMeta;
 
 abstract class AbstractPost extends Model
 {
@@ -23,7 +23,7 @@ abstract class AbstractPost extends Model
         'post_date',
         'post_date_gmt',
         'post_modified',
-        'post_modified_gmt'
+        'post_modified_gmt',
     ];
 
     public function __construct(array $attributes = [])
@@ -51,7 +51,8 @@ abstract class AbstractPost extends Model
     /**
      * Create a new Eloquent query builder for the model.
      *
-     * @param  \Illuminate\Database\Query\Builder $query
+     * @param \Illuminate\Database\Query\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
     public function newEloquentBuilder($query)
@@ -60,6 +61,7 @@ abstract class AbstractPost extends Model
         if (property_exists($this, 'postType')) {
             $builder->where('post_type', $this->postType);
         }
+
         return $builder;
     }
 
@@ -69,6 +71,7 @@ abstract class AbstractPost extends Model
         if ($key) {
             $relation->key($key);
         }
+
         return $relation;
     }
 
@@ -90,7 +93,7 @@ abstract class AbstractPost extends Model
             $this->post_date_gmt = $this->post_date->timezone('UTC');
         }
 
-        $this->post_modified_gmt = $this->post_modified->timezone('UTC');;
+        $this->post_modified_gmt = $this->post_modified->timezone('UTC');
 
         foreach ($this->relations as $relation) {
             if ($relation instanceof RelatedCollection) {
@@ -106,6 +109,7 @@ abstract class AbstractPost extends Model
         foreach ($this->hasMany(Post::class, 'post_parent')->get() as $model) {
             $model->delete();
         }
+
         return parent::delete();
     }
 }
