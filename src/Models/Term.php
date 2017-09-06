@@ -2,9 +2,9 @@
 
 namespace Lumenpress\ORM\Models;
 
+use Lumenpress\ORM\Relations\HasMeta;
 use Lumenpress\ORM\Builders\TermBuilder;
 use Lumenpress\ORM\Collections\RelatedCollection;
-use Lumenpress\ORM\Relations\HasMeta;
 
 class Term extends Model
 {
@@ -146,10 +146,10 @@ class Term extends Model
 
     public function save(array $options = [])
     {
-        if (!$this->slug) {
+        if (! $this->slug) {
             $this->slug = str_slug($this->name);
         }
-        if (!parent::save($options)) {
+        if (! parent::save($options)) {
             return false;
         }
         foreach ($this->relations as $key => $relation) {

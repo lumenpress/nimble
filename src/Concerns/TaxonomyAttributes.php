@@ -18,7 +18,7 @@ trait TaxonomyAttributes
 
     public function getAttribute($key)
     {
-        if (!is_null($value = parent::getAttribute($key))) {
+        if (! is_null($value = parent::getAttribute($key))) {
             return $value;
         }
 
@@ -43,7 +43,7 @@ trait TaxonomyAttributes
      */
     public function getRelation($relation)
     {
-        if ($relation == 'term' && !isset($this->relations[$relation])) {
+        if ($relation == 'term' && ! isset($this->relations[$relation])) {
             $class = static::$termClass;
             $this->relations[$relation] = new $class();
         }

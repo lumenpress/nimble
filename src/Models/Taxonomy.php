@@ -3,8 +3,8 @@
 namespace Lumenpress\ORM\Models;
 
 use Illuminate\Support\Facades\Schema;
-use Lumenpress\ORM\Builders\TaxonomyBuilder;
 use Lumenpress\ORM\Concerns\RegisterTypes;
+use Lumenpress\ORM\Builders\TaxonomyBuilder;
 use Lumenpress\ORM\Concerns\TaxonomyAttributes;
 
 class Taxonomy extends Model
@@ -191,11 +191,11 @@ class Taxonomy extends Model
      */
     public function save(array $options = [])
     {
-        if (!$this->taxonomy) {
+        if (! $this->taxonomy) {
             throw new \Exception('Invalid taxonomy.');
         }
 
-        if (!$this->term_taxonomy_id && static::exists($this->name, $this->taxonomy, $this->parent_id)) {
+        if (! $this->term_taxonomy_id && static::exists($this->name, $this->taxonomy, $this->parent_id)) {
             throw new \Exception('A term with the name provided already exists with this parent.');
         }
 
@@ -203,7 +203,7 @@ class Taxonomy extends Model
             throw new \Exception('name is invalid', 1);
         }
 
-        if (!$this->term->save()) {
+        if (! $this->term->save()) {
             return false;
         }
 

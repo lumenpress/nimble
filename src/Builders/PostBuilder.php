@@ -23,7 +23,7 @@ class PostBuilder extends Builder
         $parentId = 0;
         $post = null;
         foreach ($paths as $slug) {
-            if (!$slug) {
+            if (! $slug) {
                 continue;
             }
             $query = clone $this;

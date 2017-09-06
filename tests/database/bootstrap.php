@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Support\Str;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 require_once __DIR__.'/../../vendor/autoload.php';
 

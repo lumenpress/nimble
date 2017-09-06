@@ -2,9 +2,9 @@
 
 namespace Lumenpress\ORM\Relations;
 
+use Lumenpress\ORM\Models\Meta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Lumenpress\ORM\Models\Meta;
 
 class HasMeta extends HasMany
 {
@@ -39,7 +39,7 @@ class HasMeta extends HasMany
         return tap(new Meta(), function ($instance) {
             $instance->setTableThroughParentTable($this->parent->getTable());
 
-            if (!$instance->getConnectionName()) {
+            if (! $instance->getConnectionName()) {
                 $instance->setConnection($this->parent->getConnectionName());
             }
         });

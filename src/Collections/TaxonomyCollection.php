@@ -71,11 +71,11 @@ class TaxonomyCollection extends Collection
     public function offsetSet($taxonomy, $names)
     {
         if (is_null($taxonomy) || is_numeric($taxonomy)) {
-            if (!is_array($names)) {
+            if (! is_array($names)) {
                 throw new \Exception('args invalid', 1);
             }
 
-            if (is_null($taxonomy) && !Arr::has($value, ['name', 'taxonomy'])) {
+            if (is_null($taxonomy) && ! Arr::has($value, ['name', 'taxonomy'])) {
                 throw new \Exception('value invalid', 1);
             }
 
@@ -159,7 +159,7 @@ class TaxonomyCollection extends Collection
      */
     public function save()
     {
-        if (!$this->relatedParent) {
+        if (! $this->relatedParent) {
             return false;
         }
         $flag = false;

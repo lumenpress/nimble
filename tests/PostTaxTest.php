@@ -2,11 +2,11 @@
 
 namespace Lumenpress\ORM\Tests;
 
-use Illuminate\Support\Collection;
-use Lumenpress\ORM\Collections\RelatedCollection;
-use Lumenpress\ORM\Models\Category;
-use Lumenpress\ORM\Models\Post;
 use Lumenpress\ORM\Models\Tag;
+use Lumenpress\ORM\Models\Post;
+use Illuminate\Support\Collection;
+use Lumenpress\ORM\Models\Category;
+use Lumenpress\ORM\Collections\RelatedCollection;
 
 class PostTaxTest extends TestCase
 {

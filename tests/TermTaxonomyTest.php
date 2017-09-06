@@ -2,8 +2,8 @@
 
 namespace Lumenpress\ORM\Tests;
 
-use Illuminate\Database\Eloquent\Collection;
 use Lumenpress\ORM\Models\Taxonomy;
+use Illuminate\Database\Eloquent\Collection;
 
 class TermTaxonomyTest extends TestCase
 {

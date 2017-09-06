@@ -58,11 +58,11 @@ class MetaCollection extends Collection
     public function offsetSet($key, $value)
     {
         if (is_null($key) || is_numeric($key)) {
-            if (!is_array($value)) {
+            if (! is_array($value)) {
                 throw new \Exception('value invalid', 1);
             }
 
-            if (is_null($key) && !Arr::has($value, ['key', 'value', 'object_id'])) {
+            if (is_null($key) && ! Arr::has($value, ['key', 'value', 'object_id'])) {
                 throw new \Exception('value invalid', 1);
             }
 

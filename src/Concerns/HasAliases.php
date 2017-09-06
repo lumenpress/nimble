@@ -75,7 +75,7 @@ trait HasAliases
      */
     public function getAttribute($key)
     {
-        if (isset($this->aliases[$key]) && !$this->hasGetMutator($key)) {
+        if (isset($this->aliases[$key]) && ! $this->hasGetMutator($key)) {
             $key = $this->aliases[$key];
             if (stripos($key, '.') !== false) {
                 // return data_get($this, $key);
@@ -99,7 +99,7 @@ trait HasAliases
      */
     public function setAttribute($key, $value)
     {
-        if (isset($this->aliases[$key]) && !$this->hasSetMutator($key)) {
+        if (isset($this->aliases[$key]) && ! $this->hasSetMutator($key)) {
             $key = $this->aliases[$key];
             if (stripos($key, '.') !== false) {
                 $keys = explode('.', $key);

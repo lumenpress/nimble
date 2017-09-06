@@ -2,8 +2,8 @@
 
 namespace Lumenpress\ORM\Models;
 
-use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Lumenpress\ORM\Concerns\HasAliases;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 
 class Model extends EloquentModel
 {

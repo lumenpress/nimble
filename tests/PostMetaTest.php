@@ -2,9 +2,9 @@
 
 namespace Lumenpress\ORM\Tests;
 
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Lumenpress\ORM\Collections\RelatedCollection;
 use Lumenpress\ORM\Models\Post;
+use Lumenpress\ORM\Collections\RelatedCollection;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**
  * PostMetaTest.
