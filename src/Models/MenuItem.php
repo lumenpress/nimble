@@ -2,6 +2,8 @@
 
 namespace Lumenpress\ORM\Models;
 
+use Lumenpress\ORM\Collections\MenuItemCollection;
+
 class MenuItem extends AbstractPost
 {
     protected $currentActive;
@@ -42,7 +44,7 @@ class MenuItem extends AbstractPost
      */
     public function newCollection(array $models = [])
     {
-        return MenuItemCollection::create($models, static::class);
+        return (new MenuItemCollection($models))->setRelated($this);
     }
 
     /**

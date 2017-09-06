@@ -19,7 +19,7 @@ class Menu extends Taxonomy implements \IteratorAggregate, \Countable
      */
     public function newCollection(array $models = [])
     {
-        return MenuCollection::create($models, static::class);
+        return new MenuCollection($models);
     }
 
     /**
