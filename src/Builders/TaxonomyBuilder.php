@@ -55,7 +55,7 @@ class TaxonomyBuilder extends Builder
         if (isset($this->aliases[$column])) {
             $column = $this->aliases[$column];
         }
-        if ($column == 'term_order' && !Schema::hasColumn('terms', $column)) {
+        if ($column == 'term_order' && ! Schema::hasColumn('terms', $column)) {
             return $this;
         }
         if (in_array($column, ['name', 'slug', 'term_group'])) {

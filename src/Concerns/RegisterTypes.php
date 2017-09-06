@@ -6,7 +6,7 @@ trait RegisterTypes
 {
     public static function register($type, $className)
     {
-        if (!class_exists($className)) {
+        if (! class_exists($className)) {
             throw new \Exception("{$className} class doesn't exist.", 1);
         }
         static::$registeredTypes[$type] = $className;

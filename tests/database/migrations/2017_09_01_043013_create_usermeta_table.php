@@ -2,9 +2,9 @@
 
 namespace Lumenpress\ORM\Tests\database\migrations;
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Lumenpress\ORM\Tests\database\Schema;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateUsermetaTable extends Migration
 {

@@ -1,13 +1,13 @@
 <?php
 
-if (!function_exists('lumenpress_is_url')) {
+if (! function_exists('lumenpress_is_url')) {
     function lumenpress_is_url($value)
     {
         return preg_match('@^//@', $value) or filter_var($value, FILTER_VALIDATE_URL) !== false;
     }
 }
 
-if (!function_exists('lumenpress_url')) {
+if (! function_exists('lumenpress_url')) {
     function lumenpress_url($value = '')
     {
         if (lumenpress_is_url($value)) {
@@ -18,7 +18,7 @@ if (!function_exists('lumenpress_url')) {
     }
 }
 
-if (!function_exists('lumenpress_asset_url')) {
+if (! function_exists('lumenpress_asset_url')) {
     function lumenpress_asset_url($value = '')
     {
         if (lumenpress_is_url($value)) {
@@ -29,21 +29,21 @@ if (!function_exists('lumenpress_asset_url')) {
     }
 }
 
-if (!function_exists('lumenpress_get_current_user_id')) {
+if (! function_exists('lumenpress_get_current_user_id')) {
     function lumenpress_get_current_user_id()
     {
         return function_exists('get_current_user_id') ? get_current_user_id() : 0;
     }
 }
 
-if (!function_exists('lumenpress_get_term_link')) {
+if (! function_exists('lumenpress_get_term_link')) {
     function lumenpress_get_term_link($term, $taxonomy = '')
     {
         return function_exists('get_term_link') ? get_term_link($term, $taxonomy) : '';
     }
 }
 
-if (!function_exists('lumenpress_get_permalink')) {
+if (! function_exists('lumenpress_get_permalink')) {
     function lumenpress_get_permalink($post)
     {
         if (function_exists('get_permalink')) {
@@ -60,7 +60,7 @@ if (!function_exists('lumenpress_get_permalink')) {
     }
 }
 
-if (!function_exists('luemnpress_get_the_content')) {
+if (! function_exists('luemnpress_get_the_content')) {
     function luemnpress_get_the_content($value)
     {
         if (function_exists('apply_filters')) {
@@ -71,14 +71,14 @@ if (!function_exists('luemnpress_get_the_content')) {
     }
 }
 
-if (!function_exists('lumenpress_is_serialized')) {
+if (! function_exists('lumenpress_is_serialized')) {
     function lumenpress_is_serialized($data, $strict = true)
     {
         if (function_exists('is_serialized')) {
             return is_serialized($data, $strict);
         }
         // if it isn't a string, it isn't serialized.
-        if (!is_string($data)) {
+        if (! is_string($data)) {
             return false;
         }
         $data = trim($data);

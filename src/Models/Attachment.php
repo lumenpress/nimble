@@ -39,12 +39,12 @@ class Attachment extends AbstractPost
 
     public static function upload($src, $force = false)
     {
-        if (!$force and $id = static::getAttachmentUniqid($src)) {
+        if (! $force and $id = static::getAttachmentUniqid($src)) {
             return static::find($id);
         }
 
         // gives us access to the download_url() and wp_handle_sideload() functions
-        if (!function_exists('media_handle_upload')) {
+        if (! function_exists('media_handle_upload')) {
             require_once ABSPATH.'wp-admin'.'/includes/image.php';
             require_once ABSPATH.'wp-admin'.'/includes/file.php';
             require_once ABSPATH.'wp-admin'.'/includes/media.php';

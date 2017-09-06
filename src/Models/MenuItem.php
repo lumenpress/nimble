@@ -139,7 +139,7 @@ class MenuItem extends AbstractPost
         if (
             $this->object_id == $queried_object_id &&
             (
-                (!empty($home_page_id) && 'post_type' == $this->type && $wp_query->is_home && $home_page_id == $this->object_id) ||
+                (! empty($home_page_id) && 'post_type' == $this->type && $wp_query->is_home && $home_page_id == $this->object_id) ||
                 ('post_type' == $this->type && $wp_query->is_singular) ||
                 ('taxonomy' == $this->type && ($wp_query->is_category || $wp_query->is_tag || $wp_query->is_tax) && $queried_object->taxonomy == $this->object)
             )

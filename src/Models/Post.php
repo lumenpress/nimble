@@ -2,8 +2,8 @@
 
 namespace Lumenpress\ORM\Models;
 
-use Lumenpress\ORM\Concerns\HasPostPaginationAttributes;
 use Lumenpress\ORM\Concerns\RegisterTypes;
+use Lumenpress\ORM\Concerns\HasPostPaginationAttributes;
 
 class Post extends AbstractPost
 {

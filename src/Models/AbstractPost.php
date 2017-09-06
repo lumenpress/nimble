@@ -2,10 +2,10 @@
 
 namespace Lumenpress\ORM\Models;
 
-use Lumenpress\ORM\Builders\PostBuilder;
-use Lumenpress\ORM\Collections\RelatedCollection;
-use Lumenpress\ORM\Concerns\PostAttributes;
 use Lumenpress\ORM\Relations\HasMeta;
+use Lumenpress\ORM\Builders\PostBuilder;
+use Lumenpress\ORM\Concerns\PostAttributes;
+use Lumenpress\ORM\Collections\RelatedCollection;
 
 abstract class AbstractPost extends Model
 {
@@ -77,19 +77,19 @@ abstract class AbstractPost extends Model
 
     public function save(array $options = [])
     {
-        if (!$this->post_name) {
+        if (! $this->post_name) {
             $this->post_name = $this->post_title;
         }
 
-        if (!parent::save($options)) {
+        if (! parent::save($options)) {
             return false;
         }
 
-        if (!$this->guid) {
+        if (! $this->guid) {
             $this->guid = $this->getGuessGuid();
         }
 
-        if (!isset($this->attributes['post_date_gmt'])) {
+        if (! isset($this->attributes['post_date_gmt'])) {
             $this->post_date_gmt = $this->post_date->timezone('UTC');
         }
 

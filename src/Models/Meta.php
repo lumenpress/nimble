@@ -2,8 +2,8 @@
 
 namespace Lumenpress\ORM\Models;
 
-use Illuminate\Database\Eloquent\Collection;
 use Lumenpress\ORM\Builders\MetaBuilder;
+use Illuminate\Database\Eloquent\Collection;
 use Lumenpress\ORM\Collections\MetaCollection;
 
 class Meta extends Model

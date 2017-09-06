@@ -136,7 +136,7 @@ trait PostAttributes
 
     protected function getGuessGuid()
     {
-        if (!$this->ID) {
+        if (! $this->ID) {
             return '';
         }
         if (getenv('APP_ENV') === 'testing') {
