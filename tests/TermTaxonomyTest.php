@@ -2,14 +2,14 @@
 
 namespace Lumenpress\ORM\Tests;
 
-use Lumenpress\ORM\Models\Taxonomy;
 use Illuminate\Database\Eloquent\Collection;
+use Lumenpress\ORM\Models\Taxonomy;
 
 class TermTaxonomyTest extends TestCase
 {
     public function testTax()
     {
-        $tax = new Taxonomy;
+        $tax = new Taxonomy();
         $tax->taxonomy = 'category';
         $tax->name = 'Main2';
         $this->assertTrue($tax->save());
@@ -17,7 +17,7 @@ class TermTaxonomyTest extends TestCase
 
     public function testTaxAliases()
     {
-        $tax = new Taxonomy;
+        $tax = new Taxonomy();
         $tax->taxonomy = 'category';
         $tax->name = 'test tax aliases';
         $tax->save();
@@ -29,7 +29,7 @@ class TermTaxonomyTest extends TestCase
 
     public function testMeta()
     {
-        $tax = new Taxonomy;
+        $tax = new Taxonomy();
         $tax->name = 'test meta';
         $tax->taxonomy = 'category';
 

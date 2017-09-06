@@ -23,7 +23,8 @@ class Comment extends Model
     protected $primaryKey = 'comment_ID';
 
     /**
-     * [$dates description]
+     * [$dates description].
+     *
      * @var array
      */
     protected $dates = ['comment_date'];

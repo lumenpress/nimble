@@ -2,8 +2,6 @@
 
 namespace Lumenpress\ORM\Models;
 
-use Lumenpress\ORM\Collections\MenuCollection;
-
 class MenuItem extends AbstractPost
 {
     protected $currentActive;
@@ -23,10 +21,10 @@ class MenuItem extends AbstractPost
     protected $aliases = [
         'parent_id' => 'meta._menu_item_menu_item_parent',
         'object_id' => 'meta._menu_item_object_id',
-        'object' => 'meta._menu_item_object',
-        'type' => 'meta._menu_item_type',
-        'target' => 'meta._menu_item_target',
-        'xfn' => 'meta._menu_item_xfn'
+        'object'    => 'meta._menu_item_object',
+        'type'      => 'meta._menu_item_type',
+        'target'    => 'meta._menu_item_target',
+        'xfn'       => 'meta._menu_item_xfn',
     ];
 
     public function __construct(array $attributes = [])
@@ -81,7 +79,6 @@ class MenuItem extends AbstractPost
             default:
                 break;
         }
-        return;
     }
 
     /**
@@ -93,10 +90,10 @@ class MenuItem extends AbstractPost
     {
         switch ($this->type) {
             case 'post_type':
-                return get_permalink((int)$this->object_id);
+                return get_permalink((int) $this->object_id);
                 break;
             case 'taxonomy':
-                return get_term_link((int)$this->object_id, $this->object);
+                return get_term_link((int) $this->object_id, $this->object);
                 break;
             case 'custom':
                 return $this->meta->_menu_item_url;
@@ -130,15 +127,15 @@ class MenuItem extends AbstractPost
         global $wp_query, $wp_rewrite;
 
         $queried_object = $wp_query->get_queried_object();
-        $queried_object_id = (int)$wp_query->queried_object_id;
+        $queried_object_id = (int) $wp_query->queried_object_id;
 
         $active_object = '';
-        $active_ancestor_item_ids = array();
-        $active_parent_item_ids = array();
-        $active_parent_object_ids = array();
-        $possible_taxonomy_ancestors = array();
-        $possible_object_parents = array();
-        $home_page_id = (int)get_option('page_for_posts');
+        $active_ancestor_item_ids = [];
+        $active_parent_item_ids = [];
+        $active_parent_object_ids = [];
+        $possible_taxonomy_ancestors = [];
+        $possible_object_parents = [];
+        $home_page_id = (int) get_option('page_for_posts');
         if (
             $this->object_id == $queried_object_id &&
             (
@@ -160,15 +157,16 @@ class MenuItem extends AbstractPost
             if (is_customize_preview()) {
                 $_root_relative_current = strtok(untrailingslashit($_SERVER['REQUEST_URI']), '?');
             }
-            $current_url = set_url_scheme('http://' . $_SERVER['HTTP_HOST'] . $_root_relative_current);
+            $current_url = set_url_scheme('http://'.$_SERVER['HTTP_HOST'].$_root_relative_current);
             $raw_item_url = strpos($this->link, '#') ? substr($this->link, 0, strpos($this->link, '#')) : $this->link;
             $item_url = set_url_scheme(untrailingslashit($raw_item_url));
-            $_indexless_current = untrailingslashit(preg_replace('/' . preg_quote($wp_rewrite->index, '/') . '$/', '', $current_url));
+            $_indexless_current = untrailingslashit(preg_replace('/'.preg_quote($wp_rewrite->index, '/').'$/', '', $current_url));
 
-            if ($raw_item_url && in_array($item_url, array($current_url, $_indexless_current, $_root_relative_current))) {
+            if ($raw_item_url && in_array($item_url, [$current_url, $_indexless_current, $_root_relative_current])) {
                 return $this->currentActive = true;
             }
         }
+
         return $this->currentActive = false;
     }
 

@@ -2,9 +2,9 @@
 
 namespace Lumenpress\ORM\Tests;
 
+use Faker\Factory;
 use Lumenpress\ORM\Models\Post;
 use Lumenpress\ORM\Models\Taxonomy;
-use Faker\Factory;
 
 class RegisterTypesTest extends TestCase
 {
@@ -18,7 +18,7 @@ class RegisterTypesTest extends TestCase
             'page' => CustomPage::class,
         ];
 
-        $model = new Post;
+        $model = new Post();
 
         foreach ($typeClasses as $type => $class) {
             Post::register($type, $class);
@@ -33,7 +33,7 @@ class RegisterTypesTest extends TestCase
 
         $this->assertSame(get_class($model), $typeClasses['post'], 'message');
 
-        $model = new Post;
+        $model = new Post();
         $model->title = 'Title1';
         $model->type = 'page';
         $model->save();
@@ -53,7 +53,7 @@ class RegisterTypesTest extends TestCase
             'post_tag' => CustomTag::class,
         ];
 
-        $model = new Taxonomy;
+        $model = new Taxonomy();
 
         foreach ($typeClasses as $type => $class) {
             Taxonomy::register($type, $class);
@@ -61,7 +61,7 @@ class RegisterTypesTest extends TestCase
             $this->assertSame(Taxonomy::getClassNameByType($type), $class, $type);
         }
 
-        $model = new Taxonomy;
+        $model = new Taxonomy();
         $model->name = 'Foo';
         $model->taxonomy = 'category';
         $model->save();
@@ -88,7 +88,7 @@ class RegisterTypesTest extends TestCase
         }
 
         for ($i = 0; $i < 10; $i++) {
-            $model = new Post;
+            $model = new Post();
             $model->title = $faker->name;
             $model->type = $faker->randomElement(array_keys($types));
             $model->save();
@@ -118,7 +118,7 @@ class RegisterTypesTest extends TestCase
         }
 
         for ($i = 0; $i < 10; $i++) {
-            $model = new Taxonomy;
+            $model = new Taxonomy();
             $model->name = $faker->name;
             $model->taxonomy = $faker->randomElement(array_keys($types));
             $model->save();
@@ -150,13 +150,13 @@ class RegisterTypesTest extends TestCase
 
         foreach ($taxonomyTypes as $taxonomyType => $taxonomyClass) {
             Taxonomy::register($taxonomyType, $taxonomyClass);
-            $taxonomy = new Taxonomy;
+            $taxonomy = new Taxonomy();
             $taxonomy->name = $faker->name;
             $taxonomy->taxonomy = $taxonomyType;
             $taxonomy->save();
             foreach ($postTypes as $postType => $postClass) {
                 Post::register($postType, $postClass);
-                $post = new Post;
+                $post = new Post();
                 $post->title = $faker->name;
                 $post->type = $postType;
                 $post->tax->{$taxonomy->type} = $taxonomy->name;
@@ -167,7 +167,6 @@ class RegisterTypesTest extends TestCase
             }
         }
     }
-
 
     /**
      * @group register
@@ -189,13 +188,13 @@ class RegisterTypesTest extends TestCase
         foreach ($postTypes as $postType => $postClass) {
             Post::register($postType, $postClass);
 
-            $post = new Post;
+            $post = new Post();
             $post->title = $faker->name;
             $post->type = $postType;
 
             foreach ($taxonomyTypes as $taxonomyType => $taxonomyClass) {
                 Taxonomy::register($taxonomyType, $taxonomyClass);
-                $taxonomy = new Taxonomy;
+                $taxonomy = new Taxonomy();
                 $taxonomy->name = $faker->name;
                 $taxonomy->taxonomy = $taxonomyType;
                 $taxonomy->save();
@@ -213,7 +212,6 @@ class RegisterTypesTest extends TestCase
 
 class CustomPost extends Post
 {
-
 }
 
 class CustomPage extends Post

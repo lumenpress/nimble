@@ -2,7 +2,6 @@
 
 namespace Lumenpress\ORM\Collections;
 
-use Illuminate\Database\Eloquent\Model;
 use Lumenpress\ORM\Models\TermRelationships;
 
 class TaxonomyCollection extends Collection
@@ -14,7 +13,8 @@ class TaxonomyCollection extends Collection
     /**
      * Determine if an item exists at an offset.
      *
-     * @param  mixed $key
+     * @param mixed $key
+     *
      * @return bool
      */
     public function offsetExists($key)
@@ -39,7 +39,8 @@ class TaxonomyCollection extends Collection
     /**
      * Get an item at a given offset.
      *
-     * @param  mixed $key
+     * @param mixed $key
+     *
      * @return mixed
      */
     public function offsetGet($key)
@@ -62,19 +63,20 @@ class TaxonomyCollection extends Collection
     /**
      * Set the item at a given offset.
      *
-     * @param  mixed $key
-     * @param  mixed $value
+     * @param mixed $key
+     * @param mixed $value
+     *
      * @return void
      */
     public function offsetSet($taxonomy, $names)
     {
         if (is_null($taxonomy) || is_numeric($taxonomy)) {
             if (!is_array($names)) {
-                throw new \Exception("args invalid", 1);
+                throw new \Exception('args invalid', 1);
             }
 
             if (is_null($taxonomy) && !Arr::has($value, ['name', 'taxonomy'])) {
-                throw new \Exception("value invalid", 1);
+                throw new \Exception('value invalid', 1);
             }
 
             if (is_null($taxonomy)) {
@@ -88,7 +90,7 @@ class TaxonomyCollection extends Collection
                 $item->$k = $v;
             }
 
-            $this->changedKeys[$item->taxonomy . '>|<' . $item->name] = true;
+            $this->changedKeys[$item->taxonomy.'>|<'.$item->name] = true;
 
             return;
         }
@@ -97,7 +99,7 @@ class TaxonomyCollection extends Collection
 
         foreach ($this->items as $index => $item) {
             if ($item->taxonomy == $taxonomy) {
-                if (in_array($item->name, (array)$names)) {
+                if (in_array($item->name, (array) $names)) {
                     $exists[] = $item->name;
                 } else {
                     $this->extraItems[$item->id] = false;
@@ -108,7 +110,7 @@ class TaxonomyCollection extends Collection
 
         $this->items = array_values($this->items);
 
-        foreach ((array)$names as $name) {
+        foreach ((array) $names as $name) {
             if (in_array($name, $exists)) {
                 continue;
             }
@@ -119,7 +121,7 @@ class TaxonomyCollection extends Collection
                 $item = $this->related->newInstance(['taxonomy' => $taxonomy]);
                 $item->taxonomy = $taxonomy;
                 $item->name = $name;
-                $this->changedKeys[$taxonomy . '>|<' . $name] = true;
+                $this->changedKeys[$taxonomy.'>|<'.$name] = true;
             }
             $this->items[] = $item;
         }
@@ -128,7 +130,8 @@ class TaxonomyCollection extends Collection
     /**
      * Unset the item at a given offset.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return void
      */
     public function offsetUnset($taxonomy)
@@ -148,9 +151,11 @@ class TaxonomyCollection extends Collection
     }
 
     /**
-     * [save description]
-     * @param  [type] $objectId [description]
-     * @return [type]           [description]
+     * [save description].
+     *
+     * @param [type] $objectId [description]
+     *
+     * @return [type] [description]
      */
     public function save()
     {
@@ -159,7 +164,7 @@ class TaxonomyCollection extends Collection
         }
         $flag = false;
         foreach ($this->items as $item) {
-            if (isset($this->changedKeys[$item->taxonomy . '>|<' . $item->name])) {
+            if (isset($this->changedKeys[$item->taxonomy.'>|<'.$item->name])) {
                 $flag = $item->save() || $flag;
                 $this->extraItems[$item->id] = true;
             }
@@ -167,16 +172,17 @@ class TaxonomyCollection extends Collection
         foreach ($this->extraItems as $taxonomyId => $new) {
             if ($new) {
                 $flag = TermRelationships::create([
-                        'object_id' => $this->relatedParent->id,
-                        'term_taxonomy_id' => $taxonomyId
+                        'object_id'        => $this->relatedParent->id,
+                        'term_taxonomy_id' => $taxonomyId,
                     ]) || $flag;
             } else {
                 $flag = TermRelationships::where('object_id', $this->relatedParent->id)
-                        ->where('term_taxonomy_id', $taxonomyId)->delete() || $flag;;
+                        ->where('term_taxonomy_id', $taxonomyId)->delete() || $flag;
             }
         }
         $this->changedKeys = [];
         $this->extraItems = [];
+
         return $flag;
     }
 }

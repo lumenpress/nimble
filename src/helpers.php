@@ -13,6 +13,7 @@ if (!function_exists('lumenpress_url')) {
         if (lumenpress_is_url($value)) {
             return $value;
         }
+
         return function_exists('home_url') ? home_url($value) : url($value);
     }
 }
@@ -23,7 +24,8 @@ if (!function_exists('lumenpress_asset_url')) {
         if (lumenpress_is_url($value)) {
             return $value;
         }
-        return config('wordpress.assets.base_url') . $value;
+
+        return config('wordpress.assets.base_url').$value;
     }
 }
 
@@ -53,6 +55,7 @@ if (!function_exists('lumenpress_get_permalink')) {
             $url = url('');
         }
         $part = $post->post_type == 'page' ? '' : $post->post_type;
+
         return "$url/$part/$post->post_name";
     }
 }
@@ -63,6 +66,7 @@ if (!function_exists('luemnpress_get_the_content')) {
         if (function_exists('apply_filters')) {
             return apply_filters('the_content', $value);
         }
+
         return $value;
     }
 }
@@ -96,17 +100,20 @@ if (!function_exists('lumenpress_is_serialized')) {
             $semicolon = strpos($data, ';');
             $brace = strpos($data, '}');
             // Either ; or } must exist.
-            if (false === $semicolon && false === $brace)
+            if (false === $semicolon && false === $brace) {
                 return false;
+            }
             // But neither must be in the first X characters.
-            if (false !== $semicolon && $semicolon < 3)
+            if (false !== $semicolon && $semicolon < 3) {
                 return false;
-            if (false !== $brace && $brace < 4)
+            }
+            if (false !== $brace && $brace < 4) {
                 return false;
+            }
         }
         $token = $data[0];
         switch ($token) {
-            case 's' :
+            case 's':
                 if ($strict) {
                     if ('"' !== substr($data, -2, 1)) {
                         return false;
@@ -115,15 +122,17 @@ if (!function_exists('lumenpress_is_serialized')) {
                     return false;
                 }
             // or else fall through
-            case 'a' :
-            case 'O' :
-                return (bool)preg_match("/^{$token}:[0-9]+:/s", $data);
-            case 'b' :
-            case 'i' :
-            case 'd' :
+            case 'a':
+            case 'O':
+                return (bool) preg_match("/^{$token}:[0-9]+:/s", $data);
+            case 'b':
+            case 'i':
+            case 'd':
                 $end = $strict ? '$' : '';
-                return (bool)preg_match("/^{$token}:[0-9.E-]+;$end/", $data);
+
+                return (bool) preg_match("/^{$token}:[0-9.E-]+;$end/", $data);
         }
+
         return false;
     }
 }

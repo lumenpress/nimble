@@ -2,9 +2,6 @@
 
 namespace Lumenpress\ORM\Models;
 
-use Lumenpress\ORM\Relations\HasMeta;
-use Lumenpress\ORM\Builders\TermBuilder;
-
 class TermRelationships extends Model
 {
     /**

@@ -2,8 +2,8 @@
 
 namespace Lumenpress\ORM\Models;
 
-use Lumenpress\ORM\Concerns\HasAliases;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Lumenpress\ORM\Concerns\HasAliases;
 
 class Model extends EloquentModel
 {
@@ -12,7 +12,8 @@ class Model extends EloquentModel
     /**
      * Unset an attribute on the model.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return void
      */
     public function __unset($key)

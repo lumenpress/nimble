@@ -8,7 +8,7 @@ trait HasPostPaginationAttributes
     {
         return static::where('post_type', $this->post_type)
             ->where('post_status', $this->post_status)
-            ->where('post_date', '<', (string)$this->post_date);
+            ->where('post_date', '<', (string) $this->post_date);
     }
 
     /**

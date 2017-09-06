@@ -2,32 +2,36 @@
 
 namespace Lumenpress\ORM\Models;
 
-use Lumenpress\ORM\Relations\HasMeta;
 use Lumenpress\ORM\Builders\TermBuilder;
 use Lumenpress\ORM\Collections\RelatedCollection;
+use Lumenpress\ORM\Relations\HasMeta;
 
 class Term extends Model
 {
     /**
-     * [$table description]
+     * [$table description].
+     *
      * @var string
      */
     protected $table = 'terms';
 
     /**
-     * [$primaryKey description]
+     * [$primaryKey description].
+     *
      * @var string
      */
     protected $primaryKey = 'term_id';
 
     /**
-     * [$timestamps description]
-     * @var boolean
+     * [$timestamps description].
+     *
+     * @var bool
      */
     public $timestamps = false;
 
     /**
-     * [$appends description]
+     * [$appends description].
+     *
      * @var [type]
      */
     protected $appends = [
@@ -37,7 +41,8 @@ class Term extends Model
     ];
 
     /**
-     * [$hidden description]
+     * [$hidden description].
+     *
      * @var [type]
      */
     protected $hidden = [
@@ -47,7 +52,7 @@ class Term extends Model
     ];
 
     protected $aliases = [
-        'id' => 'term_id',
+        'id'    => 'term_id',
         'group' => 'term_group',
     ];
 
@@ -67,7 +72,8 @@ class Term extends Model
     /**
      * Create a new Eloquent query builder for the model.
      *
-     * @param  \Illuminate\Database\Query\Builder $query
+     * @param \Illuminate\Database\Query\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
     public function newEloquentBuilder($query)
@@ -81,6 +87,7 @@ class Term extends Model
         if ($key) {
             $builder->where('meta_key', $key);
         }
+
         return $builder;
     }
 
@@ -133,6 +140,7 @@ class Term extends Model
     public function getOrderAttribute($value)
     {
         return 0;
+
         return $this->term_order;
     }
 
@@ -149,7 +157,7 @@ class Term extends Model
                 $relation->save();
             }
         }
+
         return true;
     }
-
 }

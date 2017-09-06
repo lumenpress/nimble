@@ -3,17 +3,16 @@
 namespace Lumenpress\ORM\Tests;
 
 use Illuminate\Support\Collection;
-use Lumenpress\ORM\Models\Post;
-use Lumenpress\ORM\Models\Meta;
-use Lumenpress\ORM\Models\Tag;
-use Lumenpress\ORM\Models\Category;
 use Lumenpress\ORM\Collections\RelatedCollection;
+use Lumenpress\ORM\Models\Category;
+use Lumenpress\ORM\Models\Post;
+use Lumenpress\ORM\Models\Tag;
 
 class PostTaxTest extends TestCase
 {
     public function testTax()
     {
-        $post = new Post;
+        $post = new Post();
         $post->title = 'test post taxonomies';
 
         $this->assertInstanceOf(RelatedCollection::class, $post->tax);
@@ -32,7 +31,7 @@ class PostTaxTest extends TestCase
         $categories = ['category1', 'category2'];
         $tags = 'tag1';
 
-        $post = new Post;
+        $post = new Post();
         $post->title = 'test multiple taxonomies';
 
         $post->tax->category = $categories;

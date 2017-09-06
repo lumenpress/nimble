@@ -2,8 +2,6 @@
 
 namespace Lumenpress\ORM\Collections;
 
-use Illuminate\Database\Eloquent\Model;
-
 class MenuItemCollection extends Collection
 {
     public $actives = [];
@@ -15,7 +13,7 @@ class MenuItemCollection extends Collection
         parent::__construct($this->flatToTree($items));
     }
 
-    public function flatToTree($items, $main = [], & $active = false)
+    public function flatToTree($items, $main = [], &$active = false)
     {
         if (empty($items)) {
             return [];
@@ -37,12 +35,12 @@ class MenuItemCollection extends Collection
                 $items[$key]->current = $items[$key]->current ?: $this->active;
             }
         }
+
         return $items;
     }
 
     public function save()
     {
-        # code...
+        // code...
     }
-
 }

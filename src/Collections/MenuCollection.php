@@ -2,8 +2,6 @@
 
 namespace Lumenpress\ORM\Collections;
 
-use Illuminate\Database\Eloquent\Model;
-
 class MenuCollection extends Collection
 {
     protected $locations = [];
@@ -21,7 +19,8 @@ class MenuCollection extends Collection
     /**
      * Determine if an item exists at an offset.
      *
-     * @param  mixed $key
+     * @param mixed $key
+     *
      * @return bool
      */
     public function offsetExists($key)
@@ -36,7 +35,8 @@ class MenuCollection extends Collection
     /**
      * Get an item at a given offset.
      *
-     * @param  mixed $key
+     * @param mixed $key
+     *
      * @return mixed
      */
     public function offsetGet($key)
@@ -44,39 +44,41 @@ class MenuCollection extends Collection
         if (is_string($key)) {
             $key = $this->locations[$key];
         }
+
         return $this->items[$key];
     }
 
     /**
      * Set the item at a given offset.
      *
-     * @param  mixed $key
-     * @param  mixed $value
+     * @param mixed $key
+     * @param mixed $value
+     *
      * @return void
      */
     public function offsetSet($key, $menu)
     {
-
     }
 
     /**
      * Unset the item at a given offset.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return void
      */
     public function offsetUnset($taxonomy)
     {
-
     }
 
     /**
-     * [save description]
-     * @param  [type] $objectId [description]
-     * @return [type]           [description]
+     * [save description].
+     *
+     * @param [type] $objectId [description]
+     *
+     * @return [type] [description]
      */
     public function save()
     {
-
     }
 }

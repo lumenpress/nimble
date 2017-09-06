@@ -2,13 +2,12 @@
 
 namespace Lumenpress\ORM\Tests;
 
-use Lumenpress\ORM\Models\Post;
-use Lumenpress\ORM\Collections\RelatedCollection;
-use Lumenpress\ORM\Relations\HasMeta;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Lumenpress\ORM\Collections\RelatedCollection;
+use Lumenpress\ORM\Models\Post;
 
 /**
- * PostMetaTest
+ * PostMetaTest.
  *
  * @group group
  */
@@ -16,7 +15,7 @@ class PostMetaTest extends TestCase
 {
     public function testMeta()
     {
-        $post = new Post;
+        $post = new Post();
         $post->title = 'test post meta';
 
         $text = 'This is a text';
@@ -38,7 +37,7 @@ class PostMetaTest extends TestCase
 
     public function testArrayMeta()
     {
-        $post = new Post;
+        $post = new Post();
         $post->title = 'test post meta';
 
         $arr = [1, 2, 3];
@@ -60,7 +59,7 @@ class PostMetaTest extends TestCase
 
     public function testDeleteMeta()
     {
-        $post = new Post;
+        $post = new Post();
         $post->title = 'test delete post meta';
         $post->meta->text = 'Text1';
         $post->save();
@@ -77,7 +76,7 @@ class PostMetaTest extends TestCase
 
     public function testMetaQueryBuilder()
     {
-        $post = new Post;
+        $post = new Post();
         $post->title = 'post meta query builder';
         $post->meta->text = 'Text1';
         $post->save();

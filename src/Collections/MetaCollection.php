@@ -3,14 +3,14 @@
 namespace Lumenpress\ORM\Collections;
 
 use Illuminate\Support\Arr;
-use Lumenpress\ORM\Models\Taxonomy;
 
 class MetaCollection extends Collection
 {
     /**
      * Determine if an item exists at an offset.
      *
-     * @param  mixed $key
+     * @param mixed $key
+     *
      * @return bool
      */
     public function offsetExists($key)
@@ -23,13 +23,15 @@ class MetaCollection extends Collection
                 return true;
             }
         }
+
         return false;
     }
 
     /**
      * Get an item at a given offset.
      *
-     * @param  mixed $key
+     * @param mixed $key
+     *
      * @return mixed
      */
     public function offsetGet($key)
@@ -48,19 +50,20 @@ class MetaCollection extends Collection
     /**
      * Set the item at a given offset.
      *
-     * @param  mixed $key
-     * @param  mixed $value
+     * @param mixed $key
+     * @param mixed $value
+     *
      * @return void
      */
     public function offsetSet($key, $value)
     {
         if (is_null($key) || is_numeric($key)) {
             if (!is_array($value)) {
-                throw new \Exception("value invalid", 1);
+                throw new \Exception('value invalid', 1);
             }
 
             if (is_null($key) && !Arr::has($value, ['key', 'value', 'object_id'])) {
-                throw new \Exception("value invalid", 1);
+                throw new \Exception('value invalid', 1);
             }
 
             if (is_null($key)) {
@@ -84,6 +87,7 @@ class MetaCollection extends Collection
         foreach ($this->items as $index => $item) {
             if ($item->key == $key) {
                 $item->value = $value;
+
                 return;
             }
         }
@@ -97,7 +101,8 @@ class MetaCollection extends Collection
     /**
      * Unset the item at a given offset.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return void
      */
     public function offsetUnset($key)
@@ -105,6 +110,7 @@ class MetaCollection extends Collection
         if (is_numeric($key)) {
             $this->extraItems[] = $this->items[$key];
             unset($this->items[$key]);
+
             return;
         }
         foreach ($this->items as $index => $item) {
@@ -116,7 +122,8 @@ class MetaCollection extends Collection
     }
 
     /**
-     * [save description]
+     * [save description].
+     *
      * @return [type] [description]
      */
     public function save()
@@ -135,6 +142,7 @@ class MetaCollection extends Collection
         }
         $this->changedKeys = [];
         $this->extraItems = [];
+
         return $flag;
     }
 }

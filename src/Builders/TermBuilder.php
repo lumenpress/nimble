@@ -6,9 +6,8 @@ use Illuminate\Support\Facades\Schema;
 
 class TermBuilder extends Builder
 {
-
     protected $aliases = [
-        'id' => 'term_id',
+        'id'    => 'term_id',
         'order' => 'term_order',
         'group' => 'term_group',
     ];
@@ -18,14 +17,16 @@ class TermBuilder extends Builder
         if (isset($this->aliases[$column])) {
             $column = $this->aliases[$column];
         }
+
         return parent::where($column, $operator, $value, $boolean);
     }
 
     /**
      * Add an "order by" clause to the query.
      *
-     * @param  string $column
-     * @param  string $direction
+     * @param string $column
+     * @param string $direction
+     *
      * @return $this
      */
     public function orderBy($column, $direction = 'asc')

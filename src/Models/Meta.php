@@ -5,7 +5,6 @@ namespace Lumenpress\ORM\Models;
 use Illuminate\Database\Eloquent\Collection;
 use Lumenpress\ORM\Builders\MetaBuilder;
 use Lumenpress\ORM\Collections\MetaCollection;
-use Lumenpress\ORM\Collections\RelatedCollection;
 
 class Meta extends Model
 {
@@ -16,9 +15,9 @@ class Meta extends Model
     protected $primaryKey = 'meta_id';
 
     protected $aliases = [
-        'id' => 'meta_id',
-        'key' => 'meta_key',
-        'value' => 'meta_value'
+        'id'    => 'meta_id',
+        'key'   => 'meta_key',
+        'value' => 'meta_value',
     ];
 
     protected $hidden = [
@@ -42,7 +41,8 @@ class Meta extends Model
     /**
      * Create a new Eloquent query builder for the model.
      *
-     * @param  \Illuminate\Database\Query\Builder $query
+     * @param \Illuminate\Database\Query\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder|static
      */
     public function newEloquentBuilder($query)
@@ -53,8 +53,9 @@ class Meta extends Model
     /**
      * Create a new instance of the given model.
      *
-     * @param  array $attributes
-     * @param  bool $exists
+     * @param array $attributes
+     * @param bool  $exists
+     *
      * @return static
      */
     public function newInstance($attributes = [], $exists = false)
@@ -102,6 +103,7 @@ class Meta extends Model
         if (($result = @unserialize($value)) !== false) {
             return $result;
         }
+
         return $value;
     }
 
@@ -177,7 +179,7 @@ class Meta extends Model
 
     public static function table($table)
     {
-        $meta = new static;
+        $meta = new static();
         $meta->setTableAttribute($table);
         // $meta->setTable($table);
         // $meta->setObjectKeyNameThroughTable($table);

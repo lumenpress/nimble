@@ -33,6 +33,7 @@ class Attachment extends AbstractPost
             ->where('meta_key', '_lumenpress_asset_uniqid')
             ->where('meta_value', $value)
             ->first();
+
         return $meta ? $meta->post_id : 0;
     }
 
@@ -44,9 +45,9 @@ class Attachment extends AbstractPost
 
         // gives us access to the download_url() and wp_handle_sideload() functions
         if (!function_exists('media_handle_upload')) {
-            require_once(ABSPATH . "wp-admin" . '/includes/image.php');
-            require_once(ABSPATH . "wp-admin" . '/includes/file.php');
-            require_once(ABSPATH . "wp-admin" . '/includes/media.php');
+            require_once ABSPATH.'wp-admin'.'/includes/image.php';
+            require_once ABSPATH.'wp-admin'.'/includes/file.php';
+            require_once ABSPATH.'wp-admin'.'/includes/media.php';
         }
 
         // URL to the WordPress logo
@@ -67,17 +68,18 @@ class Attachment extends AbstractPost
         }
         // clearing the stat cache
         @clearstatcache(true, $tmp);
-        $file_array = array(
-            'name' => basename($src),
+        $file_array = [
+            'name'     => basename($src),
             'tmp_name' => $tmp,
-        );
+        ];
 
-        /**
+        /*
          * Check for download errors
          * if there are error unlink the temp file name
          */
         if (is_wp_error($tmp)) {
             @unlink($file_array['tmp_name']);
+
             throw new \Exception($tmp->get_error_message(), 1);
             return $tmp;
         }
@@ -86,7 +88,7 @@ class Attachment extends AbstractPost
          * now we can actually use media_handle_sideload
          * we pass it the file array of the file to handle
          * and the post id of the post to attach it to
-         * $post_id can be set to '0' to not attach it to any particular post
+         * $post_id can be set to '0' to not attach it to any particular post.
          */
         $post_id = 0;
 
@@ -95,10 +97,11 @@ class Attachment extends AbstractPost
         /**
          * We don't want to pass something to $id
          * if there were upload errors.
-         * So this checks for errors
+         * So this checks for errors.
          */
         if (is_wp_error($id)) {
             @unlink($file_array['tmp_name']);
+
             throw new \Exception($id->get_error_message(), 1);
             return $id;
         }
