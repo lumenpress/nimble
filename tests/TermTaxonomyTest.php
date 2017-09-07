@@ -1,8 +1,8 @@
 <?php
 
-namespace Lumenpress\ORM\Tests;
+namespace Lumenpress\Fluid\Tests;
 
-use Lumenpress\ORM\Models\Taxonomy;
+use Lumenpress\Fluid\Models\Taxonomy;
 use Illuminate\Database\Eloquent\Collection;
 
 class TermTaxonomyTest extends TestCase

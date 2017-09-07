@@ -1,11 +1,11 @@
 <?php
 
-namespace Lumenpress\ORM\Models;
+namespace Lumenpress\Fluid\Models;
 
 use Illuminate\Support\Facades\Schema;
-use Lumenpress\ORM\Concerns\RegisterTypes;
-use Lumenpress\ORM\Builders\TaxonomyBuilder;
-use Lumenpress\ORM\Concerns\TaxonomyAttributes;
+use Lumenpress\Fluid\Concerns\RegisterTypes;
+use Lumenpress\Fluid\Builders\TaxonomyBuilder;
+use Lumenpress\Fluid\Concerns\TaxonomyAttributes;
 
 class Taxonomy extends Model
 {

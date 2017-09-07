@@ -1,6 +1,6 @@
 <?php
 
-namespace Lumenpress\ORM\Builders;
+namespace Lumenpress\Fluid\Builders;
 
 use Illuminate\Support\Facades\Schema;
 

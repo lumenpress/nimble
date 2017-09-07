@@ -1,6 +1,6 @@
 <?php
 
-namespace Lumenpress\ORM\Tests;
+namespace Lumenpress\Fluid\Tests;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {

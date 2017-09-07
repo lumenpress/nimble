@@ -1,9 +1,9 @@
 <?php
 
-namespace Lumenpress\ORM\Tests\database\migrations;
+namespace Lumenpress\Fluid\Tests\database\migrations;
 
 use Illuminate\Database\Schema\Blueprint;
-use Lumenpress\ORM\Tests\database\Schema;
+use Lumenpress\Fluid\Tests\database\Schema;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateTermRelationshipsTable extends Migration

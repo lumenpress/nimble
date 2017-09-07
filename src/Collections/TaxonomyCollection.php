@@ -1,8 +1,8 @@
 <?php
 
-namespace Lumenpress\ORM\Collections;
+namespace Lumenpress\Fluid\Collections;
 
-use Lumenpress\ORM\Models\TermRelationships;
+use Lumenpress\Fluid\Models\TermRelationships;
 
 class TaxonomyCollection extends Collection
 {

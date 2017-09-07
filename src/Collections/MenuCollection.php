@@ -1,6 +1,6 @@
 <?php
 
-namespace Lumenpress\ORM\Collections;
+namespace Lumenpress\Fluid\Collections;
 
 class MenuCollection extends Collection
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Lumenpress\ORM\Tests;
+namespace Lumenpress\Fluid\Tests;
 
-use Lumenpress\ORM\Models\Meta;
-use Lumenpress\ORM\Models\Post;
+use Lumenpress\Fluid\Models\Meta;
+use Lumenpress\Fluid\Models\Post;
 
 class MetaTest extends TestCase
 {

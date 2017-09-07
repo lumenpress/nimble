@@ -1,10 +1,10 @@
 <?php
 
-namespace Lumenpress\ORM\Models;
+namespace Lumenpress\Fluid\Models;
 
-use Lumenpress\ORM\Relations\HasMeta;
-use Lumenpress\ORM\Builders\TermBuilder;
-use Lumenpress\ORM\Collections\RelatedCollection;
+use Lumenpress\Fluid\Relations\HasMeta;
+use Lumenpress\Fluid\Builders\TermBuilder;
+use Lumenpress\Fluid\Collections\RelatedCollection;
 
 class Term extends Model
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lumenpress\ORM\Concerns;
+namespace Lumenpress\Fluid\Concerns;
 
 trait HasAliases
 {

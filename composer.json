@@ -15,12 +15,12 @@
       "src/helpers.php"
     ],
     "psr-4": {
-      "Lumenpress\\ORM\\": "src"
+      "Lumenpress\\Fluid\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Lumenpress\\ORM\\Tests\\": "tests"
+      "Lumenpress\\Fluid\\Tests\\": "tests"
     }
   }
 }

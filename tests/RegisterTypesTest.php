@@ -1,10 +1,10 @@
 <?php
 
-namespace Lumenpress\ORM\Tests;
+namespace Lumenpress\Fluid\Tests;
 
 use Faker\Factory;
-use Lumenpress\ORM\Models\Post;
-use Lumenpress\ORM\Models\Taxonomy;
+use Lumenpress\Fluid\Models\Post;
+use Lumenpress\Fluid\Models\Taxonomy;
 
 class RegisterTypesTest extends TestCase
 {

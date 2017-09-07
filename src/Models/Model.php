@@ -1,8 +1,8 @@
 <?php
 
-namespace Lumenpress\ORM\Models;
+namespace Lumenpress\Fluid\Models;
 
-use Lumenpress\ORM\Concerns\HasAliases;
+use Lumenpress\Fluid\Concerns\HasAliases;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 
 class Model extends EloquentModel

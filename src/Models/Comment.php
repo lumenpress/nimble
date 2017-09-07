@@ -1,6 +1,6 @@
 <?php
 
-namespace Lumenpress\ORM\Models;
+namespace Lumenpress\Fluid\Models;
 
 class Comment extends Model
 {

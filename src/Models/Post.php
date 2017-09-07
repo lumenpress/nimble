@@ -1,9 +1,9 @@
 <?php
 
-namespace Lumenpress\ORM\Models;
+namespace Lumenpress\Fluid\Models;
 
-use Lumenpress\ORM\Concerns\RegisterTypes;
-use Lumenpress\ORM\Concerns\HasPostPaginationAttributes;
+use Lumenpress\Fluid\Concerns\RegisterTypes;
+use Lumenpress\Fluid\Concerns\HasPostPaginationAttributes;
 
 class Post extends AbstractPost
 {

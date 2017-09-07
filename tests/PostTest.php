@@ -1,10 +1,10 @@
 <?php
 
-namespace Lumenpress\ORM\Tests;
+namespace Lumenpress\Fluid\Tests;
 
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-use Lumenpress\ORM\Models\Post;
+use Lumenpress\Fluid\Models\Post;
 
 class PostTest extends TestCase
 {

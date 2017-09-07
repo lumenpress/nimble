@@ -1,8 +1,8 @@
 <?php
 
-namespace Lumenpress\ORM\Concerns;
+namespace Lumenpress\Fluid\Concerns;
 
-use Lumenpress\ORM\Models\Term;
+use Lumenpress\Fluid\Models\Term;
 
 trait TaxonomyAttributes
 {
