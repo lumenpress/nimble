@@ -162,13 +162,16 @@ class TaxonomyCollection extends Collection
         if (! $this->relatedParent) {
             return false;
         }
+
         $flag = false;
+
         foreach ($this->items as $item) {
             if (isset($this->changedKeys[$item->taxonomy.'>|<'.$item->name])) {
                 $flag = $item->save() || $flag;
                 $this->extraItems[$item->id] = true;
             }
         }
+
         foreach ($this->extraItems as $taxonomyId => $new) {
             if ($new) {
                 $flag = TermRelationships::create([
@@ -180,6 +183,7 @@ class TaxonomyCollection extends Collection
                         ->where('term_taxonomy_id', $taxonomyId)->delete() || $flag;
             }
         }
+
         $this->changedKeys = [];
         $this->extraItems = [];
 

@@ -22,6 +22,7 @@ class PostBuilder extends Builder
         $paths = explode('/', $path);
         $parentId = 0;
         $post = null;
+
         foreach ($paths as $slug) {
             if (! $slug) {
                 continue;
@@ -74,9 +75,11 @@ class PostBuilder extends Builder
         if (isset($this->aliases[$column])) {
             $column = $this->aliases[$column];
         }
+
         if (stripos($column, 'meta.') !== 0) {
             return parent::orderBy($column, $order);
         }
+
         $column = str_replace('meta.', '', $column);
 
         return $this->join('postmeta', function ($join) use ($column) {

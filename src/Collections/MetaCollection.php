@@ -18,9 +18,10 @@ class MetaCollection extends Collection
         if (is_numeric($key)) {
             return parent::offsetExists($key);
         }
+
         foreach ($this->items as $index => $item) {
             if ($item->key == $key) {
-                return true;
+                return $item->value == '' ? false : true;
             }
         }
 
@@ -39,6 +40,7 @@ class MetaCollection extends Collection
         if (is_numeric($key)) {
             return isset($this->items[$key]) ? $this->items[$key]->value : null;
         }
+
         foreach ($this->items as $index => $item) {
             if ($item->key == $key) {
                 // Returns null when value is empty.
@@ -59,11 +61,11 @@ class MetaCollection extends Collection
     {
         if (is_null($key) || is_numeric($key)) {
             if (! is_array($value)) {
-                throw new \Exception('value invalid', 1);
+                throw new \Exception('value invalid');
             }
 
             if (is_null($key) && ! Arr::has($value, ['key', 'value', 'object_id'])) {
-                throw new \Exception('value invalid', 1);
+                throw new \Exception('value invalid');
             }
 
             if (is_null($key)) {
@@ -129,17 +131,23 @@ class MetaCollection extends Collection
     public function save()
     {
         $flag = false;
+
         foreach ($this->items as $item) {
             if (isset($this->changedKeys[$item->key])) {
                 if ($this->relatedParent) {
                     $item->object_id = $this->relatedParent->getKey();
                 }
+                if (! $item->object_id) {
+                    throw new \Exception('object_id invalid.');
+                }
                 $flag = $item->save() || $flag;
             }
         }
+
         foreach ($this->extraItems as $item) {
             $flag = $item->delete() || $flag;
         }
+
         $this->changedKeys = [];
         $this->extraItems = [];
 

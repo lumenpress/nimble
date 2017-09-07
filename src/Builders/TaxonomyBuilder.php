@@ -27,6 +27,7 @@ class TaxonomyBuilder extends Builder
         if ($taxonomy) {
             $this->where('taxonomy', $taxonomy);
         }
+
         if (is_numeric($term)) {
             $this->where('term_id', $term);
         } else {
@@ -41,6 +42,7 @@ class TaxonomyBuilder extends Builder
         if (isset($this->aliases[$column])) {
             $column = $this->aliases[$column];
         }
+
         if (in_array($column, ['name', 'slug', 'term_group', 'term_order'])) {
             return $this->whereHas('term', function ($query) use ($column, $operator, $value, $boolean) {
                 $query->where($column, $operator, $value, $boolean);
@@ -55,9 +57,11 @@ class TaxonomyBuilder extends Builder
         if (isset($this->aliases[$column])) {
             $column = $this->aliases[$column];
         }
+
         if ($column == 'term_order' && ! Schema::hasColumn('terms', $column)) {
             return $this;
         }
+
         if (in_array($column, ['name', 'slug', 'term_group'])) {
             $this->join('terms', function ($join) use ($column) {
                 $join->on('terms.term_id', '=', 'term_taxonomy.term_id');
