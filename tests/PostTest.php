@@ -49,24 +49,24 @@ class PostTest extends TestCase
         $post->save();
 
         $this->assertEquals($post->type, 'post');
-        $this->assertInstanceOf(Carbon::class, $post->date);
-        $this->assertInstanceOf(Carbon::class, $post->date_gmt);
-        $this->assertInstanceOf(Carbon::class, $post->modified);
-        $this->assertInstanceOf(Carbon::class, $post->modified_gmt);
+        $this->assertInstanceOf(Carbon::class, $post->created_at);
+        $this->assertInstanceOf(Carbon::class, $post->created_at_gmt);
+        $this->assertInstanceOf(Carbon::class, $post->updated_at);
+        $this->assertInstanceOf(Carbon::class, $post->updated_at_gmt);
 
-        $this->assertEquals((string) $post->date->timezone('UTC'), (string) $post->date_gmt);
-        $this->assertEquals((string) $post->modified->timezone('UTC'), (string) $post->modified_gmt);
+        $this->assertEquals((string) $post->created_at->timezone('UTC'), (string) $post->created_at_gmt);
+        $this->assertEquals((string) $post->updated_at->timezone('UTC'), (string) $post->updated_at_gmt);
 
         $post = Post::find($post->ID);
 
         $this->assertEquals($post->type, 'post');
-        $this->assertInstanceOf(Carbon::class, $post->date);
-        $this->assertInstanceOf(Carbon::class, $post->date_gmt);
-        $this->assertInstanceOf(Carbon::class, $post->modified);
-        $this->assertInstanceOf(Carbon::class, $post->modified_gmt);
+        $this->assertInstanceOf(Carbon::class, $post->created_at);
+        $this->assertInstanceOf(Carbon::class, $post->created_at_gmt);
+        $this->assertInstanceOf(Carbon::class, $post->updated_at);
+        $this->assertInstanceOf(Carbon::class, $post->updated_at_gmt);
 
-        $this->assertEquals($post->date->timezone('UTC'), $post->date_gmt);
-        $this->assertEquals($post->modified->timezone('UTC'), $post->modified_gmt);
+        $this->assertEquals($post->created_at->timezone('UTC'), $post->created_at_gmt);
+        $this->assertEquals($post->updated_at->timezone('UTC'), $post->updated_at_gmt);
     }
 
     public function testPostAliases()
