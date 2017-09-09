@@ -2,23 +2,29 @@
 
 namespace Lumenpress\Fluid\Models;
 
-use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
+use League\Flysystem\Filesystem;
+use League\Flysystem\Adapter\Local;
+use Intervention\Image\ImageManager;
 
 class Attachment extends AbstractPost
 {
+    protected static $sizes = [
+        'thumbnail' => [150, 150],
+        'medium' => [300, 300],
+        'medium_large' => [768, 768],
+        'large' => [1024, 1024],
+    ];
+
     protected $postType = 'attachment';
 
     protected $file;
 
-    protected $filesystem;
-
-    protected $metadata = [];
-
     protected $appends = [
-        'filename',
+        // 'filename',
         'width',
         'height',
-        'sizes',
+        // 'sizes',
     ];
 
     protected $hidden = [
@@ -44,7 +50,7 @@ class Attachment extends AbstractPost
         'post_name',
         'pinged',
         'to_ping',
-        'meta',
+        // 'meta',
     ];
 
     protected $aliases = [
@@ -63,9 +69,13 @@ class Attachment extends AbstractPost
     {
         parent::__construct($attributes);
 
-        $this->filesystem = new Filesystem;
         $this->post_status = 'inherit';
         $this->ping_status = 'closed';
+    }
+
+    public function __toString()
+    {
+        return is_string($this->link) ? $this->link : '';
     }
 
     /**
@@ -85,28 +95,23 @@ class Attachment extends AbstractPost
      */
     public function setFileAttribute($value)
     {
-        $this->post_title = $this->filesystem->basename($value);
-        $this->post_mime_type = $this->filesystem->mimeType($value);
-    }
+        $this->file = new File($value);
 
-    /**
-     * Accessor for Caption attribute.
-     *
-     * @return returnType
-     */
-    public function getCaptionAttribute($value)
-    {
-        return $this->post_excerpt;
-    }
+        if ($this->file->isImage()) {
+            foreach (static::$sizes as $name => $args) {
+                $this->file->addImageSize($name, $args);
+            }
+        }
 
-    /**
-     * Accessor for filename attribute.
-     *
-     * @return returnType
-     */
-    public function getFilenameAttribute($value)
-    {
-        return basename($this->meta->_wp_attached_file);
+        if (! $this->post_title) {
+            $this->post_title = $this->file->name;
+        }
+
+        if (! $this->post_name) {
+            $this->post_name = $this->file->name;
+        }
+
+        $this->post_mime_type = $this->file->mimeType;
     }
 
     /**
@@ -116,6 +121,10 @@ class Attachment extends AbstractPost
      */
     public function getWidthAttribute($value)
     {
+        if ($this->file) {
+            return $this->file->width;
+        }
+
         return data_get($this, 'meta._wp_attachment_metadata.width');
     }
 
@@ -126,6 +135,10 @@ class Attachment extends AbstractPost
      */
     public function getHeightAttribute($value)
     {
+        if ($this->file) {
+            return $this->file->height;
+        }
+
         return data_get($this, 'meta._wp_attachment_metadata.height');
     }
 
@@ -149,11 +162,7 @@ class Attachment extends AbstractPost
      */
     public function getLinkAttribute($value)
     {
-        return wp_get_attachment_url($this->ID);
-    }
-
-    public function storage($file, $size = null)
-    {
+        return function_exists('wp_get_attachment_url') ? wp_get_attachment_url($this->ID) : null;
     }
 
     public function save(array $options = [])
@@ -161,96 +170,186 @@ class Attachment extends AbstractPost
         if (! $this->file) {
             return false;
         }
-        // $this->storage();
-        $this->meta->_wp_attached_file = '';
-        $this->meta->_wp_attachment_metadata = $this->metadata;
+
+        $this->file->save();
+
+        $this->meta->_wp_attached_file = $this->file->uniquePath;
+
+        if ($this->file->isImage()) {
+            $this->meta->_wp_attachment_metadata = $this->file->metadata;
+        }
+
+        return parent::save($options);
+    }
+}
+
+class File
+{
+    protected $path;
+
+    protected $filesystem;
+
+    protected $imageManager;
+
+    protected $metadata = [];
+
+    protected $attributes = [];
+
+    protected $imageSizes = [];
+
+    public function __construct($path, $filesystem = null)
+    {
+        $this->path = $path;
+        $this->info = pathinfo($path);
+        $this->imagesize = @getimagesize($path);
+
+        if (! defined('WP_CONTENT_DIR')) {
+            define('WP_CONTENT_DIR', __DIR__.'/../../tests/tmp');
+        }
+
+        $this->filesystem = $filesystem ?: new Filesystem(new Local(WP_CONTENT_DIR));
+        $this->imageManager = new ImageManager(['driver' => 'gd']);
     }
 
-    public function __toString()
+    public function __set($key, $value)
     {
-        return is_string($this->link) ? $this->link : '';
+        $this->attributes[$key] = $value;
     }
 
-    private static function getAttachmentUniqid($value)
+    public function __get($key)
     {
-        $meta = Meta::table('postmeta')
-            ->where('meta_key', '_lumenpress_asset_uniqid')
-            ->where('meta_value', $value)
-            ->first();
-        return $meta ? $meta->post_id : 0;
+        if (isset($this->attributes[$key])) {
+            return $this->attributes[$key];
+        }
+
+        if (method_exists($this, "get".Str::studly($key))) {
+            return $this->attributes[$key] = $this->{"get".Str::studly($key)}();
+        }
+
+        return;
     }
 
-    public static function upload($src, $force = false)
+    /**
+     * Accessor for isImage attribute.
+     *
+     * @return returnType
+     */
+    public function isImage()
     {
-        if (!$force and $id = self::getAttachmentUniqid($src)) {
-            return static::find($id);
+        return $this->imagesize !== false;
+    }
+
+    public function addImageSize($name, array $args)
+    {
+        $this->imageSizes[$name] = $args;
+    }
+
+    /**
+     * Accessor for width attribute.
+     *
+     * @return returnType
+     */
+    public function getWidth()
+    {
+        return $this->isImage() ? $this->imagesize[0] : null;
+    }
+
+    /**
+     * Accessor for height attribute.
+     *
+     * @return returnType
+     */
+    public function getHeight()
+    {
+        return $this->isImage() ? $this->imagesize[1] : null;
+    }
+
+    /**
+     * Accessor for name attribute.
+     *
+     * @return returnType
+     */
+    public function getName()
+    {
+        return isset($this->info['filename']) ? $this->info['filename'] : null;
+    }
+
+    /**
+     * Accessor for MimeType attribute.
+     *
+     * @return returnType
+     */
+    public function getMimeType()
+    {
+        return finfo_file(finfo_open(FILEINFO_MIME_TYPE), $this->path);
+    }
+
+    public function getExtension()
+    {
+        return pathinfo($this->path, PATHINFO_EXTENSION);
+    }
+
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    public function getUniquePath($size = null)
+    {
+        $i = 1;
+        $name = date('Y/m/') . $this->name;
+        $size = $size ? '-'.$size : '';
+        $rename = $name.$size;
+
+        while ($this->filesystem->has($rename.'.'.$this->extension)) {
+            $i++;
+            $rename = $name.'-'.$i.$size;
         }
 
-        // gives us access to the download_url() and wp_handle_sideload() functions
-        if (!function_exists('media_handle_upload')) {
-            require_once(ABSPATH . "wp-admin" . '/includes/image.php');
-            require_once(ABSPATH . "wp-admin" . '/includes/file.php');
-            require_once(ABSPATH . "wp-admin" . '/includes/media.php');
+        return $rename.'.'.$this->extension;
+    }
+
+    public function getMetadata()
+    {
+        return array_merge([
+            'width' => $this->width,
+            'height' => $this->height,
+            'file' => $this->uniquePath,
+            'image_meta' => [
+                'aperture' => 0,
+                'credit' => '',
+                'camera' => '',
+                'caption' => '',
+                'created_timestamp' => 0,
+                'copyright' => '',
+                'focal_length' => 0,
+                'iso' => 0,
+                'shutter_speed' => 0,
+                'title' => '',
+                'orientation' => 0,
+                'keywords' => [],
+            ],
+        ], $this->metadata);
+    }
+
+    public function save($value='')
+    {
+        $this->filesystem->write($this->uniquePath, file_get_contents($this->path));
+        if ($this->isImage()) {
+            foreach ($this->imageSizes as $key => $args) {
+                $img = $this->imageManager->make($this->path);
+                $img->resize($args[0], $args[1], function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $this->filesystem->write(
+                    $file = $this->getUniquePath($img->getWidth().'x'.$img->getHeight()), $img->encode());
+                $this->metadata['sizes'][$key] = [
+                    'file' => basename($file),
+                    'width' => $img->getWidth(),
+                    'height' => $img->getHeight(),
+                    'mime-type' => $this->mimeType,
+                ];
+            }
         }
-
-        // URL to the WordPress logo
-        //$url = get_template_directory_uri() . '/' . $src;
-        //$tmp = download_url( $url );
-        $tmp = null;
-        if (stripos($src, lumenpress_asset_url()) === 0) {
-            $url = str_replace(lumenpress_asset_url(), '', $src);
-            $url = file_exists($url) ? $url : lumenpress_asset_path($url);
-            $tmp = wp_tempnam($url);
-            @copy($url, $tmp);
-        } elseif (lumenpress_is_url($src)) {
-            $tmp = download_url($src, 5000);
-        } else {
-            $url = file_exists($src) ? $src : lumenpress_asset_path($src);
-            $tmp = wp_tempnam($url);
-            @copy($url, $tmp);
-        }
-        // clearing the stat cache
-        @clearstatcache(true, $tmp);
-        $file_array = array(
-            'name' => basename($src),
-            'tmp_name' => $tmp,
-        );
-
-        /**
-         * Check for download errors
-         * if there are error unlink the temp file name
-         */
-        if (is_wp_error($tmp)) {
-            @unlink($file_array['tmp_name']);
-            throw new \Exception($tmp->get_error_message(), 1);
-            return $tmp;
-        }
-
-        /**
-         * now we can actually use media_handle_sideload
-         * we pass it the file array of the file to handle
-         * and the post id of the post to attach it to
-         * $post_id can be set to '0' to not attach it to any particular post
-         */
-        $post_id = 0;
-
-        $id = media_handle_sideload($file_array, $post_id);
-
-        /**
-         * We don't want to pass something to $id
-         * if there were upload errors.
-         * So this checks for errors
-         */
-        if (is_wp_error($id)) {
-            @unlink($file_array['tmp_name']);
-            throw new \Exception($id->get_error_message(), 1);
-            return $id;
-        }
-
-        add_post_meta($id, '_lumenpress_asset_uniqid', $src, true);
-
-        @unlink($file_array['tmp_name']);
-
-        return static::find($id);
     }
 }
