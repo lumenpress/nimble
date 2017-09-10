@@ -3,8 +3,8 @@
 namespace LumenPress\Nimble\Tests;
 
 use LumenPress\Nimble\Models\Post;
-use LumenPress\Nimble\Collections\RelatedCollection;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use LumenPress\Nimble\Collections\RelatedCollection;
 
 /**
  * PostMetaTest.
