@@ -3,10 +3,10 @@
 use Illuminate\Support\Str;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-require_once __DIR__.'/../../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 try {
-    (new Dotenv\Dotenv(__DIR__.'/../../'))->load();
+    (new Dotenv\Dotenv(__DIR__.'/../'))->load();
 } catch (Dotenv\Exception\InvalidPathException $e) {
     //
 }
@@ -20,7 +20,7 @@ $capsule->addConnection([
     'host'      => getenv('DB_HOST') ?: 'mysql',
     'database'  => getenv('DB_NAME') ?: 'wordpress',
     'username'  => getenv('DB_USER') ?: 'wordpress',
-    'password'  => getenv('DB_PASSWORD') ?: 'wordpress',
+    'password'  => getenv('DB_PASSWORD') === false ? 'wordpress' : getenv('DB_PASSWORD'),
     'charset'   => 'utf8',
     'collation' => 'utf8_unicode_ci',
     'prefix'    => getenv('DB_PREFIX') ?: 'wp_testing_',
@@ -38,7 +38,7 @@ $capsule->setAsGlobal();
 // Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
 $capsule->bootEloquent();
 
-foreach (glob(__DIR__.'/migrations/*.php') as $file) {
+foreach (glob(__DIR__.'/database/migrations/*.php') as $file) {
     require_once $file;
     $class = Str::studly(substr(basename($file, '.php'), 18));
     $class = "LumenPress\Nimble\Tests\database\migrations\\".$class;

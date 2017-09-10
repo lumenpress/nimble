@@ -16,6 +16,8 @@ class AttachmentTest extends TestCase
 
         $attachment->save();
 
-        d($attachment->toArray());
+        // d($attachment->toArray());
+        // 
+        $this->assertTrue(true, 'message');
     }
 }
