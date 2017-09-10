@@ -4,7 +4,8 @@
     "php": ">=5.6.4",
     "illuminate/database": "^5.4",
     "league/flysystem": "^1.0",
-    "intervention/image": "^2.4"
+    "intervention/image": "^2.4",
+    "ralouphie/mimey": "^1.0"
   },
   "require-dev": {
     "kint-php/kint": "^2.1",

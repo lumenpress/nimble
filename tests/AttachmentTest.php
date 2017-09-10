@@ -12,8 +12,10 @@ class AttachmentTest extends TestCase
     public function testAttachment()
     {
         $attachment = new Attachment;
-        $attachment->file = '/Users/chen/laradock/wwwroot/bet/public/bet/build/assets/data/1.jpg';
+        $attachment->file = 'http://via.placeholder.com/350x150';
 
-        d($attachment);
+        $attachment->save();
+
+        d($attachment->toArray());
     }
 }

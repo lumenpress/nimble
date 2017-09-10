@@ -197,15 +197,27 @@ class File
 
     protected $imageSizes = [];
 
+    protected $data;
+
     public function __construct($path, $filesystem = null)
     {
-        $this->path = $path;
-        $this->info = pathinfo($path);
-        $this->imagesize = @getimagesize($path);
-
         if (! defined('WP_CONTENT_DIR')) {
             define('WP_CONTENT_DIR', __DIR__.'/../../tests/tmp');
         }
+
+        $this->data = file_get_contents($path);
+
+        if (stripos($path, 'http') === 0) {
+            $tmp = sys_get_temp_dir().'/'.basename($path);
+            file_put_contents($tmp, $this->data);
+            $this->mimeType = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $tmp);
+            $this->imagesize = @getimagesize($tmp);
+            unlink($tmp);
+        }
+
+        $this->path = $path;
+
+        $this->info = pathinfo($path);
 
         $this->filesystem = $filesystem ?: new Filesystem(new Local(WP_CONTENT_DIR));
         $this->imageManager = new ImageManager(['driver' => 'gd']);
@@ -286,7 +298,8 @@ class File
 
     public function getExtension()
     {
-        return pathinfo($this->path, PATHINFO_EXTENSION);
+        $mimes = new \Mimey\MimeTypes;
+        return $mimes->getExtension($this->mimeType);
     }
 
     public function getPath()
@@ -334,10 +347,10 @@ class File
 
     public function save($value='')
     {
-        $this->filesystem->write($this->uniquePath, file_get_contents($this->path));
+        $this->filesystem->write($this->uniquePath, $this->data);
         if ($this->isImage()) {
             foreach ($this->imageSizes as $key => $args) {
-                $img = $this->imageManager->make($this->path);
+                $img = $this->imageManager->make($this->data);
                 $img->resize($args[0], $args[1], function ($constraint) {
                     $constraint->aspectRatio();
                 });
