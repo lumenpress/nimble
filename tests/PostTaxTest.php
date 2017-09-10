@@ -3,8 +3,8 @@
 namespace LumenPress\Nimble\Tests;
 
 use LumenPress\Nimble\Models\Tag;
-use LumenPress\Nimble\Models\Post;
 use Illuminate\Support\Collection;
+use LumenPress\Nimble\Models\Post;
 use LumenPress\Nimble\Models\Category;
 use LumenPress\Nimble\Collections\RelatedCollection;
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace LumenPress\Nimble\Tests;
 
@@ -17,7 +17,7 @@ class AttachmentTest extends TestCase
         $attachment->save();
 
         // d($attachment->toArray());
-        // 
+        //
         $this->assertTrue(true, 'message');
     }
 }

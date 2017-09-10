@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace LumenPress\Nimble\Models;
 
@@ -46,7 +46,7 @@ class Attachment extends AbstractPost
         'post_type',
         'post_status',
         'comment_status',
-        'ping_status', 
+        'ping_status',
         'post_name',
         'pinged',
         'to_ping',
@@ -149,8 +149,9 @@ class Attachment extends AbstractPost
      */
     public function getSizesAttribute($value)
     {
-        return array_map(function($item) {
+        return array_map(function ($item) {
             $item['link'] = dirname($this->link).'/'.$item['file'];
+
             return $item;
         }, data_get($this, 'meta._wp_attachment_metadata.sizes', []));
     }
@@ -234,11 +235,9 @@ class File
             return $this->attributes[$key];
         }
 
-        if (method_exists($this, "get".Str::studly($key))) {
-            return $this->attributes[$key] = $this->{"get".Str::studly($key)}();
+        if (method_exists($this, 'get'.Str::studly($key))) {
+            return $this->attributes[$key] = $this->{'get'.Str::studly($key)}();
         }
-
-        return;
     }
 
     /**
@@ -299,6 +298,7 @@ class File
     public function getExtension()
     {
         $mimes = new \Mimey\MimeTypes;
+
         return $mimes->getExtension($this->mimeType);
     }
 
@@ -310,7 +310,7 @@ class File
     public function getUniquePath($size = null)
     {
         $i = 1;
-        $name = date('Y/m/') . $this->name;
+        $name = date('Y/m/').$this->name;
         $size = $size ? '-'.$size : '';
         $rename = $name.$size;
 
@@ -345,7 +345,7 @@ class File
         ], $this->metadata);
     }
 
-    public function save($value='')
+    public function save($value = '')
     {
         $this->filesystem->write($this->uniquePath, $this->data);
         if ($this->isImage()) {
