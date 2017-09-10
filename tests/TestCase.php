@@ -1,6 +1,6 @@
 <?php
 
-namespace Lumenpress\Fluid\Tests;
+namespace LumenPress\Nimble\Tests;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {

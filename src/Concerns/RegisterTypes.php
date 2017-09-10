@@ -1,6 +1,6 @@
 <?php
 
-namespace Lumenpress\Fluid\Concerns;
+namespace LumenPress\Nimble\Concerns;
 
 trait RegisterTypes
 {

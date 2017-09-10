@@ -1,8 +1,8 @@
 <?php
 
-namespace Lumenpress\Fluid\Models;
+namespace LumenPress\Nimble\Models;
 
-use Lumenpress\Fluid\Collections\MenuCollection;
+use LumenPress\Nimble\Collections\MenuCollection;
 
 class Menu extends Taxonomy implements \IteratorAggregate, \Countable
 {
@@ -15,7 +15,7 @@ class Menu extends Taxonomy implements \IteratorAggregate, \Countable
      *
      * @param array $models
      *
-     * @return \Lumenpress\Fluid\Collections\MenuCollection
+     * @return \LumenPress\Nimble\Collections\MenuCollection
      */
     public function newCollection(array $models = [])
     {

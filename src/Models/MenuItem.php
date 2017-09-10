@@ -1,8 +1,8 @@
 <?php
 
-namespace Lumenpress\Fluid\Models;
+namespace LumenPress\Nimble\Models;
 
-use Lumenpress\Fluid\Collections\MenuItemCollection;
+use LumenPress\Nimble\Collections\MenuItemCollection;
 
 class MenuItem extends AbstractPost
 {
@@ -40,7 +40,7 @@ class MenuItem extends AbstractPost
      *
      * @param array $models
      *
-     * @return \Lumenpress\Fluid\Collections\MenuCollection
+     * @return \LumenPress\Nimble\Collections\MenuCollection
      */
     public function newCollection(array $models = [])
     {

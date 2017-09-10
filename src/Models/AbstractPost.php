@@ -1,11 +1,11 @@
 <?php
 
-namespace Lumenpress\Fluid\Models;
+namespace LumenPress\Nimble\Models;
 
-use Lumenpress\Fluid\Relations\HasMeta;
-use Lumenpress\Fluid\Builders\PostBuilder;
-use Lumenpress\Fluid\Concerns\PostAttributes;
-use Lumenpress\Fluid\Collections\RelatedCollection;
+use LumenPress\Nimble\Relations\HasMeta;
+use LumenPress\Nimble\Builders\PostBuilder;
+use LumenPress\Nimble\Concerns\PostAttributes;
+use LumenPress\Nimble\Collections\RelatedCollection;
 
 abstract class AbstractPost extends Model
 {

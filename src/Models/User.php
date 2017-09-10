@@ -1,6 +1,6 @@
 <?php
 
-namespace Lumenpress\Fluid\Models;
+namespace LumenPress\Nimble\Models;
 
 use Illuminate\Auth\Authenticatable;
 use Laravel\Lumen\Auth\Authorizable;

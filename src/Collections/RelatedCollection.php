@@ -1,6 +1,6 @@
 <?php
 
-namespace Lumenpress\Fluid\Collections;
+namespace LumenPress\Nimble\Collections;
 
 interface RelatedCollection
 {

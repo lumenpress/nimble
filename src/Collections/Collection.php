@@ -1,6 +1,6 @@
 <?php
 
-namespace Lumenpress\Fluid\Collections;
+namespace LumenPress\Nimble\Collections;
 
 use Illuminate\Database\Eloquent\Collection as BaseCollection;
 

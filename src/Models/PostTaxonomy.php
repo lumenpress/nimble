@@ -1,8 +1,8 @@
 <?php
 
-namespace Lumenpress\Fluid\Models;
+namespace LumenPress\Nimble\Models;
 
-use Lumenpress\Fluid\Collections\TaxonomyCollection;
+use LumenPress\Nimble\Collections\TaxonomyCollection;
 
 class PostTaxonomy extends Taxonomy
 {
@@ -11,7 +11,7 @@ class PostTaxonomy extends Taxonomy
      *
      * @param array $models
      *
-     * @return \Lumenpress\Fluid\PostMetaCollection
+     * @return \LumenPress\Nimble\PostMetaCollection
      */
     public function newCollection(array $models = [])
     {

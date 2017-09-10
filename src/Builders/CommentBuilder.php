@@ -1,6 +1,6 @@
 <?php
 
-namespace Lumenpress\Fluid\Builders;
+namespace LumenPress\Nimble\Builders;
 
 class CommentBuilder extends Builder
 {

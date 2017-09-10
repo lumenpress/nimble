@@ -1,9 +1,9 @@
 <?php
 
-namespace Lumenpress\Fluid\Tests\database\migrations;
+namespace LumenPress\Nimble\Tests\database\migrations;
 
 use Illuminate\Database\Schema\Blueprint;
-use Lumenpress\Fluid\Tests\database\Schema;
+use LumenPress\Nimble\Tests\database\Schema;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateTermmetaTable extends Migration

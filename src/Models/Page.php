@@ -1,6 +1,6 @@
 <?php
 
-namespace Lumenpress\Fluid\Models;
+namespace LumenPress\Nimble\Models;
 
 class Page extends Post
 {

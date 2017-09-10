@@ -1,9 +1,9 @@
 <?php
 
-namespace Lumenpress\Fluid\Tests;
+namespace LumenPress\Nimble\Tests;
 
-use Lumenpress\Fluid\Models\Post;
-use Lumenpress\Fluid\Collections\RelatedCollection;
+use LumenPress\Nimble\Models\Post;
+use LumenPress\Nimble\Collections\RelatedCollection;
 use Illuminate\Database\Eloquent\Relations\Relation;
 
 /**

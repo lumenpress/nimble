@@ -1,10 +1,10 @@
 <?php
 
-namespace Lumenpress\Fluid\Tests;
+namespace LumenPress\Nimble\Tests;
 
 use Faker\Factory;
-use Lumenpress\Fluid\Models\Post;
-use Lumenpress\Fluid\Models\Taxonomy;
+use LumenPress\Nimble\Models\Post;
+use LumenPress\Nimble\Models\Taxonomy;
 
 class RegisterTypesTest extends TestCase
 {
@@ -94,7 +94,7 @@ class RegisterTypesTest extends TestCase
             $model->save();
         }
 
-        $models = Post::get();
+        $models = Post::whereIn('post_type', ['post', 'page'])->get();
 
         foreach ($models as $model) {
             $this->assertEquals($types[$model->type], get_class($model), $model->type);

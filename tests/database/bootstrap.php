@@ -41,7 +41,7 @@ $capsule->bootEloquent();
 foreach (glob(__DIR__.'/migrations/*.php') as $file) {
     require_once $file;
     $class = Str::studly(substr(basename($file, '.php'), 18));
-    $class = "Lumenpress\Fluid\Tests\database\migrations\\".$class;
+    $class = "LumenPress\Nimble\Tests\database\migrations\\".$class;
     $migration = new $class();
     $migration->down();
     $migration->up();

@@ -1,8 +1,8 @@
 <?php 
 
-namespace Lumenpress\Fluid\Tests;
+namespace LumenPress\Nimble\Tests;
 
-use Lumenpress\Fluid\Models\Attachment;
+use LumenPress\Nimble\Models\Attachment;
 
 class AttachmentTest extends TestCase
 {

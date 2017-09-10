@@ -1,10 +1,10 @@
 <?php
 
-namespace Lumenpress\Fluid\Models;
+namespace LumenPress\Nimble\Models;
 
-use Lumenpress\Fluid\Relations\HasMeta;
-use Lumenpress\Fluid\Builders\TermBuilder;
-use Lumenpress\Fluid\Collections\RelatedCollection;
+use LumenPress\Nimble\Relations\HasMeta;
+use LumenPress\Nimble\Builders\TermBuilder;
+use LumenPress\Nimble\Collections\RelatedCollection;
 
 class Term extends Model
 {

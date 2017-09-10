@@ -1,8 +1,8 @@
 <?php
 
-namespace Lumenpress\Fluid\Relations;
+namespace LumenPress\Nimble\Relations;
 
-use Lumenpress\Fluid\Models\Meta;
+use LumenPress\Nimble\Models\Meta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 

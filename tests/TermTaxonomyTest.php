@@ -1,8 +1,8 @@
 <?php
 
-namespace Lumenpress\Fluid\Tests;
+namespace LumenPress\Nimble\Tests;
 
-use Lumenpress\Fluid\Models\Taxonomy;
+use LumenPress\Nimble\Models\Taxonomy;
 use Illuminate\Database\Eloquent\Collection;
 
 class TermTaxonomyTest extends TestCase

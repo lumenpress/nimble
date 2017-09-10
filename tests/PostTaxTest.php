@@ -1,12 +1,12 @@
 <?php
 
-namespace Lumenpress\Fluid\Tests;
+namespace LumenPress\Nimble\Tests;
 
-use Lumenpress\Fluid\Models\Tag;
-use Lumenpress\Fluid\Models\Post;
+use LumenPress\Nimble\Models\Tag;
+use LumenPress\Nimble\Models\Post;
 use Illuminate\Support\Collection;
-use Lumenpress\Fluid\Models\Category;
-use Lumenpress\Fluid\Collections\RelatedCollection;
+use LumenPress\Nimble\Models\Category;
+use LumenPress\Nimble\Collections\RelatedCollection;
 
 class PostTaxTest extends TestCase
 {

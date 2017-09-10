@@ -1,10 +1,10 @@
 <?php
 
-namespace Lumenpress\Fluid\Models;
+namespace LumenPress\Nimble\Models;
 
-use Lumenpress\Fluid\Builders\MetaBuilder;
+use LumenPress\Nimble\Builders\MetaBuilder;
 use Illuminate\Database\Eloquent\Collection;
-use Lumenpress\Fluid\Collections\MetaCollection;
+use LumenPress\Nimble\Collections\MetaCollection;
 
 class Meta extends Model
 {
@@ -31,7 +31,7 @@ class Meta extends Model
      *
      * @param array $models
      *
-     * @return \Lumenpress\Fluid\PostMetaCollection
+     * @return \LumenPress\Nimble\PostMetaCollection
      */
     public function newCollection(array $models = [])
     {

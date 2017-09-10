@@ -1,6 +1,6 @@
 <?php
 
-namespace Lumenpress\Fluid\Tests\database;
+namespace LumenPress\Nimble\Tests\database;
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Database\Capsule\Manager as Capsule;
