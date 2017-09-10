@@ -1,4 +1,6 @@
-# Fluid
+# Nimble
+
+[![Build Status](https://travis-ci.org/lumenpress/nimble.svg?branch=master)](https://travis-ci.org/lumenpress/nimble) [![StyleCI](https://styleci.io/repos/99463834/shield?branch=master)](https://styleci.io/repos/99463834)
 
 - [Post/Page](#)
   - [Models](#)
