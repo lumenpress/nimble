@@ -1,7 +1,7 @@
 {
   "name": "lumenpress/nimble",
   "require": {
-    "php": ">=7.0",
+    "php": ">=5.6.4",
     "illuminate/database": "^5.4",
     "league/flysystem": "^1.0",
     "intervention/image": "^2.4",
@@ -9,7 +9,7 @@
   },
   "require-dev": {
     "kint-php/kint": "^2.1",
-    "phpunit/phpunit": "^6.3",
+    "phpunit/phpunit": ">=5.7",
     "vlucas/phpdotenv": "^2.4",
     "fzaninotto/faker": "^1.7"
   },
