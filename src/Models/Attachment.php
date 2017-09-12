@@ -203,7 +203,11 @@ class File
     public function __construct($path, $filesystem = null)
     {
         if (! defined('WP_CONTENT_DIR')) {
-            define('WP_CONTENT_DIR', __DIR__.'/../../tests/tmp');
+            define('WP_CONTENT_DIR', __DIR__.'/../../tests');
+        }
+
+        if (function_exists('config') && stripos($path, DIRECTORY_SEPARATOR) !== 0) {
+            $path = config('wordpress.assets.base_path').$path;
         }
 
         $this->data = file_get_contents($path);
@@ -211,16 +215,20 @@ class File
         if (stripos($path, 'http') === 0) {
             $tmp = sys_get_temp_dir().'/'.basename($path);
             file_put_contents($tmp, $this->data);
-            $this->mimeType = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $tmp);
-            $this->imagesize = @getimagesize($tmp);
+            $this->mimeType = $this->getMimeType($tmp);
+            $this->imageSize = $this->getImagesize($tmp);
             unlink($tmp);
         }
 
         $this->path = $path;
 
+        if (pathinfo($path, PATHINFO_EXTENSION) == 'svg') {
+            $this->mimeType = 'image/svg+xml';
+        }
+
         $this->info = pathinfo($path);
 
-        $this->filesystem = $filesystem ?: new Filesystem(new Local(WP_CONTENT_DIR));
+        $this->filesystem = $filesystem ?: new Filesystem(new Local(WP_CONTENT_DIR.'/uploads'));
         $this->imageManager = new ImageManager(['driver' => 'gd']);
     }
 
@@ -247,7 +255,10 @@ class File
      */
     public function isImage()
     {
-        return $this->imagesize !== false;
+        if ($this->extension == 'svg') {
+            return false;
+        }
+        return preg_match('/^image/', $this->mimeType);
     }
 
     public function addImageSize($name, array $args)
@@ -260,9 +271,19 @@ class File
      *
      * @return returnType
      */
+    public function getImageSize()
+    {
+        return @getimagesize($path ?: $this->path);
+    }
+
+    /**
+     * Accessor for width attribute.
+     *
+     * @return returnType
+     */
     public function getWidth()
     {
-        return $this->isImage() ? $this->imagesize[0] : null;
+        return $this->isImage() ? $this->imageSize[0] : null;
     }
 
     /**
@@ -272,7 +293,7 @@ class File
      */
     public function getHeight()
     {
-        return $this->isImage() ? $this->imagesize[1] : null;
+        return $this->isImage() ? $this->imageSize[1] : null;
     }
 
     /**
@@ -290,9 +311,9 @@ class File
      *
      * @return returnType
      */
-    public function getMimeType()
+    public function getMimeType($path = null)
     {
-        return finfo_file(finfo_open(FILEINFO_MIME_TYPE), $this->path);
+        return finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path ?: $this->path);
     }
 
     public function getExtension()
