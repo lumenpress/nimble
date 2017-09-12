@@ -258,6 +258,7 @@ class File
         if ($this->extension == 'svg') {
             return false;
         }
+
         return preg_match('/^image/', $this->mimeType);
     }
 
