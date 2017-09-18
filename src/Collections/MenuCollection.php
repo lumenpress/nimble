@@ -45,7 +45,7 @@ class MenuCollection extends Collection
             $key = $this->locations[$key];
         }
 
-        return $this->items[$key];
+        return isset($this->items[$key]) ? $this->items[$key] : null;
     }
 
     /**
