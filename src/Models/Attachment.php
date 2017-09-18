@@ -16,9 +16,9 @@ class Attachment extends AbstractPost
         'large' => [1024, 1024],
     ];
 
-    protected $postType = 'attachment';
-
     protected $file;
+
+    protected $postType = 'attachment';
 
     protected $appends = [
         // 'filename',
@@ -96,6 +96,7 @@ class Attachment extends AbstractPost
     public function setFileAttribute($value)
     {
         $this->file = new File($value);
+        $this->meta->_lumenpress_attachment_src = $value;
 
         if ($this->file->isImage()) {
             foreach (static::$sizes as $name => $args) {
@@ -182,10 +183,32 @@ class Attachment extends AbstractPost
 
         return parent::save($options);
     }
+
+    public static function findBySrc($src)
+    {
+        $meta = Meta::table('postmeta')
+            ->where('meta_key', '_lumenpress_attachment_src')
+            ->where('meta_value', $src)
+            ->first();
+
+        if (!$meta) {
+            return false;
+        }
+
+        return static::find($meta->post_id);
+    }
 }
 
 class File
 {
+    protected static $SOURCE_CONTENT_DIR;
+
+    protected static $SOURCE_CONTENT_URL;
+
+    protected static $TARGET_CONTENT_DIR;
+
+    protected static $TARGET_CONTENT_URL;
+
     protected $path;
 
     protected $filesystem;
@@ -206,13 +229,35 @@ class File
             define('WP_CONTENT_DIR', __DIR__.'/../../tests');
         }
 
-        if (function_exists('config') && stripos($path, DIRECTORY_SEPARATOR) !== 0) {
-            $path = config('wordpress.assets.base_path').$path;
+        if (! defined('WP_CONTENT_URL')) {
+            define('WP_CONTENT_URL', 'http://localhost');
+        }
+
+        if (is_null(static::$SOURCE_CONTENT_DIR)) {
+            static::$SOURCE_CONTENT_DIR = function_exists('config') 
+                ? config('wordpress/assets.base_path') : WP_CONTENT_DIR;
+        }
+
+        if (is_null(static::$SOURCE_CONTENT_URL)) {
+            static::$SOURCE_CONTENT_URL = function_exists('config') 
+                ? config('wordpress/assets.base_url') : WP_CONTENT_URL;
+        }
+
+        if (is_null(static::$TARGET_CONTENT_DIR)) {
+            static::$TARGET_CONTENT_DIR = WP_CONTENT_DIR;
+        }
+
+        if (is_null(static::$TARGET_CONTENT_URL)) {
+            static::$TARGET_CONTENT_URL = WP_CONTENT_URL;
+        }
+
+        if (filter_var($path, FILTER_VALIDATE_URL) === false && stripos($path, '/') !== 0) {
+            $path = static::$SOURCE_CONTENT_DIR.'/'.$path;
         }
 
         $this->data = file_get_contents($path);
 
-        if (stripos($path, 'http') === 0) {
+        if (filter_var($path, FILTER_VALIDATE_URL) !== false) {
             $tmp = sys_get_temp_dir().'/'.basename($path);
             file_put_contents($tmp, $this->data);
             $this->mimeType = $this->getMimeType($tmp);
@@ -228,7 +273,7 @@ class File
 
         $this->info = pathinfo($path);
 
-        $this->filesystem = $filesystem ?: new Filesystem(new Local(WP_CONTENT_DIR.'/uploads'));
+        $this->filesystem = $filesystem ?: new Filesystem(new Local(static::$TARGET_CONTENT_DIR.'/uploads'));
         $this->imageManager = new ImageManager(['driver' => 'gd']);
     }
 

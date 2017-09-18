@@ -3,11 +3,14 @@
 namespace LumenPress\Nimble\Models;
 
 use LumenPress\Nimble\Builders\MetaBuilder;
+use LumenPress\Nimble\Concerns\TrySerialize;
 use Illuminate\Database\Eloquent\Collection;
 use LumenPress\Nimble\Collections\MetaCollection;
 
 class Meta extends Model
 {
+    use TrySerialize;
+
     public $timestamps = false;
 
     protected $objectKey;
@@ -97,14 +100,7 @@ class Meta extends Model
      */
     public function getMetaValueAttribute($value)
     {
-        if ($value === 'b:0;') {
-            return false;
-        }
-        if (($result = @unserialize($value)) !== false) {
-            return $result;
-        }
-
-        return $value;
+        return $this->trySerialize($value);
     }
 
     /**

@@ -24,6 +24,8 @@ $capsule->addConnection([
     'charset'   => 'utf8',
     'collation' => 'utf8_unicode_ci',
     'prefix'    => getenv('DB_PREFIX') ?: 'wp_testing_',
+    'timezone'  => env('DB_TIMEZONE', '+00:00'),
+    'strict'    => env('DB_STRICT_MODE', false),
 ]);
 
 // Set the event dispatcher used by Eloquent models... (optional)

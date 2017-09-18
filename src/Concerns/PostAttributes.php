@@ -4,6 +4,10 @@ namespace LumenPress\Nimble\Concerns;
 
 trait PostAttributes
 {
+    /**
+     * [$_slug description]
+     * @var [type]
+     */
     protected $_slug;
 
     /**
@@ -79,7 +83,7 @@ trait PostAttributes
      */
     public function getPostContentAttribute($value)
     {
-        return luemnpress_get_the_content($value);
+        return $this->getRichText($value);
     }
 
     /**
@@ -132,6 +136,15 @@ trait PostAttributes
         }
 
         return $slug;
+    }
+
+    public function getRichText($value)
+    {
+        if (function_exists('apply_filters')) {
+            return apply_filters('the_content', $value);
+        }
+
+        return $value;
     }
 
     protected function getGuessGuid()
