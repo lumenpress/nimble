@@ -3,8 +3,8 @@
 namespace LumenPress\Nimble\Models;
 
 use LumenPress\Nimble\Builders\MetaBuilder;
-use LumenPress\Nimble\Concerns\TrySerialize;
 use Illuminate\Database\Eloquent\Collection;
+use LumenPress\Nimble\Concerns\TrySerialize;
 use LumenPress\Nimble\Collections\MetaCollection;
 
 class Meta extends Model

@@ -5,7 +5,7 @@ namespace LumenPress\Nimble\Concerns;
 trait PostAttributes
 {
     /**
-     * [$_slug description]
+     * [$_slug description].
      * @var [type]
      */
     protected $_slug;

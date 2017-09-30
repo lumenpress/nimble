@@ -191,7 +191,7 @@ class Attachment extends AbstractPost
             ->where('meta_value', $src)
             ->first();
 
-        if (!$meta) {
+        if (! $meta) {
             return false;
         }
 
@@ -234,12 +234,12 @@ class File
         }
 
         if (is_null(static::$SOURCE_CONTENT_DIR)) {
-            static::$SOURCE_CONTENT_DIR = function_exists('config') 
+            static::$SOURCE_CONTENT_DIR = function_exists('config')
                 ? config('wp/assets.base_path') : WP_CONTENT_DIR;
         }
 
         if (is_null(static::$SOURCE_CONTENT_URL)) {
-            static::$SOURCE_CONTENT_URL = function_exists('config') 
+            static::$SOURCE_CONTENT_URL = function_exists('config')
                 ? config('wp/assets.base_url') : WP_CONTENT_URL;
         }
 
