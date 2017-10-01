@@ -1,6 +1,6 @@
 # Nimble
 
-[![Build Status](https://travis-ci.org/lumenpress/nimble.svg?branch=master)](https://travis-ci.org/lumenpress/nimble) [![StyleCI](https://styleci.io/repos/99463834/shield?branch=master)](https://styleci.io/repos/99463834)
+[![Build Status](https://travis-ci.org/lumenpress/nimble.svg?branch=master)](https://travis-ci.org/lumenpress/nimble) [![Latest Stable Version](https://poser.pugx.org/lumenpress/nimble/v/stable)](https://packagist.org/packages/lumenpress/nimble) [![Total Downloads](https://poser.pugx.org/lumenpress/nimble/downloads)](https://packagist.org/packages/lumenpress/nimble) [![License](https://poser.pugx.org/lumenpress/nimble/license)](https://packagist.org/packages/lumenpress/nimble)
 
 - [Post/Page](#)
   - [Models](#)
