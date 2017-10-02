@@ -47,14 +47,19 @@ class MetaTest extends TestCase
 
     public function testCreatingMeta()
     {
+        $post = new Post;
+        $post->title = uniqid();
+        $post->save();
+
         $meta = new Meta();
         $meta->table = 'postmeta';
-        $meta->object_id = 1;
+        $meta->object_id = $post->id;
         $meta->key = 'key1';
-        $meta->value = 'key1value1';
+        $meta->value = $value = 'value '.uniqid();
         $this->assertTrue($meta->save());
 
-        $post = Post::find(1);
-        $this->assertEquals('key1value1', $post->meta->key1);
+        $post = Post::find($post->id);
+
+        $this->assertEquals($value, $post->meta->key1);
     }
 }
