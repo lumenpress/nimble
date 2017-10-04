@@ -2,8 +2,13 @@
 
 namespace LumenPress\Nimble\Models;
 
+use LumenPress\Nimble\Concerns\TrySerialize;
+use LumenPress\Nimble\Collections\OptionCollection;
+
 class Option extends Model
 {
+    use TrySerialize;
+
     /**
      * The database table used by the model.
      *
@@ -24,6 +29,18 @@ class Option extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Override newCollection() to return a custom collection.
+     *
+     * @param array $models
+     *
+     * @return \LumenPress\Nimble\Collections\OptionCollection
+     */
+    public function newCollection(array $models = [])
+    {
+        return (new OptionCollection($models))->setRelated($this);
+    }
 
     /**
      * Accessor for key attribute.
@@ -62,6 +79,26 @@ class Option extends Model
      */
     public function setValueAttribute($value)
     {
-        $this->attributes['option_value'] = $value;
+        $this->option_value = $value;
+    }
+
+    /**
+     * Accessor for OptionValue attribute.
+     *
+     * @return returnType
+     */
+    public function getOptionValueAttribute($value)
+    {
+        return $this->trySerialize($value);
+    }
+
+    /**
+     * Mutator for OptionValue attribute.
+     *
+     * @return void
+     */
+    public function setOptionValueAttribute($value)
+    {
+        $this->attributes['option_value'] = is_array($value) ? serialize($value) : $value;
     }
 }
