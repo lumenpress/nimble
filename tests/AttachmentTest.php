@@ -2,6 +2,7 @@
 
 namespace LumenPress\Nimble\Tests;
 
+use Laravel\Lumen\Application;
 use LumenPress\Nimble\Models\Attachment;
 
 class AttachmentTest extends TestCase
@@ -11,6 +12,10 @@ class AttachmentTest extends TestCase
      */
     public function testAttachment()
     {
+        $app = new Application;
+        $app->withFacades();
+        $app->withEloquent();
+
         $attachment = new Attachment;
         $attachment->file = 'http://via.placeholder.com/350x150';
 

@@ -234,13 +234,19 @@ class File
         }
 
         if (is_null(static::$SOURCE_CONTENT_DIR)) {
-            static::$SOURCE_CONTENT_DIR = function_exists('config')
-                ? config('wp/assets.base_path') : WP_CONTENT_DIR;
+            if (function_exists('config') && config('assets.base_path')) {
+                static::$SOURCE_CONTENT_DIR = config('assets.base_path');
+            } else {
+                static::$SOURCE_CONTENT_DIR = WP_CONTENT_DIR;
+            }
         }
 
         if (is_null(static::$SOURCE_CONTENT_URL)) {
-            static::$SOURCE_CONTENT_URL = function_exists('config')
-                ? config('wp/assets.base_url') : WP_CONTENT_URL;
+            if (function_exists('config') && config('assets.base_url')) {
+                static::$SOURCE_CONTENT_URL = config('assets.base_url');
+            } else {
+                static::$SOURCE_CONTENT_URL = WP_CONTENT_URL;
+            }
         }
 
         if (is_null(static::$TARGET_CONTENT_DIR)) {

@@ -8,6 +8,12 @@ try {
     //
 }
 
+putenv('APP_DEBUG=true');
+putenv('APP_TIMEZONE=UTC');
+putenv('DB_DATABASE='.env('DB_NAME', 'wordpress'));
+putenv('DB_USERNAME='.env('DB_USER', 'wordpress'));
+putenv('DB_PREFIX='.env('DB_PREFIX', 'wptests_'));
+
 date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 
 $packagePath = realpath(dirname(PHPUNIT_COMPOSER_INSTALL).'/lumenpress/testing');
