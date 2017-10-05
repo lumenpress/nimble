@@ -52,7 +52,7 @@ class ServiceProvider extends Provider
 
     public function registerPostTemplates()
     {
-        foreach ((array)config('nimble.post_templates') as $key => $options) {
+        foreach ((array) config('nimble.post_templates') as $key => $options) {
             if (is_string($options)) {
                 $options = ['name' => $options, 'post_type' => ['page']];
             }
@@ -60,23 +60,23 @@ class ServiceProvider extends Provider
             $name = $options['name'];
             $post_types = isset($options['post_type']) ? $options['post_type'] : ['page'];
 
-            foreach ((array)$post_types as $post_type) {
-                add_filter("theme_{$post_type}_templates", 
-                    function($templates) use ($key, $name) {
+            foreach ((array) $post_types as $post_type) {
+                add_filter("theme_{$post_type}_templates",
+                    function ($templates) use ($key, $name) {
                         $templates[$key] = $name;
 
-                    return $templates;
-                });
+                        return $templates;
+                    });
             }
         }
     }
 
     public function registerObjects()
     {
-        foreach ((array)config('nimble.taxonomies') as $taxonomy => $args) {
+        foreach ((array) config('nimble.taxonomies') as $taxonomy => $args) {
             if (isset($args['label'])) {
                 $args['labels'] = $this->parseLabelArgs(['name' => $args['label']], 'taxonomy');
-            } else if (isset($args['labels'])) {
+            } elseif (isset($args['labels'])) {
                 $args['labels'] = $this->parseLabelArgs($args['labels'], 'taxonomy');
             }
 
@@ -89,24 +89,24 @@ class ServiceProvider extends Provider
 
             $object_type = array_get($args, 'object_type', array_get($args, 'post_type', 'post'));
 
-            register_taxonomy( $taxonomy, $object_type, $args );
+            register_taxonomy($taxonomy, $object_type, $args);
         }
 
-        foreach ((array)config('nimble.post_types') as $post_type => $args) {
+        foreach ((array) config('nimble.post_types') as $post_type => $args) {
             if (isset($args['label'])) {
                 $args['labels'] = $this->parseLabelArgs(['name' => $args['label']], 'post_type');
-            } else if (isset($args['labels'])) {
+            } elseif (isset($args['labels'])) {
                 $args['labels'] = $this->parseLabelArgs($args['labels'], 'post_type');
             }
-            
+
             if (isset($GLOBALS['wp_post_types'][$post_type])) {
                 foreach ($args as $key => $value) {
                     $GLOBALS['wp_post_types'][$post_type]->$key = $value;
                 }
                 continue;
             }
-            
-            register_post_type( $post_type, $args );
+
+            register_post_type($post_type, $args);
         }
 
         flush_rewrite_rules();
@@ -142,10 +142,10 @@ class ServiceProvider extends Provider
         if (array_has($labels, ['name', 'singular_name'])) {
             $name = array_get($labels, 'name');
             $singular_name = array_get($labels, 'singular_name');
-        } else if (array_only($labels, ['name'])) {
+        } elseif (array_only($labels, ['name'])) {
             $name = array_get($labels, 'name');
-            $singular_name =str_singular($name);
-        } else if (array_only($labels, ['singular_name'])) {
+            $singular_name = str_singular($name);
+        } elseif (array_only($labels, ['singular_name'])) {
             $singular_name = array_get($labels, 'singular_name');
             $name = str_plural($singular_name);
         } else {
@@ -203,7 +203,7 @@ class ServiceProvider extends Provider
                 'no_terms' => "No $lower_name",
                 'items_list_navigation' => "$name list navigatio",
                 'items_list' => "$name list",
-            ]
+            ],
         ];
 
         return array_merge($defaults[$object_type], $labels);

@@ -59,7 +59,7 @@ class ServiceProviderTest extends TestCase
 
         foreach (config('nimble.post_templates') as $key => $args) {
             if (is_array($args) && array_key_exists('post_type', $args)) {
-                foreach ((array)$args['post_type'] as $postType) {
+                foreach ((array) $args['post_type'] as $postType) {
                     $this->assertTrue(array_key_exists($key, $templates[$postType]), $key);
                 }
             } else {
