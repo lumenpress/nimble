@@ -9,6 +9,8 @@ class Option extends Model
 {
     use TrySerialize;
 
+    protected static $instance;
+
     /**
      * The database table used by the model.
      *
@@ -100,5 +102,14 @@ class Option extends Model
     public function setOptionValueAttribute($value)
     {
         $this->attributes['option_value'] = is_array($value) ? serialize($value) : $value;
+    }
+
+    public static function getInstance()
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = static::all();
+        }
+
+        return static::$instance;
     }
 }

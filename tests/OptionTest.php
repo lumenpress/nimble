@@ -13,7 +13,7 @@ class OptionTest extends TestCase
     {
         require_once realpath(dirname(PHPUNIT_COMPOSER_INSTALL).'/lumenpress/testing').'/tests/wp-tests-load.php';
 
-        $options = Option::all();
+        $options = Option::getInstance();
 
         foreach ($options as $key => $option) {
             $this->assertEquals($option->value, get_option($option->key), $option->key);
