@@ -2,6 +2,7 @@
 
 namespace LumenPress\Nimble\Models;
 
+use LumenPress\Nimble\Builders\PostBuilder;
 use LumenPress\Nimble\Concerns\RegisterTypes;
 use LumenPress\Nimble\Concerns\HasPostPaginationAttributes;
 
@@ -92,6 +93,18 @@ class Post extends AbstractPost
         }
 
         return $builder;
+    }
+
+    /**
+     * Create a new Eloquent query builder for the model.
+     *
+     * @param \Illuminate\Database\Query\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder|static
+     */
+    public function newEloquentBuilder($query)
+    {
+        return new PostBuilder($query);
     }
 
     /**

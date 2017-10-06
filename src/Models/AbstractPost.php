@@ -3,7 +3,6 @@
 namespace LumenPress\Nimble\Models;
 
 use LumenPress\Nimble\Relations\HasMeta;
-use LumenPress\Nimble\Builders\PostBuilder;
 use LumenPress\Nimble\Concerns\PostAttributes;
 use LumenPress\Nimble\Collections\RelatedCollection;
 
@@ -49,15 +48,14 @@ abstract class AbstractPost extends Model
     }
 
     /**
-     * Create a new Eloquent query builder for the model.
+     * Get a new query builder for the model's table.
      *
-     * @param \Illuminate\Database\Query\Builder $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder|static
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function newEloquentBuilder($query)
+    public function newQuery()
     {
-        $builder = new PostBuilder($query);
+        $builder = parent::newQuery();
+
         if (property_exists($this, 'postType')) {
             $builder->where('post_type', $this->postType);
         }
