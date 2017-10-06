@@ -31,7 +31,7 @@ class ServiceProvider extends Provider
      */
     protected function isLumen()
     {
-        return get_class($this->app) === 'Laravel\Lumen\Application';
+        return stripos($this->app->version(), 'Lumen') !== false;
     }
 
     /**
