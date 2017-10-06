@@ -43,7 +43,7 @@ class ServiceProvider extends Provider
     {
         $path = __DIR__.'/../config/nimble.php';
 
-        if ($this->isLumen()) {
+        if (! $this->isLumen()) {
             $this->publishes([$path => config_path('nimble.php')], 'config');
         }
 
