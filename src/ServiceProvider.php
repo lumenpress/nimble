@@ -12,6 +12,10 @@ class ServiceProvider extends Provider
     {
         $this->loadConfiguration();
 
+        if (! function_exists('add_action')) {
+            return;
+        }
+
         add_action('init', function () {
             $this->registerPostTemplates();
             $this->registerObjects();
