@@ -4,11 +4,11 @@ namespace LumenPress\Nimble\Tests;
 
 use Laravel\Lumen\Application;
 use LumenPress\Nimble\ServiceProvider;
-use LumenPress\Testing\WordPressTestCase;
+use LumenPress\Testing\WordPressTrait;
 
 class ServiceProviderTest extends TestCase
 {
-    use WordPressTestCase;
+    use WordPressTrait;
 
     protected function createApplication($config)
     {

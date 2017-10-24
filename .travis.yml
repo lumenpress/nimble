@@ -6,7 +6,10 @@ php:
   - 7.1
 
 before_script:
-  - printf "DB_DRIVER=mysql\nDB_HOST=localhost\nDB_NAME=wordpress\nDB_USER=root\nDB_PASSWORD=" > .env
+  - export DB_HOST=localhost
+  - export DB_DATABASE=wordpress
+  - export DB_USERNAME=root
+  - export DB_PASSWORD=
   - mysql -e 'create database wordpress;'
   - composer self-update
   - composer install

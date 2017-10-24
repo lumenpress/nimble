@@ -8,13 +8,19 @@ try {
     //
 }
 
-putenv('APP_DEBUG=true');
-putenv('APP_TIMEZONE=UTC');
-putenv('DB_DATABASE='.env('DB_NAME', 'wordpress'));
-putenv('DB_USERNAME='.env('DB_USER', 'wordpress'));
-putenv('DB_PREFIX='.env('DB_PREFIX', 'wptests_'));
-
-date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
+foreach ([
+    'APP_DEBUG' => true,
+    'DB_HOST' => 'localhost',
+    'DB_DATABASE' => 'wordpress',
+    'DB_USERNAME' => 'root',
+    'DB_PASSWORD' => '',
+    'DB_PREFIX' => 'wptests_',
+    'APP_TIMEZONE' => 'UTC',
+] as $key => $value) {
+    if (! getenv($key)) {
+        putenv("$key=$value");
+    }
+}
 
 $packagePath = realpath(dirname(PHPUNIT_COMPOSER_INSTALL).'/lumenpress/testing');
 
@@ -25,8 +31,8 @@ $capsule = new Capsule;
 $capsule->addConnection([
     'driver'    => 'mysql',
     'host'      => env('DB_HOST', 'mysql'),
-    'database'  => env('DB_NAME', 'wordpress'),
-    'username'  => env('DB_USER', 'wordpress'),
+    'database'  => env('DB_DATABASE', 'wordpress'),
+    'username'  => env('DB_USERNAME', 'wordpress'),
     'password'  => env('DB_PASSWORD', ''),
     'charset'   => 'utf8',
     'collation' => 'utf8_unicode_ci',
