@@ -155,8 +155,12 @@ class Taxonomy extends Model
     {
         $attributes = (array) $attributes;
 
-        $taxonomy = isset($attributes['taxonomy']) ? $attributes['taxonomy'] : '';
-        $class = static::getClassNameByType($taxonomy, static::class);
+        if (! property_exists($this, 'postType')) {
+            $taxonomy = isset($attributes['taxonomy']) ? $attributes['taxonomy'] : '';
+            $class = static::getClassNameByType($taxonomy, static::class);
+        } else {
+            $class = static::class;
+        }
 
         // This method just provides a convenient way for us to generate fresh model
         // instances of this current model. It is particularly useful during the

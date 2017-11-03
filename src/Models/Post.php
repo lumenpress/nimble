@@ -144,8 +144,12 @@ class Post extends AbstractPost
     {
         $attributes = (array) $attributes;
 
-        $postType = isset($attributes['post_type']) ? $attributes['post_type'] : 'post';
-        $class = static::getClassNameByType($postType, static::class);
+        if (! property_exists($this, 'postType')) {
+            $postType = isset($attributes['post_type']) ? $attributes['post_type'] : 'post';
+            $class = static::getClassNameByType($postType, static::class);
+        } else {
+            $class = static::class;
+        }
 
         // This method just provides a convenient way for us to generate fresh model
         // instances of this current model. It is particularly useful during the
