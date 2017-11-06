@@ -9,6 +9,8 @@ class Option extends Model
 {
     use TrySerialize;
 
+    protected static $optionClass = self::class;
+
     protected static $instance;
 
     /**
@@ -111,5 +113,10 @@ class Option extends Model
         }
 
         return static::$instance;
+    }
+
+    public static function setOptionClass($optionClass)
+    {
+        static::$optionClass = $optionClass;
     }
 }

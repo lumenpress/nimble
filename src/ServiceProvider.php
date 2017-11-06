@@ -3,6 +3,7 @@
 namespace LumenPress\Nimble;
 
 use LumenPress\Nimble\Models\Post;
+use LumenPress\Nimble\Models\Option;
 use LumenPress\Nimble\Models\Taxonomy;
 use Illuminate\Support\ServiceProvider as Provider;
 
@@ -119,6 +120,10 @@ class ServiceProvider extends Provider
     public function registerModels()
     {
         global $wp_post_types, $wp_taxonomies;
+
+        if (class_exists(config('nimble.option'))) {
+            Option::setOptionClass(config('nimble.option'));
+        }
 
         if (class_exists(config('nimble.term'))) {
             Taxonomy::setTermClass(config('nimble.term'));
