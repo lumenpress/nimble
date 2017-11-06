@@ -109,7 +109,8 @@ class Option extends Model
     public static function getInstance()
     {
         if (is_null(static::$instance)) {
-            static::$instance = static::all();
+            $class = static::$optionClass;
+            static::$instance = $class::all();
         }
 
         return static::$instance;
