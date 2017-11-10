@@ -17,11 +17,16 @@ class ServiceProvider extends Provider
             return;
         }
 
+        add_action('after_setup_theme', function () {
+            $this->registerNavMenus();
+        });
+
         add_action('init', function () {
             $this->registerPostTemplates();
             $this->registerObjects();
             $this->registerModels();
         }, 99999);
+
     }
 
     public function register()
@@ -53,6 +58,13 @@ class ServiceProvider extends Provider
         }
 
         $this->mergeConfigFrom($path, 'nimble');
+    }
+
+    public function registerNavMenus()
+    {
+        foreach ((array) config('nimble.nav_menus') as $location => $description) {
+            register_nav_menu($location, $description);
+        }
     }
 
     public function registerPostTemplates()

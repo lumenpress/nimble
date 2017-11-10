@@ -58,6 +58,23 @@ class PostBuilder extends Builder
         return $this->where('post_parent', $parentId);
     }
 
+    public function where($column, $operator = null, $value = null, $boolean = 'and')
+    {
+        if (stripos($column, 'term.') === 0) {
+            return $this->whereHas('tax', function ($query) use ($column, $operator, $value, $boolean) {
+                if ($column === 'term.taxonomy') {
+                    $query->where('taxonomy', $operator, $value, $boolean);
+                } else {
+                    $query->whereHas('term', function ($query) use ($column, $operator, $value, $boolean) {
+                        $query->where($column === 'term.id' ? 'term_id' : substr($column, 5), $operator, $value, $boolean);
+                    });
+                }
+            });
+        }
+
+        return parent::where($column, $operator, $value, $boolean);
+    }
+
     /**
      * [orderBy description].
      *
