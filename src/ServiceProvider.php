@@ -26,7 +26,6 @@ class ServiceProvider extends Provider
             $this->registerObjects();
             $this->registerModels();
         }, 99999);
-
     }
 
     public function register()
