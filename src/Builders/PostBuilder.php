@@ -72,6 +72,13 @@ class PostBuilder extends Builder
             });
         }
 
+        if (stripos($column, 'meta.') === 0) {
+            return $this->whereHas('meta', function ($query) use ($column, $operator, $value, $boolean) {
+                $query->where('meta_key', substr($column, 5));
+                $query->where('meta_value', $operator, $value, $boolean);
+            });
+        }
+
         return parent::where($column, $operator, $value, $boolean);
     }
 
